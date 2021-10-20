@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_lst.c                                           :+:      :+:    :+:   */
+/*   fd_new.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 17:09:04 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/19 17:26:58 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/10/20 15:02:35 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "temp.h"
-
-t_fd	*fd_lstnew(int shell_fd, int proc_fd)
+/*
+t_fd	*fd_lstnew(int fd_shell, int fd_proc)
 {
 	t_fd	*elem;
 
 	elem = (t_fd *)malloc(sizeof(t_fd));
 	if (elem == NULL)
 		return (NULL);
-	elem->shell_fd = shell_fd;
-	elem->proc_fd = proc_fd;
+	elem->fd_shell = fd_shell;
+	elem->fd_proc = fd_proc;
 	elem->next = NULL;
 	return (elem);
 }
@@ -72,4 +72,17 @@ void	fd_lstclear(t_fd **lst)
 		*lst = (*lst)->next;
 		free(temp);
 	}
+}
+ */
+
+t_fd	*fd_new(int fd_shell, int fd_proc)
+{
+	t_fd	*new;
+
+	new = (t_fd *)malloc(sizeof(t_fd));
+	if (new == NULL)
+		return (NULL);
+	new->fd_shell = fd_shell;
+	new->fd_proc = fd_proc;
+	return (new);
 }

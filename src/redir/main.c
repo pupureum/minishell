@@ -6,22 +6,40 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:53:48 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/19 19:26:25 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/10/20 16:25:19 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
 
-t_fd	*init_fd_table(void)
+static int	is_fd_table_valid(t_list *fd_table, int len)
 {
-	t_fd	*fd_table;
+	int	count;
 
-	fd_table = fd_lstnew(0, STDIN_FILENO);
-	fd_lstadd_back(&fd_table, fd_lstnew(1, STDOUT_FILENO));
-	fd_lstadd_back(&fd_table, fd_lstnew(2, STDERR_FILENO));
-	if (fd_lstsize(fd_table) != 3)
+	count = 0;
+	while (fd_table)
 	{
-		fd_lstclear(&fd_table);
+		if (fd_table->content == NULL)
+			return (0);
+		count++;
+		fd_table = fd_table->next;
+	}
+	if (count != len)
+		return (0);
+	return (1);
+}
+
+t_list	*init_fd_table(void)
+{
+	t_list	*fd_table;
+	int		i;
+
+	fd_table = ft_lstnew(fd_new(0, STDIN_FILENO));
+	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(1, STDOUT_FILENO)));
+	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(2, STDERR_FILENO)));
+	if (is_fd_table_valid(fd_table, 3) == 0)
+	{
+		ft_lstclear(&fd_table, free);
 		return (NULL);
 	}
 	return (fd_table);
@@ -29,13 +47,15 @@ t_fd	*init_fd_table(void)
 
 int	main(void)
 {
-	t_fd	*fd_table;
-	t_token	*tokens;
-
+	t_list	*fd_table;
+	t_token	**tokens;
 	fd_table = init_fd_table();
 	if (fd_table == NULL)
 		error();
-	if (parse_redir(&fd_table, tokens) != SUCCESS)
+	if (handle_redir(&fd_table, tokens) != SUCCESS)
+	{
+		ft_lstclear(&fd_table, free);
 		error();
+	}
 	return (0);
 }
