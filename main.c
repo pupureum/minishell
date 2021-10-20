@@ -6,7 +6,7 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:27 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/18 21:41:11 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/19 19:23:22 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int main(void)
 {
-	pid_t	pid;
-	int		fds[2];
-	
+	int is_pipe = 1;
+	int result = 0;
+
+	if (is_pipe)
+		result = build_pipeline();
 	return (0);
 }

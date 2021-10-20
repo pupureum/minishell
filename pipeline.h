@@ -6,7 +6,7 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:55:43 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/18 20:57:30 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/20 16:17:36 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,27 @@
 # include <signal.h>
 # include <stdlib.h>
 
+# define MALLOC_FAILURE 1
+# define PIPE_FAILURE 2
+# define PROCESS_ERROR 3
+
 typedef struct	s_token
 {
 	int		type;
 	char	*value;
 }				t_token;
+
+/*
+pipeline.c
+*/
+int		build_pipeline(void);
+
+/*
+pipeline_utils.c
+*/
+int		**malloc_fd_table(int nums_cmd);
+int		fill_fd_table(int nums_cmd, int **fd_pipe);
+void	close_fd_table(int nums_cmd, int **fd_pipe);
+void	free_fd_table(int **fd_pipe);
 
 #endif
