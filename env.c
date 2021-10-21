@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "command.h"
 
 void	get_env(char **envp)
 {
