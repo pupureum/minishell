@@ -6,7 +6,7 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/20 16:24:47 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/21 21:46:35 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,29 @@ int	nums_cmd = 2;
 
 void	create_exe_proc(int idx_cmd, int **fd_pipe)
 {
-	dprintf(STDOUT_FILENO, "This is exe layer, cmd : %d\n", idx_cmd);
+	// 푸름이가 만든 함수 실행하는 곳
 	exit(EXIT_SUCCESS);
 }
 
 void	create_cmd_proc(int idx_cmd, int **fd_pipe)
 {
 	pid_t	pid;
-	
+
+	if (idx_cmd == 0)
+		dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO);
+	else if (idx_cmd == nums_cmd - 1)
+		dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO);
+	else
+	{
+		dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO);
+		dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO);
+	}
 	pid = fork();
 	if (!pid)
 		create_exe_proc(idx_cmd, fd_pipe);
 	else
 	{
-		dprintf(STDOUT_FILENO, "This is cmd layer, cmd : %d\n", idx_cmd);
+		waitpid(pid, NULL, 0);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -45,20 +54,20 @@ int	create_procs(int **fd_pipe)
 	while (++idx_cmd < nums_cmd)
 	{
 		pid_cmd_proc[idx_cmd] = fork();
-		if (pid_cmd_proc[idx_cmd] == -1)
+		if (pid_cmd_proc[idx_cmd] < 0)
 			return (PROCESS_ERROR);
 		else if (!pid_cmd_proc[idx_cmd])
 			create_cmd_proc(idx_cmd, fd_pipe);
 	}
-	// idx_cmd = -1;
-	// while (++idx_cmd < nums_cmd)
-	// 	waitpid();
+	idx_cmd = -1;
+	while (++idx_cmd < nums_cmd)
+		waitpid(pid_cmd_proc[idx_cmd], NULL, 0);
 	return (0);
 }
 
 int	build_pipeline(void)
 {
-	int result;
+	int	result;
 	int	**fd_pipe;
 
 	result = 0;

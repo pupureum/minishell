@@ -6,7 +6,7 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:55:43 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/20 16:17:36 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/21 17:02:05 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define PIPE_FAILURE 2
 # define PROCESS_ERROR 3
 
-typedef struct	s_token
+typedef struct s_token
 {
 	int		type;
 	char	*value;
