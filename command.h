@@ -9,11 +9,16 @@
 # define EXECVE_ERROR -2
 # define PATH_FAIL -3
 # define INVALID_PATH -4
+# define ECHO 1
+# define PWD 2
 
 void	get_env(char **envp);
+void	free_str(char **str);
 int	get_pwd(void);
 int	run_echo(char **token);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+
+
 
 typedef struct	s_token
 {
