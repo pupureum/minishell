@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bylee <bylee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:55:43 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/21 17:02:05 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/24 16:01:40 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ pipeline_utils.c
 int		**malloc_fd_table(int nums_cmd);
 int		fill_fd_table(int nums_cmd, int **fd_pipe);
 void	close_fd_table(int nums_cmd, int **fd_pipe);
-void	free_fd_table(int **fd_pipe);
+void	free_fd_table(int nums_cmd, int **fd_pipe);
 
 #endif

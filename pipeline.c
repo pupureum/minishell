@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bylee <bylee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/21 21:46:35 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/24 16:13:25 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,23 @@ int	nums_cmd = 2;
 
 void	create_exe_proc(int idx_cmd, int **fd_pipe)
 {
-	// 푸름이가 만든 함수 실행하는 곳
+	if (idx_cmd == 0)
+	{
+		// char *str[3];
+		// str[0] = "/bin/ls";
+		// str[1] = "-l";
+		// str[2] = NULL;
+		// execve(str[0], str, NULL);
+	}
+	else if (idx_cmd == nums_cmd - 1)
+	{
+		// char *str[3];
+		// str[0] = "/bin/cat";
+		// str[1] = "-e";
+		// str[2] = NULL;
+		// execve(str[0], str, NULL);
+	}	
+	else ;
 	exit(EXIT_SUCCESS);
 }
 
@@ -55,7 +71,10 @@ int	create_procs(int **fd_pipe)
 	{
 		pid_cmd_proc[idx_cmd] = fork();
 		if (pid_cmd_proc[idx_cmd] < 0)
+		{
+			free_fd_table(nums_cmd, fd_pipe);
 			return (PROCESS_ERROR);
+		}
 		else if (!pid_cmd_proc[idx_cmd])
 			create_cmd_proc(idx_cmd, fd_pipe);
 	}
@@ -79,6 +98,6 @@ int	build_pipeline(void)
 	if (create_procs(fd_pipe))
 		return (PROCESS_ERROR);
 	close_fd_table(nums_cmd, fd_pipe);
-	free_fd_table(fd_pipe);
+	free_fd_table(nums_cmd, fd_pipe);
 	return (result);
 }

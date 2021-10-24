@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bylee <bylee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:27 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/21 16:59:51 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/24 16:04:05 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	main(void)
 	result = 0;
 	if (is_pipe)
 		result = build_pipeline();
+	printf("%d\n", result);
 	return (0);
 }
