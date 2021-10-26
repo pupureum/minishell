@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -5,12 +6,24 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <unistd.h>
+#include <termios.h>
+#include <termcap.h>
 #include "lib/libft.h"
 
+#define SUCCESS			0
 #define MALLOC_ERROR	1
+#define TERMIOS_ERROR	1
+#define RL_ERROR		1
 #define PARSE_ERROR		1
+#define SIGNAL_ERROR	1
 #define EXEC_ERROR		1
+
+/* typedef enum e_error
+{
+	SUCCESS = 0,
+	MALLOC_ERROR,
+	RL_ERROR
+}	t_error; */
 
 #define CUR_NONE		0
 #define CUR_PIPE		1
@@ -30,6 +43,8 @@ typedef struct s_minishell
 	int				read_fd;
 	char			*line;
 }	t_minishell;
+
+extern t_minishell	g_shell;
 
 typedef struct		s_list
 {
@@ -98,3 +113,4 @@ destrucor {
 }
 
 */
+
