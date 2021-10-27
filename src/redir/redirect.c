@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir.h                                            :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 20:07:09 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/23 21:25:22 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/10/23 16:55:17 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/10/23 21:01:39 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIR_H
-# define REDIR_H
+#include "redir.h"
 
-# include "temp.h"
-
-typedef enum e_redir_type
+t_error	redirect(t_list *redirs, t_list **fd_table)
 {
-	INPUT = 1,
-	OUTPUT,
-	OUTPUT_APPEND,
-	HEREDOC
-}	t_redir_type;
-
-typedef struct s_redir
-{
-	t_redir_type	type;
-	int				old_fd;
-	int				new_fd;
-}	t_redir;
-
-/*
-redir_new.c
-*/
-t_redir	*redir_new(t_redir_type type, int old_fd, int new_fd);
-
-#endif
+	while (redirs)
+	{
+		
+		redirs = redirs->next;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:07 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/20 15:03:04 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/10/23 16:37:02 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@
 # include <stdlib.h>
 # include "libft.h"
 
+# define REDIRECT_LEFT	1
+# define REDIRECT_RIGHT	2
+
 typedef enum e_error
 {
-	SUCCESS = 0
+	SUCCESS = 0,
+	MALLOC_ERROR
 }	t_error;
 
 typedef struct s_token

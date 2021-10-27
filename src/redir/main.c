@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:53:48 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/20 16:25:19 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/10/23 16:51:22 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(void)
 {
 	t_list	*fd_table;
 	t_token	**tokens;
+
 	fd_table = init_fd_table();
 	if (fd_table == NULL)
 		error();
