@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:54:22 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/24 16:08:28 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/27 20:03:55 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@ void	free_fd_table(int nums_cmd, int **fd_pipe)
 	free(fd_pipe);
 }
 
-void	close_fd_table(int nums_cmd, int **fd_pipe)
+void	close_fd_table(int nums_cmd, int **fd_pipe, int idx_cmd)
 {
 	int	i;
 
 	i = -1;
 	while (++i < nums_cmd - 1)
 	{
-		close(fd_pipe[i][0]);
-		close(fd_pipe[i][1]);
+		if (idx_cmd - 1 != i)
+			close(fd_pipe[i][0]);
+		if (idx_cmd != i)
+			close(fd_pipe[i][1]);
 	}
 }
 
@@ -43,7 +45,7 @@ int	**malloc_fd_table(int nums_cmd)
 	fd_pipe = (int **)malloc(sizeof(int *) * nums_cmd);
 	if (!fd_pipe)
 		return (NULL);
-	fd_pipe[nums_cmd] = '\0';
+	fd_pipe[nums_cmd] = NULL;
 	while (++i < nums_cmd - 1)
 	{
 		fd_pipe[i] = (int *)malloc(sizeof(int) * 2);

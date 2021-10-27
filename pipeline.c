@@ -3,35 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/24 16:13:25 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/27 20:11:59 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
-int	nums_cmd = 2;
+int	nums_cmd = 5;
 
 void	create_exe_proc(int idx_cmd, int **fd_pipe)
 {
-	if (idx_cmd == 0)
-	{
-		// char *str[3];
-		// str[0] = "/bin/ls";
-		// str[1] = "-l";
-		// str[2] = NULL;
-		// execve(str[0], str, NULL);
-	}
-	else if (idx_cmd == nums_cmd - 1)
-	{
-		// char *str[3];
-		// str[0] = "/bin/cat";
-		// str[1] = "-e";
-		// str[2] = NULL;
-		// execve(str[0], str, NULL);
-	}	
-	else ;
+	
 	exit(EXIT_SUCCESS);
 }
 
@@ -48,14 +32,12 @@ void	create_cmd_proc(int idx_cmd, int **fd_pipe)
 		dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO);
 		dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO);
 	}
+	close_fd_table(nums_cmd, fd_pipe, idx_cmd);
 	pid = fork();
 	if (!pid)
 		create_exe_proc(idx_cmd, fd_pipe);
-	else
-	{
-		waitpid(pid, NULL, 0);
-		exit(EXIT_SUCCESS);
-	}
+	waitpid(pid, NULL, 0);
+	exit(EXIT_SUCCESS);
 }
 
 int	create_procs(int **fd_pipe)
@@ -78,6 +60,7 @@ int	create_procs(int **fd_pipe)
 		else if (!pid_cmd_proc[idx_cmd])
 			create_cmd_proc(idx_cmd, fd_pipe);
 	}
+	close_fd_table(nums_cmd, fd_pipe, -1);
 	idx_cmd = -1;
 	while (++idx_cmd < nums_cmd)
 		waitpid(pid_cmd_proc[idx_cmd], NULL, 0);
@@ -97,7 +80,7 @@ int	build_pipeline(void)
 		return (PIPE_FAILURE);
 	if (create_procs(fd_pipe))
 		return (PROCESS_ERROR);
-	close_fd_table(nums_cmd, fd_pipe);
+	//close_fd_table(nums_cmd, fd_pipe);
 	free_fd_table(nums_cmd, fd_pipe);
 	return (result);
 }
