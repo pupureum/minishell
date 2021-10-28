@@ -6,15 +6,21 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:54:22 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/27 20:03:55 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/28 12:28:58 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
 
-void	free_fd_table(int nums_cmd, int **fd_pipe)
+void	error(int errno)
 {
-	int i;
+	printf("error : %d\n", errno);
+	exit(errno);
+}
+
+void	free_fd_table(int **fd_pipe)
+{
+	int	i;
 
 	i = -1;
 	while (fd_pipe[++i])
@@ -43,15 +49,15 @@ int	**malloc_fd_table(int nums_cmd)
 
 	i = -1;
 	fd_pipe = (int **)malloc(sizeof(int *) * nums_cmd);
-	if (!fd_pipe)
+	if (fd_pipe == NULL)
 		return (NULL);
-	fd_pipe[nums_cmd] = NULL;
+	fd_pipe[nums_cmd - 1] = NULL;
 	while (++i < nums_cmd - 1)
 	{
 		fd_pipe[i] = (int *)malloc(sizeof(int) * 2);
-		if (!fd_pipe[i])
+		if (fd_pipe[i] == NULL)
 		{
-			free_fd_table(nums_cmd, fd_pipe);
+			free_fd_table(fd_pipe);
 			return (NULL);
 		}
 	}
@@ -67,7 +73,7 @@ int	fill_fd_table(int nums_cmd, int **fd_pipe)
 	{
 		if (pipe(fd_pipe[i]))
 		{
-			free_fd_table(nums_cmd, fd_pipe);
+			free_fd_table(fd_pipe);
 			return (PIPE_FAILURE);
 		}
 	}
