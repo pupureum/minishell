@@ -117,6 +117,12 @@ char	*get_plain_item(char **line)
 			break;
 		set_quote_option(line, &temp_option);
 		plain = ft_strjoin_free(plain, null_char, 1);
+
+		// abcdef>
+		// f : **line *(*line) = <, > char  fd_in  TYPE_REDIRECT
+
+
+
 		if (plain == NULL)
 		{
 			printf("%s\n", strerror(12));

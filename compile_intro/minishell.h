@@ -31,6 +31,10 @@
 #define CUR_QUOTE		32
 #define CUR_DQUOTE		64
 
+//#define CUR_BEFORE_FD type
+//		-> is_num(int값 범위) + no_space, 이게 아니면 스페이스붙어있어도 arg로
+// (파서) : 얘를 파서에서 위치를찾아야되고 -> < , > 메소드로 넣어줘야됨 
+//
 
 #define TYPE_PIPE 		 	0
 #define TYPE_REDIRECT		1
