@@ -71,6 +71,8 @@ void	print_PIPE(t_pipe *pipe, int indent)
 	print_indent(indent);
 	printf("\tpipeline\n");
 	print_indent(indent);
+	printf("\tcmd_cnt : %d\n", pipe->count);
+	print_indent(indent);
 	printf("\t%sleftchild :\n", KEY_COLOR);
 	print_JSON(pipe->leftchild, indent + 1);
 	print_indent(indent);

@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_minishell g_shell;
+
 t_AST_Node *init_AST_Node(int type, void *content)
 {
 	t_AST_Node *ret;
@@ -25,6 +27,7 @@ static t_AST_Node	**get_node_pipe(t_list **token, t_AST_Node **curr)
 	after_pipe->type = TYPE_PIPE;
 	after_pipe->content = pipe;
 	pipe->leftchild = *curr;
+	pipe->count = g_shell.cmd_cnt;
 	*curr = after_pipe;
 	return (&pipe->rightchild);
 }
@@ -38,6 +41,7 @@ static t_AST_Node	**parse_pipe_case(t_list **token, t_AST_Node **curr)
 	{
 		curr = get_node_pipe(token, curr);
 		malloc_error_check(curr);
+		g_shell.cmd_cnt += 1;
 	}
 	*curr = parse_cmd(token);
 	malloc_error_check(curr);
@@ -51,6 +55,7 @@ t_AST_Node	*parse_get_node(t_list **token)
 
 	init_node = parse_cmd(token);
 	malloc_error_check(init_node);
+	g_shell.cmd_cnt = 1;
 	series_node = &init_node;
 	while (*token && ((t_token *)(*token)->content)->type & \
 		(CUR_CMD | CUR_REDIRECT | CUR_PIPE))

@@ -61,6 +61,7 @@ typedef struct		s_minishell
 	int				eof;
 	int				read_fd;
 	char			*line;
+	int				cmd_cnt;
 }					t_minishell;
 
 t_minishell g_shell;
@@ -85,6 +86,7 @@ typedef struct		s_cmd
 
 typedef struct		s_pipe
 {
+	int			count;
 	t_AST_Node	*leftchild; // redirect or cmd
 	t_AST_Node	*rightchild; // pipe or rediret or cmd
 }					t_pipe;
