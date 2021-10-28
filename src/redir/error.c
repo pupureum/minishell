@@ -1,43 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir.h                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 20:07:09 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/28 14:00:20 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/10/28 13:58:37 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/10/28 14:00:01 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIR_H
-# define REDIR_H
+#include "redir.h"
 
-# include "temp.h"
-
-typedef enum e_redir_type
+static void	print_error(t_error error_code)
 {
-	INPUT = 1,
-	OUTPUT,
-	OUTPUT_APPEND,
-	HEREDOC
-}	t_redir_type;
+	if (error_code == MALLOC_ERROR)
+		printf("malloc_err\n");
+}
 
-typedef struct s_redir
+void	error(t_error error_code)
 {
-	t_redir_type	type;
-	int				old_fd;
-	int				new_fd;
-}	t_redir;
-
-/*
-redir_new.c
-*/
-t_redir	*redir_new(t_redir_type type, int old_fd, int new_fd);
-
-/*
-error.c
-*/
-void	error(t_error error_code);
-
-#endif
+	print_error(error_code);
+	exit(error_code);
+}

@@ -6,78 +6,57 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:34 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/23 17:13:28 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/10/28 21:12:25 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
 
-/* 
-t_redir_type	get_redir_type(t_token **tokens)
+static int	open_after_fd(t_list *fd_table, t_redirect *redir)
 {
-	if (tokens[0]->type == REDIRECT_LEFT)
-	{
-		if (ft_strncmp(tokens[0]->value, "<", 2) == 0)
-			return (INPUT);
-		else
-			return (HEREDOC);
-	}
-	else if (tokens[1]->type == REDIRECT_RIGHT)
-	{
-		if (ft_strncmp(tokens[1]->value, ">", 2) == 0)
-			return (OUTPUT);
-		else
-			return (OUTPUT_APPEND);
-	}
-	else
-		
-} */
+	int	fd;
 
-/* t_redir	parse_redir(t_token **tokens)
-{
-	t_redir	result;
-
-	result.type = get_redir_type(tokens);
-} */
-
-t_error	append_redir(t_redir redir, t_list **redirs)
-{
-	t_redir	*new;
-	t_list	*new_list;
-
-	new = (t_redir *)malloc(sizeof(t_redir));
-	if (new == NULL)
-		return (MALLOC_ERROR);
-	ft_memcpy(new, &redir, sizeof(t_redir));
-	new_list = ft_lstnew(new);
-	if (new_list == NULL)
-		return (MALLOC_ERROR);
-	ft_lstadd_back(redirs, new_list);
-	return (SUCCESS);
+	if ((redir->after_fd)[0] == '&')
+		fd = find_fd();
 }
 
-t_error	handle_redir(t_list **fd_table, t_token **tokens)
+static int	parse_before_fd(int cmd_idx, char *line, t_redirect *redir)
 {
 	int		iter;
-	t_list	*redirs;
-	t_redir	redir;
+	char	redir_sign;
+	int		fd;
 
-	iter = 0;
-	redirs = NULL;
-	while (tokens[iter])
+	if (redir->type == TYPE_REDIR_APPEND || redir->type == TYPE_REDIR_STDOUT)
+		redir_sign = '>';
+	else
+		redir_sign = '<';
+	iter = -1;
+	fd = 0;
+	line = ft_strchr(line, redir_sign) - 1;
+	while (ft_isdigit(*line))
 	{
-		redir = parse_redir(tokens + iter); //TODO:Clarify after knowing token
-		if (redir.type >= INPUT)
-		{
-			if (append_redir(redir, &redirs) != SUCCESS)
-			{
-				ft_lstclear(&redirs, free);
-				return (MALLOC_ERROR);
-			}
-			del_redir_tokens(tokens + iter, 2); //TODO:clarify after clarification of token
-		}
-		else
-			iter++;
+		fd = fd * 10 + (*line - '0');
+		line--;
 	}
-	return (redirect(redirs, fd_table));
+	if (*line == ' ')
+		return (fd);
+	return (-1);
+}
+
+t_error	handle_redir(
+		int cmd_idx, char **line, t_list **fd_table, t_redirect *redir)
+{
+	int	from_fd;
+	int	proc_fd;
+
+	from_fd = parse_before_fd(cmd_idx, *line, redir);
+	if (from_fd == -1)
+	{
+		if (redir->type == TYPE_REDIR_STDOUT
+			|| redir->type == TYPE_REDIR_APPEND)
+			from_fd = 1;
+		else
+			from_fd = 0;
+	}
+	proc_fd = open_after_fd(*fd_table, redir);
 }

@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:53:48 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/23 16:51:22 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/10/28 21:09:50 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,22 @@ t_list	*init_fd_table(void)
 
 int	main(void)
 {
-	t_list	*fd_table;
-	t_token	**tokens;
+	int			cmd_idx;
+	char		*line;
+	t_list		*fd_table;
+	t_AST_Node	*head;
+	t_AST_Node	*curr;
 
 	fd_table = init_fd_table();
 	if (fd_table == NULL)
-		error();
-	if (handle_redir(&fd_table, tokens) != SUCCESS)
+		error(MALLOC_ERROR);
+	curr = head;
+	line = g_shell.line;
+	while (curr->type == TYPE_REDIRECT)
 	{
-		ft_lstclear(&fd_table, free);
-		error();
+		if (handle_redir(cmd_idx, &line, &fd_table, curr->content) != SUCCESS)
+			error();
+		curr = ((t_redirect *)curr->content)->child;
 	}
 	return (0);
 }
