@@ -1,5 +1,4 @@
-
-#include "interpreter.h"
+#include "minishell.h"
 
 static char	*check_redirect_type(int type)
 {
@@ -89,4 +88,5 @@ void	print_JSON(t_AST_Node	*AST, int indent)
 		print_PIPE(AST->content, indent);
 	else if (AST->type == TYPE_REDIRECT)
 		print_REDIRECT(AST->content, indent);
+	ft_putstr_fd(END_COLOR, 1);
 }

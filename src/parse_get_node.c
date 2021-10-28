@@ -1,4 +1,4 @@
-#include "interpreter.h"
+#include "minishell.h"
 
 t_AST_Node *init_AST_Node(int type, void *content)
 {

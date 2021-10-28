@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_minishell g_shell;
+
 int	init_envp(char *envp[])
 {
 	int		i;
@@ -43,14 +45,14 @@ int	init_nonc_mode(struct termios *new)
 	new->c_cc[VMIN] = 1;
 	new->c_cc[VTIME] = 0;
 
+	return (0);
 }
-
 
 int	init_term(struct termios *org, struct termios *new)
 {
 	if (get_term_mode(org) == TERMIOS_ERROR)
 		return (TERMIOS_ERROR);
-	if (set_nonc_mode(new) == TERMIOS_ERROR)
+	if (init_nonc_mode(new) == TERMIOS_ERROR)
 		return (TERMIOS_ERROR);
 	return (SUCCESS);
 }

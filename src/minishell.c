@@ -1,5 +1,6 @@
-// #include "interpreter.h"
 #include "minishell.h"
+
+extern t_minishell g_shell;
 
 void	print_error(int error_code)
 {
@@ -15,7 +16,7 @@ void	error(int error_code)
 
 void	loop_minishell(struct termios *org, struct termios *new)
 {
-	t_list	*AST;
+	t_AST_Node	*AST;
 
 	while (1)
 	{
@@ -31,10 +32,12 @@ void	loop_minishell(struct termios *org, struct termios *new)
 		if (set_term_mode(org) == TERMIOS_ERROR)
 			error(TERMIOS_ERROR);
 		add_history(g_shell.line);
-		AST = parse_line(g_shell.line);
+		AST = interpreter(g_shell.line);
 		if (AST == NULL)
+		{
 			error(PARSE_ERROR);
-		ft_lstclear(AST, del());
+			free(AST);
+		}
 		execute(AST);
 		free(g_shell.line);
 	}
@@ -56,7 +59,6 @@ void	handler(int signum)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_list			*AST;
 	struct termios	org_term;//canon
 	struct termios	new_term;//noncanon
 

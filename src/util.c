@@ -1,4 +1,4 @@
-#include "interpreter.h"
+#include "minishell.h"
 
 void malloc_error_check(void *item)
 {

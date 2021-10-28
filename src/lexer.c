@@ -1,4 +1,4 @@
-#include "interpreter.h"
+#include "minishell.h"
 
 static char **remove_not_lexeme(char **line)
 {
@@ -6,6 +6,7 @@ static char **remove_not_lexeme(char **line)
 		return (NULL);
     while (**line && ft_strchr(" \n\t", **line))
         (*line)++;
+	//
 	return line;
 }
 
@@ -44,7 +45,7 @@ static t_list	*scan_line(char **line, int *cur_option)
 	t_token *token;
 
 	line = remove_not_lexeme(line);
-	// divide_init_process 
+	// divide_init_process
 		if (line == NULL)
 			return NULL;
 		token = (t_token *)malloc(sizeof(t_token));

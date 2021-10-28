@@ -1,4 +1,4 @@
-#include "interpreter.h"
+#include "minishell.h"
 
 static char	*get_pipe_token(char **line, int *cur_option)
 {
@@ -31,6 +31,30 @@ static char	*get_redirect_token(char **line)
 	return (ret);
 }
 
+/*
+1. line - 1 index에서 접근해서 space or not
+default / not space -> **line
+*맨앞인경우인데
+if (**line = <)
+
+flag = 1; -> flag = 0;
+-> default
+
+2. give line (separate)
+ast X, line(syntax_analyzer)
+g_shell.line
+strchr()
+
+ret = strchr();
+g_shell.line != strchr("<>", **line); -> 첫문자 확인
+else
+*(strchr("<>", **line) - 1) == " \n\t" -> 1
+	else
+		fd_in?
+
+
+*/
+
 static void	set_quote_option(char **line, int *cur_option)
 {
 	if (!ft_strcmp("'", *line) && !(*cur_option & CUR_DQUOTE))
@@ -54,6 +78,7 @@ char	 *get_special_item(char **line, int *cur_option)
 	}
 	else if (ft_strchr("<>", **line))
 	{
+
 		if (*cur_option & CUR_REDIRECT)
 		{
 			exit(1);

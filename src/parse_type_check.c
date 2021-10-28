@@ -1,4 +1,4 @@
-#include "interpreter.h"
+#include "minishell.h"
 
 static void check_redirect_mode(t_list **token, t_redirect *redirect)
 {

@@ -1,4 +1,4 @@
-#include "interpreter.h"
+#include "minishell.h"
 
 static int	parse_phrase(t_list **token, t_cmd **cmd, t_list **arg_curr, t_AST_Node **curr)
 {
