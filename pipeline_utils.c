@@ -6,7 +6,7 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:54:22 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/28 12:28:58 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/28 19:11:16 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@ void	error(int errno)
 {
 	printf("error : %d\n", errno);
 	exit(errno);
+}
+
+int	hookup_pipes(int idx_cmd, int **fd_pipe, int nums_cmd)
+{
+	if (idx_cmd == 0)
+	{
+		if (dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO) == -1)
+			return (FD_DUP_ERROR);
+	}
+	else if (idx_cmd == nums_cmd - 1)
+	{
+		if (dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO) == -1)
+			return (FD_DUP_ERROR);
+	}
+	else
+	{
+		if (dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO) == -1
+			|| dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO) == -1)
+			return (FD_DUP_ERROR);
+	}
+	return (SUCCESS);
 }
 
 void	free_fd_table(int **fd_pipe)

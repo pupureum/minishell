@@ -6,65 +6,59 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/28 12:34:40 by bylee            ###   ########.fr       */
+/*   Updated: 2021/10/28 19:20:05 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipeline.h"
-int	nums_cmd = 3;
 
-void	create_exe_proc(int idx_cmd, int **fd_pipe)
+void	create_exe_proc(int idx_cmd, int **fd_pipe, t_AST_Node *node)
 {
-	// redirection 
-	// execution
+	// if (node->type == TYPE_REDIRECT)
+	// 	redirect();
+	// else if (node->type == TYPE_CMD)
+	// 	command();
 	exit(EXIT_SUCCESS);
 }
 
-int	hookup_pipes(int idx_cmd, int **fd_pipe)
-{
-	if (idx_cmd == 0)
-	{
-		if (dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO) == -1)
-			return (FD_DUP_ERROR);
-	}
-	else if (idx_cmd == nums_cmd - 1)
-	{
-		if (dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO) == -1)
-			return (FD_DUP_ERROR);
-	}
-	else
-	{
-		if (dup2(fd_pipe[idx_cmd][1], STDOUT_FILENO) == -1
-			|| dup2(fd_pipe[idx_cmd - 1][0], STDIN_FILENO) == -1)
-			return (FD_DUP_ERROR);
-	}
-	return (SUCCESS);
-}
-
-void	create_cmd_proc(int idx_cmd, int **fd_pipe)
+void	create_cmd_proc(int idx_cmd, int nums_cmd, int **fd_pipe, t_AST_Node *node)
 {
 	pid_t	pid;
 	int		status;
 
-	if (hookup_pipes(idx_cmd, fd_pipe))
+	if (hookup_pipes(idx_cmd, fd_pipe, nums_cmd))
 		exit(FD_DUP_ERROR);
 	close_fd_table(nums_cmd, fd_pipe, idx_cmd);
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
-		create_exe_proc(idx_cmd, fd_pipe);
+		create_exe_proc(idx_cmd, fd_pipe, node);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		exit(PROCESS_ERROR);
 	exit(EXIT_SUCCESS);
 }
 
-int	create_procs(int **fd_pipe)
+int	wait_procs(int nums_cmd, pid_t *pids)
+{
+	int		status;
+	int		idx_cmd;
+
+	idx_cmd = -1;
+	while (++idx_cmd < nums_cmd)
+	{
+		waitpid(pids[idx_cmd], &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
+			return (PROCESS_ERROR);
+	}
+	return (SUCCESS);
+}
+
+int	create_procs(t_AST_Node *node, int **fd_pipe, int nums_cmd)
 {
 	pid_t	*pids;
 	int		idx_cmd;
-	int		status;
 
 	idx_cmd = -1;
 	pids = (pid_t *)malloc(sizeof(pid_t) * nums_cmd);
@@ -76,20 +70,19 @@ int	create_procs(int **fd_pipe)
 		if (pids[idx_cmd] < 0)
 			return (FORK_ERROR);
 		else if (pids[idx_cmd] == 0)
-			create_cmd_proc(idx_cmd, fd_pipe);
+		{
+			if (idx_cmd != nums_cmd - 1)
+				create_cmd_proc(idx_cmd, nums_cmd, fd_pipe, ((t_pipe *)(node->content))->leftchild);
+			else
+				create_cmd_proc(idx_cmd, nums_cmd, fd_pipe, node);
+		}
+		node = ((t_pipe *)(node->content))->rightchild;
 	}
 	close_fd_table(nums_cmd, fd_pipe, -1);
-	idx_cmd = -1;
-	while (++idx_cmd < nums_cmd)
-	{
-		waitpid(pids[idx_cmd], &status, 0);
-		if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
-			return (PROCESS_ERROR);
-	}
-	return (0);
+	return (wait_procs(nums_cmd, pids));
 }
 
-int	build_pipeline(void)
+int	build_pipeline(t_AST_Node *node, int nums_cmd)
 {
 	int	result;
 	int	**fd_pipe;
@@ -100,8 +93,8 @@ int	build_pipeline(void)
 		error(MALLOC_FAILURE);
 	if (fill_fd_table(nums_cmd, fd_pipe))
 		error(PIPE_FAILURE);
-	if (create_procs(fd_pipe))
-		return (PROCESS_ERROR);
+	if (create_procs(node, fd_pipe, nums_cmd))
+		error(PROCESS_ERROR);
 	free_fd_table(fd_pipe);
 	return (result);
 }
