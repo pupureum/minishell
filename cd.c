@@ -13,7 +13,7 @@ int run_cd(char **token)
 	if (chdir(token[1]) == -1)
 	{
 		printf("Invalid path\n");
-		return (INVALID_PATH);	
+		return (1);	
 	}
 	path = getcwd(NULL, 0);
 	if (!path)

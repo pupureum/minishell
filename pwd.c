@@ -10,7 +10,7 @@ int	get_pwd(void)
 	str[0] = "/bin/pwd";
 	str[1] = NULL;
 	execve(str[0], str, NULL);
-	printf("Error");
+	printf("PWD Error");
 	free(str);
-	return (EXECVE_ERROR);
+	return (1);
 }
