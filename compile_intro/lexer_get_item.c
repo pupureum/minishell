@@ -31,6 +31,69 @@ static char	*get_redirect_token(char **line)
 	return (ret);
 }
 
+char	 *get_special_item(char **line, int *cur_option)
+{
+	char *token_value;
+
+	token_value = NULL;
+	if (ft_strchr("|", **line))
+		token_value = get_pipe_token(line, cur_option);
+	else if (ft_strchr("<>", **line))
+	{
+		if (*cur_option & CUR_REDIRECT)
+		{
+			printf("Parseing Error : Unexpected Cmd Line");
+			return ((char *)PARSE_ERROR);
+		}
+		*cur_option |= CUR_REDIRECT;
+		token_value = get_redirect_token(line);
+	}
+	return (token_value);
+}
+
+static int check_option(char *plain, int *cur_option)
+{
+	if (*cur_option != CUR_NONE)
+	{
+		printf("%s\n", strerror(1));
+		free(plain);
+		return (PARSE_ERROR);
+	}
+	return (0);
+}
+
+char	*get_plain_item(char **line, int *cur_option)
+{
+	char	*plain;
+	char	null_char[2];
+	int		temp_option;
+
+	plain = ft_strdup("");
+	null_char[1] = (char)NULL;
+	temp_option = CUR_NONE;
+	while (**line)
+	{
+		null_char[0] = **line;
+		if ((temp_option == CUR_NONE) && ft_strchr(" \n\t<>|", **line))
+			break;
+		set_quote_option(line, &temp_option);
+		plain = ft_strjoin_free(plain, null_char, 1);
+		if ((*cur_option & (CUR_CMD | CUR_ARG)) && ft_strchr("<>", *(*(line) + 1)) \
+		 && check_invalid_fd(plain))
+			*cur_option = CUR_BEFORE_FD;
+		if (plain == NULL)
+		{
+			printf("%s\n", strerror(12));
+			free(plain);
+			return ((char *)PARSE_ERROR);
+		}
+		*line += 1;
+	}
+	if (check_option(plain, &temp_option))
+		return ((char *)PARSE_ERROR);
+	return (plain);
+}
+
 /*
 1. line - 1 index에서 접근해서 space or not
 default / not space -> **line
@@ -54,84 +117,3 @@ else
 
 
 */
-
-static void	set_quote_option(char **line, int *cur_option)
-{
-	if (!ft_strcmp("'", *line) && !(*cur_option & CUR_DQUOTE))
-	{
-		*cur_option ^= CUR_QUOTE;
-	}
-	else if (!ft_strcmp("\"", *line) && !(*cur_option & CUR_QUOTE))
-	{
-		*cur_option ^= CUR_DQUOTE;
-	}
-}
-
-char	 *get_special_item(char **line, int *cur_option)
-{
-	char *token_value;
-
-	token_value = NULL;
-	if (ft_strchr("|", **line))
-	{
-		token_value = get_pipe_token(line, cur_option);
-	}
-	else if (ft_strchr("<>", **line))
-	{
-
-		if (*cur_option & CUR_REDIRECT)
-		{
-			exit(1);
-			return ((char *)PARSE_ERROR);
-		}
-		*cur_option |= CUR_REDIRECT;
-		token_value = get_redirect_token(line);
-	}
-	return (token_value);
-}
-
-static int check_option(char *plain, int *cur_option)
-{
-	if (*cur_option != CUR_NONE)
-	{
-		printf("%s\n", strerror(1));
-		free(plain);
-		return (PARSE_ERROR);
-	}
-	return (0);
-}
-
-char	*get_plain_item(char **line)
-{
-	char	*plain;
-	char	null_char[2];
-	int		temp_option;
-
-	plain = ft_strdup("");
-	null_char[1] = (char)NULL;
-	temp_option = CUR_NONE;
-	while (**line)
-	{
-		null_char[0] = **line;
-		if ((temp_option == CUR_NONE) && ft_strchr(" \n\t<>|", **line))
-			break;
-		set_quote_option(line, &temp_option);
-		plain = ft_strjoin_free(plain, null_char, 1);
-
-		// abcdef>
-		// f : **line *(*line) = <, > char  fd_in  TYPE_REDIRECT
-
-
-
-		if (plain == NULL)
-		{
-			printf("%s\n", strerror(12));
-			free(plain);
-			return ((char *)PARSE_ERROR);
-		}
-		*line += 1;
-	}
-	if (check_option(plain, &temp_option))
-		return ((char *)PARSE_ERROR);
-	return (plain);
-}

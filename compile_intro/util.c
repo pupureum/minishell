@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 void malloc_error_check(void *item)
 {
     if (item == NULL)
@@ -39,4 +40,42 @@ void	print_indent(int indent)
 		printf("\t");
 		indent--;
 	}
+}
+
+int check_invalid_fd(char *word)
+{
+	char *ptr;
+	int  num;
+
+	ptr = word;
+	while (*ptr)
+	{
+		if (!ft_isdigit(*ptr))
+		{
+			return (0);	
+		}
+		ptr++;
+	}
+	ptr = word;
+	num = ft_atoi(ptr);
+
+	if (num <= 255 && num >=0)
+		return (1);
+
+	return (0);
+}
+
+int	set_quote_option(char **line, int *cur_option)
+{
+	if (!ft_strcmp("'", *line) && !(*cur_option & CUR_DQUOTE))
+	{
+		*cur_option ^= CUR_QUOTE;
+		return (1);
+	}
+	else if (!ft_strcmp("\"", *line) && !(*cur_option & CUR_QUOTE))
+	{
+		*cur_option ^= CUR_DQUOTE;
+		return (1);
+	}
+	return (0);
 }

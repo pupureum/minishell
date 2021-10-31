@@ -57,8 +57,8 @@ t_AST_Node	*parse_get_node(t_list **token)
 	malloc_error_check(init_node);
 	g_shell.cmd_cnt = 1;
 	series_node = &init_node;
-	while (*token && ((t_token *)(*token)->content)->type & \
-		(CUR_CMD | CUR_REDIRECT | CUR_PIPE))
+	while (*token && (((t_token *)(*token)->content)->type & \
+		(CUR_CMD | CUR_REDIRECT | CUR_PIPE | CUR_BEFORE_FD)))
 		series_node = parse_pipe_case(token, series_node);
 	return (init_node);
 }

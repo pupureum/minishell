@@ -3,5 +3,5 @@
 void execute(t_AST_Node *node)
 {
     if(node)
-        printf("nothing problem");
+        printf("nothing problem\n");
 }

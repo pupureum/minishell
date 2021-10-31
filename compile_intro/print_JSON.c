@@ -1,8 +1,10 @@
 #include "minishell.h"
 
+void	print_JSON_loop(t_AST_Node	*AST, int indent);
+
 static char	*check_redirect_type(int type)
 {
-	if (!(type & (TYPE_REDIR_STDIN | TYPE_REDIR_STDOUT | TYPE_REDIR_HEREDOC | TYPE_REDIR_HEREDOC)))
+	if (!(type & (TYPE_REDIR_STDIN | TYPE_REDIR_STDOUT | TYPE_REDIR_HEREDOC | TYPE_REDIR_APPEND)))
 		return (NULL);
 	if (type == TYPE_REDIR_STDIN)
 		return (ft_strdup("STDIN"));
@@ -27,6 +29,8 @@ void	print_REDIRECT(t_redirect *redirect, int indent)
 	print_indent(indent);
 	printf("\tredirect : %s%s%s\n", VALUE_COLOR, type, KEY_COLOR);
 	print_indent(indent);
+	printf("\tbefore FD : %s%d%s\n", VALUE_COLOR, redirect->before_fd, KEY_COLOR);
+	print_indent(indent);
 	printf("\tafter FD : %s%s%s\n", VALUE_COLOR, redirect->after_fd, KEY_COLOR);
 	print_indent(indent);
 	printf("\tinfo : \n");
@@ -36,8 +40,9 @@ void	print_REDIRECT(t_redirect *redirect, int indent)
 		printf("\t%s(NULL)%s\n", VALUE_COLOR, KEY_COLOR);
 	}
 	else
-		print_JSON(redirect->child, indent + 1);
+		print_JSON_loop(redirect->child, indent + 1);
 	print_indent(indent);
+	free(type);
 	printf("}\n");
 }
 
@@ -74,15 +79,15 @@ void	print_PIPE(t_pipe *pipe, int indent)
 	printf("\tcmd_cnt : %d\n", pipe->count);
 	print_indent(indent);
 	printf("\t%sleftchild :\n", KEY_COLOR);
-	print_JSON(pipe->leftchild, indent + 1);
+	print_JSON_loop(pipe->leftchild, indent + 1);
 	print_indent(indent);
 	printf("\t%srightchild :\n", KEY_COLOR);
-	print_JSON(pipe->rightchild, indent + 1);
+	print_JSON_loop(pipe->rightchild, indent + 1);
 	print_indent(indent);
 	printf("}\n");
 }
 
-void	print_JSON(t_AST_Node	*AST, int indent)
+void	print_JSON_loop(t_AST_Node	*AST, int indent)
 {
 	if (AST->type == TYPE_CMD)
 		print_CMD(AST->content, indent);
@@ -90,5 +95,10 @@ void	print_JSON(t_AST_Node	*AST, int indent)
 		print_PIPE(AST->content, indent);
 	else if (AST->type == TYPE_REDIRECT)
 		print_REDIRECT(AST->content, indent);
-	ft_putstr_fd(END_COLOR, 1);
+}
+
+void	print_JSON(t_AST_Node *AST, int indent)
+{
+	print_JSON_loop(AST, indent);
+	printf("%s", END_COLOR);
 }

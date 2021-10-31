@@ -25,11 +25,12 @@
 #define CUR_NONE		0
 #define CUR_PIPE		1
 #define CUR_REDIRECT	2
-#define CUR_AFTER_FD	4
-#define CUR_CMD			8
-#define CUR_ARG			16
-#define CUR_QUOTE		32
-#define CUR_DQUOTE		64
+#define CUR_BEFORE_FD	4
+#define CUR_AFTER_FD	8
+#define CUR_CMD			16
+#define CUR_ARG			32
+#define CUR_QUOTE		64
+#define CUR_DQUOTE		128
 
 //#define CUR_BEFORE_FD type
 //		-> is_num(int값 범위) + no_space, 이게 아니면 스페이스붙어있어도 arg로
@@ -41,9 +42,9 @@
 #define	TYPE_CMD 			2
 #define	TYPE_ARG  			4
 #define	TYPE_REDIR_STDIN	8
-#define	TYPE_REDIR_STDOUT	16
-#define	TYPE_REDIR_HEREDOC	32
-#define	TYPE_REDIR_APPEND	64
+#define	TYPE_REDIR_STDOUT	16 // 
+#define	TYPE_REDIR_HEREDOC	32 // dafault 0 
+#define	TYPE_REDIR_APPEND	64 // default 1
 
 #define SUCCESS			0
 #define MALLOC_ERROR	1
@@ -60,15 +61,13 @@
 typedef struct		s_minishell
 {
 	t_list			*envp;
-	int				signal;
-	int				pid;
-	int				eof;
-	int				read_fd;
 	char			*line;
 	int				cmd_cnt;
+	char			*exit_status;
 }					t_minishell;
 
 t_minishell g_shell;
+
 
 typedef struct		s_token
 {
@@ -99,20 +98,21 @@ typedef struct s_redirect
 {
 	int			type;
 	t_AST_Node	*child;
+	int			before_fd;
 	char		*after_fd;
 }	t_redirect;
 
-void execute(t_AST_Node *node);
-int	init_envp(char *envp[]);
-int	set_term_mode(struct termios *term);
-int	get_term_mode(struct termios *term);
-int	init_nonc_mode(struct termios *new);
-int	init_term(struct termios *org, struct termios *new);
+void			execute(t_AST_Node *node);
+int				init_envp(char *envp[]);
+int				set_term_mode(struct termios *term);
+int				get_term_mode(struct termios *term);
+int				init_nonc_mode(struct termios *new);
+int				init_term(struct termios *org, struct termios *new);
 
 t_AST_Node		*interpreter(char *line);
 t_list			*lexical_analyzer(char *line);
 char			*get_special_item(char **line, int *cur_option);
-char			*get_plain_item(char **line);
+char			*get_plain_item(char **line, int *cur_option);
 t_AST_Node		*syntax_analyzer(t_list *token);
 int				type_argument(t_cmd *cmd, t_list **arg, t_token *token);
 int				type_redirect(t_AST_Node **curr, t_list **token);
@@ -121,10 +121,13 @@ t_AST_Node		*parse_get_node(t_list **token);
 
 void			malloc_error_check(void *item);
 int				ft_malloc(void **dst, size_t size);
+int 			check_invalid_fd(char *word);
+int				set_quote_option(char **line, int *cur_option);
 
 void 			print_series_token(t_list *token);
 void			print_JSON(t_AST_Node	*AST, int indent);
 void			print_indent(int indent);
+
 
 #endif
 

@@ -2,9 +2,9 @@
 
 static char **remove_not_lexeme(char **line)
 {
-	if (**line == (char)NULL)
+	if (**line == (char)NULL || *line == NULL)
 		return (NULL);
-    while (**line && ft_strchr(" \n\t", **line))
+    while (**line && *line && ft_strchr(" \n\t", **line))
         (*line)++;
 	//
 	return line;
@@ -34,7 +34,28 @@ static t_token *get_plain_token(t_token *token, char **line, int *cur_option)
 		*cur_option = CUR_CMD;
 		token->type = CUR_CMD;
 	}
-	token->value = get_plain_item(line);
+	token->value = get_plain_item(line, cur_option);
+	if (*cur_option & CUR_BEFORE_FD)
+	{
+		token->type = CUR_BEFORE_FD;
+		*cur_option ^= CUR_BEFORE_FD;
+	}
+	return (token);
+}
+
+static t_token *set_token(char **line, int *cur_option)
+{
+	t_token *token;
+
+	line = remove_not_lexeme(line);
+	if (line == NULL)
+		return NULL;
+	token = (t_token *)malloc(sizeof(t_token));
+	malloc_error_check(token);
+	if (ft_strchr("|<>", **line))
+		token = get_special_token(token, line, cur_option);
+	else
+		token = get_plain_token(token, line, cur_option);
 	return (token);
 }
 
@@ -44,29 +65,16 @@ static t_list	*scan_line(char **line, int *cur_option)
 	t_list *head;
 	t_token *token;
 
-	line = remove_not_lexeme(line);
-	// divide_init_process
-		if (line == NULL)
-			return NULL;
-		token = (t_token *)malloc(sizeof(t_token));
-		malloc_error_check(token);
-		if (ft_strchr("|<>", **line))
-			token = get_special_token(token, line, cur_option);
-		else
-			token = get_plain_token(token, line, cur_option);
+	token = set_token(line, cur_option);
+	if (token == NULL)
+		return (NULL);
 	ret = ft_lstnew(token);
 	head = ret;
 	while (*line)
 	{
-		line = remove_not_lexeme(line);
-		if (line == NULL)
+		token = set_token(line, cur_option);
+		if (token == NULL)
 			break;
-		token = (t_token *)malloc(sizeof(t_token));
-		malloc_error_check(token);
-		if (ft_strchr("|<>", **line))
-			token = get_special_token(token, line, cur_option);
-		else
-			token = get_plain_token(token, line, cur_option);
 		ret->next = ft_lstnew(token);
 		ret = ret->next;
 	}
