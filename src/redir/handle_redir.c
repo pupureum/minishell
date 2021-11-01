@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:34 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/01 19:31:57 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/01 22:00:23 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	open_heredoc(int idx_cmd, char *EOF_str)
 	filename = format_filename(idx_cmd);
 	temp_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC);
 	free(filename);
-	if (temp_fd == -1)
+	if (temp_fd == INVALID_FD)
 		return (temp_fd);
 	while (1)
 	{
@@ -69,12 +69,47 @@ int	open_file(int idx_cmd, t_redirect *redir)
 	return (fd);
 }
 
+int	ft_itoa_fd(char *fd_char)
+{
+	int	fd;
+
+	fd = 0;
+	while (ft_isdigit(*fd_char))
+	{
+		fd = fd * 10 + (*fd_char - '0');
+		fd_char++;
+	}
+	if (fd_char != '\0')
+		return (INVALID_FD);
+	return (fd);
+}
+
+int	get_proc_fd(t_list *fd_table, char *fd_char)
+{
+	int	shell_fd;
+	int	proc_fd;
+
+	shell_fd = ft_itoa_fd(fd_char);
+	if (shell_fd == INVALID_FD)
+	{
+		printf("bash: %s: ambiguous redirect\n");
+		return (INVALID_FD);
+	}
+	proc_fd = search_proc_fd(fd_table, shell_fd);
+	if (proc_fd == INVALID_FD)
+	{
+		printf("bash: %s: Bad file descriptor\n");
+		return (INVALID_FD);
+	}
+	return (proc_fd);
+}
+
 t_error	handle_redir(int idx_cmd, t_list **fd_table, t_redirect *redir)
 {
 	int	proc_fd;
 
 	if (redir->after_fd[0] == '&')
-		proc_fd = get_proc_fd(redir->after_fd + 1);
+		proc_fd = get_proc_fd(*fd_table, redir->after_fd + 1);
 	else
 		proc_fd = open_file(idx_cmd, redir);
 	if (proc_fd < 0)

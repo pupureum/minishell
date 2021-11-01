@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_new.c                                           :+:      :+:    :+:   */
+/*   search_proc_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/19 17:09:04 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/01 21:48:20 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/01 21:49:01 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/11/01 21:58:30 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "temp.h"
+#include "redir.h"
 
-t_fd	*fd_new(int fd_shell, int fd_proc)
+int	search_proc_fd(t_list *fd_table, int shell_fd)
 {
-	t_fd	*new;
+	t_list	*curr;
 
-	new = (t_fd *)malloc(sizeof(t_fd));
-	if (new == NULL)
-		return (NULL);
-	new->fd_shell = fd_shell;
-	new->fd_proc = fd_proc;
-	return (new);
+	curr = fd_table;
+	while (curr)
+	{
+		if (((t_fd *)curr->content)->fd_shell == shell_fd)
+			return (((t_fd *)curr->content)->fd_proc);
+		curr = curr->next;
+	}
+	return (INVALID_FD);
 }

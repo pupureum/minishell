@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:07 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/01 17:01:50 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/01 21:58:33 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 
 #define CHMOD644			S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
 
+#define INVALID_FD		-1
+
 #define HEREDOC_ERROR	1
 #define FILE_OPEN_ERROR	1
 
@@ -57,7 +59,7 @@ typedef enum e_error
 
 typedef struct s_fd
 {
-	int	type;
+	// int	type;
 	int	fd_shell;
 	int	fd_proc;
 }	t_fd;
@@ -90,6 +92,7 @@ typedef struct s_redirect
 {
 	int			type;
 	t_AST_Node	*child;
+	int			befor_fd;
 	char		*after_fd;
 }	t_redirect;
 
@@ -97,6 +100,7 @@ typedef struct s_redirect
 fd_new.c
 */
 t_fd	*fd_new(int fd_shell, int fd_proc);
+int		search_proc_fd(t_list *fd_table, int shell_fd);
 
 /* t_fd	*fd_lstnew(int fd_shell, int fd_proc);
 int		fd_lstsize(t_fd *fd_lst);
