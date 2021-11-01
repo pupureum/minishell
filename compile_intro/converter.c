@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 //test_need 
+/*
 static char	*get_exit_status(char **token, char *result)
 {
 	char	*exit_status;
@@ -65,7 +66,11 @@ static char	*get_env(char **token, char *result)
 	{
 		key = ft_strjoin_free(key, **token, 1);
 		if (key == NULL)
-			return (ft_free_ret(result, NULL));
+		{
+			free(result);
+			return (NULL);
+		}
+			
 		(*token)++;
 	}
 	value = get_envp_value(key);
@@ -118,7 +123,7 @@ char	*converter(char **token)
 	}
 	return (result);
 }
-
+*/
 
 /*
 converter에서 setting할 것

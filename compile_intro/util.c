@@ -67,15 +67,25 @@ int check_invalid_fd(char *word)
 
 int	set_quote_option(char **line, int *cur_option)
 {
-	if (!ft_strcmp("'", *line) && !(*cur_option & CUR_DQUOTE))
+	if (!ft_strncmp("'", *line, 1) && !(*cur_option & CUR_DQUOTE))
 	{
-		*cur_option ^= CUR_QUOTE;
+		if (*cur_option & CUR_QUOTE)
+			*cur_option ^= CUR_QUOTE;
+		else
+			*cur_option |= CUR_QUOTE;
 		return (1);
 	}
-	else if (!ft_strcmp("\"", *line) && !(*cur_option & CUR_QUOTE))
+	else if (!ft_strncmp("\"", *line, 1) && !(*cur_option & CUR_QUOTE))
 	{
-		*cur_option ^= CUR_DQUOTE;
+		if (*cur_option & CUR_DQUOTE)
+			*cur_option ^= CUR_DQUOTE;
+		else
+			*cur_option |= CUR_DQUOTE;
 		return (1);
 	}
 	return (0);
 }
+
+
+//0->1
+// 1->0

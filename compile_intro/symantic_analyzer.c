@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 // no_test sudo code **test need 
+/*
 int control_cmd_except(node)
 {
 	t_list	*args_list;
@@ -47,3 +48,4 @@ int		symantic_analyzer(t_list *AST)
 	}
 	return (*error);
 }
+*/
