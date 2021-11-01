@@ -29,7 +29,10 @@ typedef struct	s_token
 void	get_env(t_list *envp);
 void	free_str(char **str);
 int	token_size(char **token);
+t_list	*init_envp(char *export_list[]);
 int	get_pwd(void);
 int	run_echo(char **token);
+
+void	malloc_error(void);
 
 #endif
