@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:53:48 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/01 19:32:38 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/02 02:38:30 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,8 @@ int	main(void)
 			break ;
 		curr = ((t_redirect *)curr->content)->child;
 	}
+	//execute();
+	//fd table clear;
+	//delete temp file.
 	return (0);
 }
