@@ -6,57 +6,77 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:34 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/28 21:12:25 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:31:57 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir.h"
 
-static int	open_after_fd(t_list *fd_table, t_redirect *redir)
+char	*format_filename(int idx)
+{
+	char	*num_str;
+	char	*filename;
+
+	num_str = ft_itoa(idx);
+	filename = ft_strjoin(".tempfile", num_str);
+	free(num_str);
+	return (filename);
+}
+
+int	open_heredoc(int idx_cmd, char *EOF_str)
+{
+	int		temp_fd;
+	char	*filename;
+	char	*line;
+
+	filename = format_filename(idx_cmd);
+	temp_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC);
+	free(filename);
+	if (temp_fd == -1)
+		return (temp_fd);
+	while (1)
+	{
+		line = readline("> ");
+		if (line == NULL|| ft_strncmp(line, EOF_str, ft_strlen(EOF_str)) == 0)
+			break ;
+		write(temp_fd, line, ft_strlen(line));
+		free(line);
+	}
+	if (line)
+		free(line);
+	return (temp_fd);
+}
+
+int	open_file(int idx_cmd, t_redirect *redir)
 {
 	int	fd;
 
-	if ((redir->after_fd)[0] == '&')
-		fd = find_fd();
-}
-
-static int	parse_before_fd(int cmd_idx, char *line, t_redirect *redir)
-{
-	int		iter;
-	char	redir_sign;
-	int		fd;
-
-	if (redir->type == TYPE_REDIR_APPEND || redir->type == TYPE_REDIR_STDOUT)
-		redir_sign = '>';
+	if (redir->type == TYPE_REDIR_HEREDOC)
+		fd = open_heredoc(idx_cmd, redir->after_fd);
+	else if (redir->type == TYPE_REDIR_STDIN)
+		fd = open(redir->after_fd, O_RDONLY | O_TRUNC, CHMOD644);
+	else if (redir->type == TYPE_REDIR_STDOUT)
+		fd = open(redir->after_fd, O_WRONLY | O_CREAT | O_TRUNC, CHMOD644);
 	else
-		redir_sign = '<';
-	iter = -1;
-	fd = 0;
-	line = ft_strchr(line, redir_sign) - 1;
-	while (ft_isdigit(*line))
+		fd = open(redir->after_fd, O_WRONLY | O_CREAT | O_APPEND, CHMOD644);
+	if (fd < 0)
 	{
-		fd = fd * 10 + (*line - '0');
-		line--;
+		if (redir->type == TYPE_REDIR_HEREDOC)
+			error(HEREDOC_ERROR);
+		else
+			printf("bash: %s: No such file or directory.\n");
 	}
-	if (*line == ' ')
-		return (fd);
-	return (-1);
+	return (fd);
 }
 
-t_error	handle_redir(
-		int cmd_idx, char **line, t_list **fd_table, t_redirect *redir)
+t_error	handle_redir(int idx_cmd, t_list **fd_table, t_redirect *redir)
 {
-	int	from_fd;
 	int	proc_fd;
 
-	from_fd = parse_before_fd(cmd_idx, *line, redir);
-	if (from_fd == -1)
-	{
-		if (redir->type == TYPE_REDIR_STDOUT
-			|| redir->type == TYPE_REDIR_APPEND)
-			from_fd = 1;
-		else
-			from_fd = 0;
-	}
-	proc_fd = open_after_fd(*fd_table, redir);
+	if (redir->after_fd[0] == '&')
+		proc_fd = get_proc_fd(redir->after_fd + 1);
+	else
+		proc_fd = open_file(idx_cmd, redir);
+	if (proc_fd < 0)
+		return (FILE_OPEN_ERROR);
 }

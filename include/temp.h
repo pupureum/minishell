@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:07 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/28 19:04:02 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/01 17:01:50 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "libft.h"
 
 # define REDIRECT_LEFT	1
@@ -28,6 +31,11 @@
 #define	TYPE_REDIR_STDOUT	16
 #define	TYPE_REDIR_HEREDOC	32
 #define	TYPE_REDIR_APPEND	64
+
+#define CHMOD644			S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
+
+#define HEREDOC_ERROR	1
+#define FILE_OPEN_ERROR	1
 
 typedef struct s_minishell
 {
@@ -49,8 +57,9 @@ typedef enum e_error
 
 typedef struct s_fd
 {
-	int		fd_shell;
-	int		fd_proc;
+	int	type;
+	int	fd_shell;
+	int	fd_proc;
 }	t_fd;
 
 typedef struct s_token

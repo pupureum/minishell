@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:53:48 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/10/28 21:09:50 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:32:38 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_list	*init_fd_table(void)
 	t_list	*fd_table;
 	int		i;
 
-	fd_table = ft_lstnew(fd_new(0, STDIN_FILENO));
-	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(1, STDOUT_FILENO)));
-	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(2, STDERR_FILENO)));
+	fd_table = ft_lstnew(fd_new(0, dup(STDIN_FILENO)));
+	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(1, dup(STDOUT_FILENO))));
+	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(2, dup(STDERR_FILENO))));
 	if (is_fd_table_valid(fd_table, 3) == 0)
 	{
 		ft_lstclear(&fd_table, free);
@@ -61,7 +61,7 @@ int	main(void)
 	while (curr->type == TYPE_REDIRECT)
 	{
 		if (handle_redir(cmd_idx, &line, &fd_table, curr->content) != SUCCESS)
-			error();
+			break ;
 		curr = ((t_redirect *)curr->content)->child;
 	}
 	return (0);
