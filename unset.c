@@ -125,17 +125,17 @@ int	run_unset(char **token, t_list **export_list, t_list **env_list)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_list *env_list;
-	t_list *export_list;
-	char	*test[] = {"unset", "TERM_SESSION_ID", NULL};
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_list *env_list;
+// 	t_list *export_list;
+// 	char	*test[] = {"unset", "_", NULL};
 
-	(void)argc;
-	(void)argv;
-	env_list = init_envp(envp);
-	export_list = init_envp(envp);
-	run_unset(test, &export_list, &env_list);
-	while(1){};
-	return (0);
-}
+// 	(void)argc;
+// 	(void)argv;
+// 	env_list = init_envp(envp);
+// 	export_list = init_envp(envp);
+// 	run_unset(test, &export_list, &env_list);
+// 	while(1){};
+// 	return (0);
+// }

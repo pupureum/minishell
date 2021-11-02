@@ -6,27 +6,17 @@ void	malloc_error(void)
 	exit(0);
 }
 
-char *add_char(char const *s1, char c)
+void	add_to_list(char *token, t_list *export_list)
 {
-	int	len;
-	char *result;
-	char *str;
+	t_list	*new;
 
-	if (!(s1))
-		return (NULL);
-	ft_strdup(s1);
-	result = (char *)malloc(sizeof(char) * len + 1);
-	str = (char *)malloc(sizeof(char) * 2);
-	if (result == NULL || str == NULL)
+	new = ft_lstnew(token);
+	if (new == NULL)
 	{
 		printf("Malloc Error");
 		exit(0);
 	}
-	str[0] = '=';
-	len = ft_strlen(s1) + 1;
-	ft_strlcpy(result, s1, len);
-	ft_strlcat(result, str, len + 1);
-	return (result);
+	ft_lstadd_back(&export_list, new);
 }
 
 void	free_str(char **str)

@@ -20,6 +20,18 @@ typedef struct	s_token
 	char	*value;
 }				t_token;
 
+typedef struct		s_AST_Node
+{
+	int		type;
+	void	*content;
+}					t_AST_Node;
+
+typedef struct		s_cmd
+{
+	char	*cmd;
+	t_list	*args;
+}					t_cmd;
+
 // typedef struct s_list
 // {
 // 	void	*content;
@@ -32,6 +44,9 @@ int	token_size(char **token);
 t_list	*init_envp(char *export_list[]);
 int	get_pwd(void);
 int	run_echo(char **token);
+void	print_export_list(t_list *export_list);
+char	*make_str(t_list *export_list);
+void	add_to_list(char *token, t_list *export_list);
 
 void	malloc_error(void);
 

@@ -1,6 +1,6 @@
 #include "command.h"
 
-static	int do_fork(int flag, t_token *token)
+static	int do_fork(int flag, char *token)
 {
     int pid;
     int result;
@@ -31,24 +31,24 @@ static	int do_fork(int flag, t_token *token)
     return(0);
 }
 
-int idenfify_commands(t_token *token, char **envp, t_Ast_Node *node)
+int idenfify_commands(char **envp, t_AST_Node *node)
 {
     int pid;
 	int result;
-	// ((t_cmd *)(node->data))->cmd
+	// (((t_cmd *)(node->content))->cmd
 	// node->data->args
 
-    if (ft_strncmp(token->value, "pwd", 4) == 0)
-        result = do_fork(PWD, token);
-    else if(ft_strncmp(token->value, "env", 4) == 0)
+    if (ft_strncmp(((t_cmd *)(node->content))->cmd, "pwd", 4) == 0)
+        result = do_fork(PWD, ((char *)(((t_cmd *)(node->content))->args->content)));
+    else if(ft_strncmp(((t_cmd *)(node->content))->cmd, "env", 4) == 0)
         get_env(envp);
-    else if(ft_strncmp(token->value, "echo", 5) == 0)
+    else if(ft_strncmp(((t_cmd *)(node->content))->cmd, "echo", 5) == 0)
         result = do_fork(ECHO, token);
-    else if(ft_strncmp(token->value, "cd", 3) == 0)
+    else if(ft_strncmp(((t_cmd *)(node->content))->cmd, "cd", 3) == 0)
         result = run_cd(token);
-    else if (ft_strncmp(token->value, "export", 7) == 0)
+    else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "export", 7) == 0)
         result = run_export(token);
-	else if (ft_strncmp(token->value, "unset", 6) == 0)
+	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "unset", 6) == 0)
 		result = run_unset(token);
     else
     {

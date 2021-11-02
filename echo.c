@@ -1,6 +1,6 @@
 #include "command.h"
 
-int	run_echo(char **token)
+int	run_echo(char *token)
 {
 	char	**str;
 	int		i;
@@ -10,11 +10,8 @@ int	run_echo(char **token)
 	len = token_size(token);
 	str = (char **)malloc(sizeof(char *) * len);
 	if (str == NULL)
-	{
-		printf("Malloc Error");
-		exit(0);
-	}
-	i = 1;
+		malloc_error();
+	i = 0;
 	str[0] = "/bin/echo";
 	j = 1;
 	while (j <= len - 1)

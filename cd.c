@@ -1,9 +1,9 @@
 #include "command.h"
 
-int run_cd(char **token)
+int	run_cd()
 {
-	int	i;
-	char *path;
+	int		i;
+	char	*path;
 
 	i = 1;
 	path = getcwd(NULL, 0);
@@ -13,7 +13,7 @@ int run_cd(char **token)
 	if (chdir(token[1]) == -1)
 	{
 		printf("Invalid path\n");
-		return (1);	
+		return (1);
 	}
 	path = getcwd(NULL, 0);
 	if (!path)
