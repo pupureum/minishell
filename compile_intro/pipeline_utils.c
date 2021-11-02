@@ -6,16 +6,16 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:54:22 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/28 19:11:16 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/02 19:35:04 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipeline.h"
+#include "minishell.h"
 
-void	error(int errno)
+void	error_exit(int error_code)
 {
-	printf("error : %d\n", errno);
-	exit(errno);
+	printf("error : %d\n", error_code);
+	exit(error_code);
 }
 
 int	hookup_pipes(int idx_cmd, int **fd_pipe, int nums_cmd)

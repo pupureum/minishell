@@ -21,6 +21,16 @@
 #define SYMANTIC_ERROR	1
 #define EXEC_ERROR		1
 
+# define SUCCESS 0
+# define MALLOC_FAILURE 1
+# define PIPE_FAILURE 2
+# define PROCESS_ERROR 3
+# define FORK_ERROR 4
+# define FD_DUP_ERROR 5
+
+# define TYPE_PIPE 0
+# define TYPE_REDIRECT 1
+# define TYPE_CMD 2
 
 #define CUR_NONE		0
 #define CUR_PIPE		1
@@ -128,6 +138,21 @@ void 			print_series_token(t_list *token);
 void			print_JSON(t_AST_Node	*AST, int indent);
 void			print_indent(int indent);
 
+int		symantic_analyzer(t_AST_Node *node);
+/*
+pipeline.c
+*/
+int		build_pipeline(t_AST_Node *node, int nums_cmd);
+
+/*
+pipeline_utils.c
+*/
+void	error_exit(int error_code);
+int		hookup_pipes(int idx_cmd, int **fd_pipe, int nums_cmd);
+int		**malloc_fd_table(int nums_cmd);
+int		fill_fd_table(int nums_cmd, int **fd_pipe);
+void	close_fd_table(int nums_cmd, int **fd_pipe, int idx_cmd);
+void	free_fd_table(int **fd_pipe);
 
 #endif
 

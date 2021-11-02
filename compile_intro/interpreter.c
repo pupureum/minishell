@@ -9,7 +9,7 @@ t_AST_Node	*interpreter(char *line)
 	print_series_token(tokens);
 	head = syntax_analyzer(tokens);
 	print_JSON(head, 0);
-	//error = symantic_analyzer(ret);
+	//symantic_analyzer(head);
 	/*
 	if (error == 1)
 	{

@@ -94,36 +94,37 @@ static int	convert_home_macro(char **token, char **result, int *cur_option)
 	malloc_error_check(*result);
 	return (1);
 }
-
-
-char	*converter(char **token)
-{
-	int		cur_option;
-	char	*result;
-	char	null_char[2];
-
-	null_char[1] = NULL;
-	cur_option = CUR_NONE;
-	if (!convert_home_macro(token, &result, &cur_option))
-		return (NULL);
-	while (**token)
-	{
-		null_char[0] = **token;
-		if (set_quote_option(token, &cur_option) == 0)
-		{
-			if (!(cur_option & ~(CUR_DQUOTE)) && **token == '$' && *(*token + 1) && \
-				(!ft_strncmp(*token, "$?", 2) || ft_isalpha(*(*token + 1))))
-				result = get_env(token, result);
-			else
-				result = ft_strjoin_free(result, **token, 1);
-			if (result == NULL)
-				return (NULL);
-		}
-		(*token)++;
-	}
-	return (result);
-}
 */
+
+// char	*converter(char **token)
+// {
+// 	int		cur_option;
+// 	char	*result;
+// 	char	null_char[2];
+
+// 	null_char[1] = NULL;
+// 	cur_option = CUR_NONE;
+// 	if (!convert_home_macro(token, &result, &cur_option))
+// 		return (NULL);
+// 	while (**token)
+// 	{
+// 		null_char[0] = **token;
+// 		if (set_quote_option(token, &cur_option) == 0)
+// 		{
+// 			if (!(cur_option & ~(CUR_DQUOTE)) && **token == '$' && *(*token + 1) && \
+// 				(!ft_strncmp(*token, "$?", 2) || ft_isalpha(*(*token + 1))))
+// 				result = get_env(token, result);
+// 			else
+// 				result = ft_strjoin_free(result, **token, 1);
+// 			if (result == NULL)
+// 				return (NULL);
+// 		}
+// 		(*token)++;
+// 	}
+// 	return (result);
+// }
+
+// int	converter(char *item, )
 
 /*
 converter에서 setting할 것

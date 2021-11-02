@@ -6,14 +6,17 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/10/28 19:20:05 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/02 19:36:27 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipeline.h"
+#include "minishell.h"
 
 void	create_exe_proc(int idx_cmd, int **fd_pipe, t_AST_Node *node)
 {
+	(void)idx_cmd;
+	(void)fd_pipe;
+	(void)node;
 	// if (node->type == TYPE_REDIRECT)
 	// 	redirect();
 	// else if (node->type == TYPE_CMD)
@@ -90,11 +93,11 @@ int	build_pipeline(t_AST_Node *node, int nums_cmd)
 	result = 0;
 	fd_pipe = malloc_fd_table(nums_cmd);
 	if (fd_pipe == NULL)
-		error(MALLOC_FAILURE);
+		error_exit(MALLOC_FAILURE);
 	if (fill_fd_table(nums_cmd, fd_pipe))
-		error(PIPE_FAILURE);
+		error_exit(PIPE_FAILURE);
 	if (create_procs(node, fd_pipe, nums_cmd))
-		error(PROCESS_ERROR);
+		error_exit(PROCESS_ERROR);
 	free_fd_table(fd_pipe);
 	return (result);
 }
