@@ -62,19 +62,18 @@ static int check_option(char *plain, int *cur_option)
 	return (0);
 }
 
-static int		check_finite_case(char **line, int *temp_option)//, int *cur_option)
+static int		check_finite_case(char **line, int *temp_option, int *cur_option)
 {
-		
-		if (set_quote_option(line, temp_option))
-			*line += 1;
-		if ((*temp_option == CUR_NONE) && ft_strchr(" \n\t<>|", **line))
-			return (1);
-		if (!(**line))
-			return (1);
-		return (0);
+	if (set_quote_option(line, temp_option, cur_option))
+		*line += 1;
+	if ((*temp_option == CUR_NONE) && ft_strchr(" \n\t<>|", **line))
+		return (1);
+	if (!(**line))
+		return (1);
+	return (0);
 }
 
-char	*get_plain_item(char **line, int *cur_option)
+char	*get_plain_item(char **line, int *cur_option, int *token_type)
 {
 	char	*plain;
 	char	null_char[2];
@@ -85,7 +84,7 @@ char	*get_plain_item(char **line, int *cur_option)
 	temp_option = CUR_NONE;
 	while (**line)
 	{
-		if (check_finite_case(line, &temp_option))//, cur_option))
+		if (check_finite_case(line, &temp_option, token_type))
 			break;
 		null_char[0] = **line;
 		plain = ft_strjoin_free(plain, null_char, 1);

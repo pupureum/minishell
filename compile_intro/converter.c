@@ -96,8 +96,9 @@ static int	convert_home_macro(char **token, char **result, int *cur_option)
 }
 */
 
-// char	*converter(char **token)
+// t_list	*converter(t_list *node)
 // {
+
 // 	int		cur_option;
 // 	char	*result;
 // 	char	null_char[2];
@@ -123,9 +124,6 @@ static int	convert_home_macro(char **token, char **result, int *cur_option)
 // 	}
 // 	return (result);
 // }
-
-// int	converter(char *item, )
-
 /*
 converter에서 setting할 것
 $? : fore_ground

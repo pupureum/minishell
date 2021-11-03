@@ -34,7 +34,7 @@ static t_token *get_plain_token(t_token *token, char **line, int *cur_option)
 		*cur_option = CUR_CMD;
 		token->type = CUR_CMD;
 	}
-	token->value = get_plain_item(line, cur_option);
+	token->value = get_plain_item(line, cur_option, &token->type);
 	if (*cur_option & CUR_BEFORE_FD)
 	{
 		token->type = CUR_BEFORE_FD;

@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 void malloc_error_check(void *item)
 {
     if (item == NULL)
@@ -65,22 +64,28 @@ int check_invalid_fd(char *word)
 	return (0);
 }
 
-int	set_quote_option(char **line, int *cur_option)
+int	set_quote_option(char **line, int *temp_option, int *cur_option)
 {
-	if (!ft_strncmp("'", *line, 1) && !(*cur_option & CUR_DQUOTE))
+	if (!ft_strncmp("'", *line, 1) && !(*temp_option & CUR_DQUOTE))
 	{
-		if (*cur_option & CUR_QUOTE)
-			*cur_option ^= CUR_QUOTE;
-		else
+		if (*temp_option & CUR_QUOTE)
+		{
+			*temp_option ^= CUR_QUOTE;
 			*cur_option |= CUR_QUOTE;
+		}
+		else
+			*temp_option |= CUR_QUOTE;
 		return (1);
 	}
-	else if (!ft_strncmp("\"", *line, 1) && !(*cur_option & CUR_QUOTE))
+	else if (!ft_strncmp("\"", *line, 1) && !(*temp_option & CUR_QUOTE))
 	{
-		if (*cur_option & CUR_DQUOTE)
-			*cur_option ^= CUR_DQUOTE;
-		else
+		if (*temp_option & CUR_DQUOTE)
+		{
+			*temp_option ^= CUR_DQUOTE;
 			*cur_option |= CUR_DQUOTE;
+		}
+		else
+			*temp_option |= CUR_DQUOTE;
 		return (1);
 	}
 	return (0);
