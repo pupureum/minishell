@@ -1,5 +1,5 @@
 #include "minishell.h"
-/* 
+/*
 int	symantic_cmd_case(t_AST_Node *node)
 {
 	t_list	*args_list;
@@ -23,6 +23,6 @@ int	symantic_analyzer(t_AST_Node *node)
 	ret = SUCCESS;
 	if (node->type == TYPE_CMD)
 		symantic_cmd_case(node);
-	
+
 	return (ret);
 } */
