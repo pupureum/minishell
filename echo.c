@@ -1,36 +1,40 @@
 #include "command.h"
 
-int	run_echo(char *token)
+int	run_echo(t_list *args)
 {
 	char	**str;
 	int		i;
-	int		j;
 	int		len;
 
-	len = token_size(token);
+	len = ft_lstsize(args);
 	str = (char **)malloc(sizeof(char *) * len);
 	if (str == NULL)
 		malloc_error();
-	i = 0;
 	str[0] = "/bin/echo";
-	j = 1;
-	while (j <= len - 1)
+	i = 1;
+	while (i <= len)
 	{
-		str[j] = token[i];
+		str[i] = args->content;
 		i++;
-		j++;
+		args = args->next;
 	}
-	str[j] = NULL;
+	str[i] = NULL;
 	execve(str[0], str, NULL);
 	free_str(str);
 	printf("Echo exec Error\n");
 	return (1);
 }
 
-int	main(void)
-{
-	char	*arr[] = {"echo","-n", "hello", "hi", "kkk", ":)", NULL};
+// int	main(void)
+// {
+// 	t_list	*args;
+// 	t_list	*new;
 
-	run_echo(arr);
-	return (0);
-}
+// 	args = ft_lstnew("abc");
+// 	new = ft_lstnew("/Users/plee");
+// 	if (args == NULL || new == NULL)
+// 		return (0);
+// 	ft_lstadd_back(&args, new);
+// 	run_echo(args);
+// 	return (0);
+// }

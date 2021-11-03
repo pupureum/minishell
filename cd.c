@@ -1,6 +1,6 @@
 #include "command.h"
 
-int	run_cd()
+int	run_cd(void	*arg)
 {
 	int		i;
 	char	*path;
@@ -10,7 +10,7 @@ int	run_cd()
 	if (!path)
 		return (1);
 	printf("Before:\t%s\n", path);
-	if (chdir(token[1]) == -1)
+	if (chdir((char *)arg) == -1)
 	{
 		printf("Invalid path\n");
 		return (1);
@@ -23,10 +23,10 @@ int	run_cd()
 	return (0);
 }
 
-int	main(void)
-{
-	char	*path[] = {"cd", "../Baekjoon"};
-	
-	run_cd(path);
-	return (0);
-}
+// int	main(void)
+// {
+// 	void	*path = {"../Baekjoon"};
+
+// 	run_cd(path);
+// 	return (0);
+// }
