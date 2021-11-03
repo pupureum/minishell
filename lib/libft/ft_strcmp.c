@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 13:58:37 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 19:00:47 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/03 21:25:16 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/11/03 21:53:06 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-static void	print_error(t_error error_code)
+int ft_strcmp(const char *s1, const char *s2)
 {
-	// if (error_code == MALLOC_ERROR)
-	// 	printf("malloc_err\n");
-	printf("error_code: %d\n", error_code);
-}
+	int				n[2];
+	unsigned char	u1;
+	unsigned char	u2;
 
-void	error(t_error error_code)
-{
-	print_error(error_code);
-	exit(error_code);
+	n[0] = ft_strlen(s1);
+	n[1] = ft_strlen(s2);
+	if (n[0] != n[1])
+		return (1);
+	while (n[0]-- > 0)
+	{
+		u1 = *(unsigned char *)s1++;
+		u2 = *(unsigned char *)s2++;
+		if (u1 != u2)
+			return (u1 - u2);
+		if (u1 == '\0')
+			return (0);
+	}
+	return (0);
 }

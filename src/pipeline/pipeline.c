@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/02 20:24:50 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/03 21:32:59 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	create_procs(t_AST_Node *node, int **fd_pipe, int nums_cmd)
 	idx_cmd = -1;
 	pids = (pid_t *)malloc(sizeof(pid_t) * nums_cmd);
 	if (pids == NULL)
-		return (MALLOC_FAILURE);
+		return (MALLOC_ERROR);
 	while (++idx_cmd < nums_cmd)
 	{
 		pids[idx_cmd] = fork();
@@ -87,9 +87,9 @@ int	build_pipeline(t_AST_Node *node, int nums_cmd)
 	result = 0;
 	fd_pipe = malloc_fd_table(nums_cmd);
 	if (fd_pipe == NULL)
-		error_exit(MALLOC_FAILURE);
+		error_exit(MALLOC_ERROR);
 	if (fill_fd_table(nums_cmd, fd_pipe))
-		error_exit(PIPE_FAILURE);
+		error_exit(PIPE_ERROR);
 	if (create_procs(node, fd_pipe, nums_cmd))
 		error_exit(PROCESS_ERROR);
 	free_fd_table(fd_pipe);

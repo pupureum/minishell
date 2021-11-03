@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 13:58:37 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 19:00:47 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/03 21:50:30 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/11/03 21:50:54 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-static void	print_error(t_error error_code)
+char	*ft_strjoin_free(char const *s1, char const *s2, int check)
 {
-	// if (error_code == MALLOC_ERROR)
-	// 	printf("malloc_err\n");
-	printf("error_code: %d\n", error_code);
-}
-
-void	error(t_error error_code)
-{
-	print_error(error_code);
-	exit(error_code);
+	char	*result;
+	result = ft_strjoin(s1, s2);
+	if (check & 1)
+		free((char *)s1);
+	if (check & 2)
+		free((char *)s2);
+	return (result);
 }

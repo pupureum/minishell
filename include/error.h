@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 13:58:37 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 19:00:47 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/03 15:35:30 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/11/03 21:32:15 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-static void	print_error(t_error error_code)
+typedef enum e_rror
 {
-	// if (error_code == MALLOC_ERROR)
-	// 	printf("malloc_err\n");
-	printf("error_code: %d\n", error_code);
-}
+	SUCCESS = 0,
+	MALLOC_ERROR,
+	TERMIOS_ERROR,
+	RL_ERROR,
+	PARSE_ERROR,
+	SIGNAL_ERROR,
+	SEMANTIC_ERROR,
+	EXEC_ERROR,
+	PIPE_ERROR,
+	PROCESS_ERROR,
+	FORK_ERROR,
+	FD_DUP_ERROR,
+	HEREDOC_ERROR,
+	FILE_OPEN_ERROR
+}	t_error;
 
-void	error(t_error error_code)
-{
-	print_error(error_code);
-	exit(error_code);
-}
+/*
+error.c
+*/
+void	error(t_error error_code);
+
+#endif

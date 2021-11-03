@@ -2,18 +2,6 @@
 
 extern t_minishell g_shell;
 
-void	print_error(int error_code)
-{
-	if (error_code == MALLOC_ERROR)
-		printf("Error: MALLOC FAILED\n");
-}
-
-void	error(int error_code)
-{
-	print_error(error_code);
-	exit(error_code);
-}
-
 void	loop_minishell(struct termios *org, struct termios *new)
 {
 	t_AST_Node	*AST;
@@ -38,7 +26,7 @@ void	loop_minishell(struct termios *org, struct termios *new)
 			error(PARSE_ERROR);
 			free(AST);
 		}
-		execute(AST);
+		// execute(AST);
 		free(g_shell.line);
 	}
 }
@@ -71,5 +59,6 @@ int	main(int argc, char *argv[], char *envp[])
 	if (init_term(&org_term, &new_term) == TERMIOS_ERROR)
 		error(TERMIOS_ERROR);
 	loop_minishell(&org_term, &new_term);
+	//destructor();
 	return (0);
 }

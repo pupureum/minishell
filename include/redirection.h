@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   redirection.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 13:58:37 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 19:00:47 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/03 21:00:47 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/11/03 21:07:52 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef REDIRECTION_H
+# define REDIRECTION_H
 
-static void	print_error(t_error error_code)
-{
-	// if (error_code == MALLOC_ERROR)
-	// 	printf("malloc_err\n");
-	printf("error_code: %d\n", error_code);
-}
+# include "common.h"
+# include "interpreter.h"
 
-void	error(t_error error_code)
+# define INVALID_FD	-1
+
+typedef struct s_fd
 {
-	print_error(error_code);
-	exit(error_code);
-}
+	// int	type;
+	int	fd_shell;
+	int	fd_proc;
+}	t_fd;
+
+t_fd	*fd_new(int fd_shell, int fd_proc);
+int		search_proc_fd(t_list *fd_table, int shell_fd);
+t_error	handle_redir(int idx_cmd, t_list **fd_table, t_redirect *redir);
+
+t_list	*init_fd_table(void);
+#endif

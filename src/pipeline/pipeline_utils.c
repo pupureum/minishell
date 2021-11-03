@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:54:22 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/02 19:35:04 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/03 21:08:12 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	fill_fd_table(int nums_cmd, int **fd_pipe)
 		if (pipe(fd_pipe[i]))
 		{
 			free_fd_table(fd_pipe);
-			return (PIPE_FAILURE);
+			return (PIPE_ERROR);
 		}
 	}
 	return (0);

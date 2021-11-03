@@ -2,7 +2,7 @@
 
 extern t_minishell g_shell;
 
-int	init_envp(char *envp[])
+t_error	init_envp(char *envp[])
 {
 	int		i;
 	char	*cur_envp;
@@ -23,21 +23,21 @@ int	init_envp(char *envp[])
 	return (SUCCESS);
 }
 
-int	set_term_mode(struct termios *term)
+t_error	set_term_mode(struct termios *term)
 {
 	if (tcsetattr(STDIN_FILENO, TCSANOW, term) == -1)
 		return (TERMIOS_ERROR);
 	return (SUCCESS);
 }
 
-int	get_term_mode(struct termios *term)
+t_error	get_term_mode(struct termios *term)
 {
 	if (tcgetattr(STDIN_FILENO, term) == -1)
 		return (TERMIOS_ERROR);
 	return (SUCCESS);
 }
 
-int	init_nonc_mode(struct termios *new)
+t_error	init_nonc_mode(struct termios *new)
 {
 	if (get_term_mode(new) == TERMIOS_ERROR)
 		return (TERMIOS_ERROR);
@@ -48,7 +48,7 @@ int	init_nonc_mode(struct termios *new)
 	return (0);
 }
 
-int	init_term(struct termios *org, struct termios *new)
+t_error	init_term(struct termios *org, struct termios *new)
 {
 	if (get_term_mode(org) == TERMIOS_ERROR)
 		return (TERMIOS_ERROR);
