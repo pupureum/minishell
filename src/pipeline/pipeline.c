@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/03 21:32:59 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/04 15:38:13 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	create_exe_proc(int idx_cmd, int **fd_pipe, t_AST_Node *node)
 {
-	//redir_and_exe(idx_cmd, node);
+	redir_and_exe(idx_cmd, node);
 	exit(EXIT_SUCCESS);
 }
 

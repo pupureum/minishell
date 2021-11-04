@@ -26,7 +26,10 @@ void	loop_minishell(struct termios *org, struct termios *new)
 			error(PARSE_ERROR);
 			free(AST);
 		}
-		// execute(AST);
+		if (g_shell.cmd_cnt > 1)
+			build_pipeline(AST, g_shell.cmd_cnt);
+		else
+			redir_and_exe(0, AST);
 		free(g_shell.line);
 	}
 }

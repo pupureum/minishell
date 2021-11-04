@@ -6,11 +6,11 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 17:09:04 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/01 21:48:20 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/04 14:51:20 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "temp.h"
+#include "minishell.h"
 
 t_fd	*fd_new(int fd_shell, int fd_proc)
 {

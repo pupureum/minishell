@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/03 22:06:57 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/04 16:12:59 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,20 +44,19 @@ PIPE_SRCS			=	pipeline_utils.c\
 						pipeline.c
 PIPE_OBJS			=	$(addprefix $(PIPE_SRC_DIR), $(PIPE_SRCS:.c=.o))
 
-# REDIR_SRC_DIR		=	./srcs/redirection/
-# REDIR_SRCS			=	fd_new.c\
-# 						handle_redir.c\
-# 						init_fd_table.c\
-# 						search_proc_fd.c
-# REDIR_OBJS			=	$(addprefix $(REDIR_SRC_DIR), $(REDIR_SRCS:.c=.o))
+REDIR_SRC_DIR		=	./src/redirection/
+REDIR_SRCS			=	fd_new.c\
+						handle_redir.c\
+						init_fd_table.c\
+						search_proc_fd.c
+REDIR_OBJS			=	$(addprefix $(REDIR_SRC_DIR), $(REDIR_SRCS:.c=.o))
 
 SRC_DIR				=	src/
 SRCS				=	error.c\
-						execute.c\
 						init.c\
 						minishell.c\
 						print_JSON.c\
-						# redir_and_exe.c
+						redir_and_exe.c
 OBJS				=	$(addprefix $(SRC_DIR), $(SRCS:.c=.o))
 
 .c.o :
