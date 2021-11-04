@@ -1,10 +1,11 @@
 #ifndef COMMAND_H
 # define COMMAND_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft.h"
+// #include <unistd.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include "libft.h"
+// # include "common.h"
 
 # define MALLOC_ERROR -1
 # define EXECVE_ERROR -2
@@ -52,6 +53,7 @@ typedef struct		s_cmd
 void	free_str(char **str);
 int	token_size(char **token);
 t_list	*init_envp(char *export_list[]);
+int	run_cd(void	*arg);
 int	get_pwd(void);
 int	run_echo(t_list *args);
 void	print_export_list(t_list *export_list);
