@@ -70,14 +70,14 @@
 
 typedef struct		s_minishell
 {
-	t_list			*envp;
+	t_list			*env_list;
+	t_list			*export_list;
 	char			*line;
 	int				cmd_cnt;
 	char			*exit_status;
 }					t_minishell;
 
 t_minishell g_shell;
-
 
 typedef struct		s_token
 {
@@ -137,6 +137,8 @@ int				set_quote_option(char **line, int *temp_option, int *cur_option);
 void 			print_series_token(t_list *token);
 void			print_JSON(t_AST_Node	*AST, int indent);
 void			print_indent(int indent);
+
+int		translate_env(t_list *tokens);
 
 int		symantic_analyzer(t_AST_Node *node);
 /*

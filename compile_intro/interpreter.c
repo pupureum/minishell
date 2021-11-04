@@ -7,8 +7,9 @@ t_AST_Node	*interpreter(char *line)
 
 	tokens = lexical_analyzer(line);
 	print_series_token(tokens);
+	translate_env(tokens);
 	head = syntax_analyzer(tokens);
-	//print_JSON(head, 0);
+	print_JSON(head, 0);
 	//symantic_analyzer(head);
 	/*
 	if (error == 1)
@@ -18,4 +19,3 @@ t_AST_Node	*interpreter(char *line)
 	*/
 	return (head);
 }
-

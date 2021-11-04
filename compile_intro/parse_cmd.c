@@ -9,7 +9,7 @@ static int	parse_phrase(t_list **token, t_cmd **cmd, t_list **arg_curr, t_AST_No
 		(*cmd)->cmd = ((t_token *)(*token)->content)->value;
 		((t_token *)(*token)->content)->value = NULL;
 	}
-	else if (((t_token *)(*token)->content)->type == CUR_ARG)
+	else if (((t_token *)(*token)->content)->type & CUR_ARG)
 	{
 		if (!type_argument(*cmd, arg_curr, (*token)->content))
 			return (0);

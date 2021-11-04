@@ -26,7 +26,7 @@ void print_series_token(t_list *token)
 	count = 0;
 	while (temp)
 	{
-		printf("token num : %d, token_type: %d, token_value: %s\n", count, ((t_token *)(temp)->content)->type, ((t_token *)(temp)->content)->value);
+		printf("token num : %d, token_type: %d, token_value: %s\n", count, ((t_token *)temp->content)->type, ((t_token *)temp->content)->value);
 		temp = temp->next;
 		count++;
 	}
