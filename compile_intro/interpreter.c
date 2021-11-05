@@ -8,6 +8,7 @@ t_AST_Node	*interpreter(char *line)
 	tokens = lexical_analyzer(line);
 	print_series_token(tokens);
 	translate_env(tokens);
+	print_series_token(tokens);
 	head = syntax_analyzer(tokens);
 	print_JSON(head, 0);
 	//symantic_analyzer(head);
