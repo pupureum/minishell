@@ -20,7 +20,7 @@ char    *get_env_str(char *str)
         list = list->next;
     }
     return (result);
-}
+}s
 
 int is_special_case(t_list *token, char *line)
 {

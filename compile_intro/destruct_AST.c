@@ -1,0 +1,31 @@
+#include "minishell.h"
+
+void	free_list(t_list *list)
+{
+	t_list	*temp;
+
+	while (token)
+	{
+		temp = token;
+		token = token->next;
+		if (temp->content)
+			free(((t_token *)(temp->content))->value);
+		free(temp);
+	}
+}
+
+void	destruct_AST(t_AST_Node *node)
+{
+	if (node->type == TYPE_PIPE)
+	{
+		destruct_AST(((t_pipe *)(node->content))->leftchild);
+		destruct_AST(((t_pipe *)(node->content))->rightchild);
+	}
+	else if (node->type & TYPE_REDIRECT)
+	{
+		destruct_AST(((t_redirect *)(node->content))->child);
+		free(((t_redirect *)(node->content))->after_fd);
+	}
+	else
+		free_list(((t_cmd *)(node->content))->args);
+}
