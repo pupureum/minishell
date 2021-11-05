@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:29:03 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 21:07:41 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/04 20:29:43 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@
 
 typedef struct s_minishell
 {
-	t_list	*envp;
+	t_list	*export_list;
+	t_list	*env_list;
 	char	*line;
 	int		cmd_cnt;
-	char	*exit_status;
+	int		exit_status;
 }	t_minishell;
 
 typedef struct s_AST_Node

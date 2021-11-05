@@ -2,6 +2,21 @@
 
 extern t_minishell g_shell;
 
+t_error	format_envp(char *envp, t_list **list)
+{
+	char	*cur_envp;
+	t_list	*new;
+
+	cur_envp = ft_strdup(envp);
+	if (cur_envp == NULL)
+		return (MALLOC_ERROR);
+	new = ft_lstnew(cur_envp);
+	if (new == NULL)
+		return (MALLOC_ERROR);
+	ft_lstadd_back(list, new);
+	return (SUCCESS);
+}
+
 t_error	init_envp(char *envp[])
 {
 	int		i;
@@ -11,13 +26,10 @@ t_error	init_envp(char *envp[])
 	i = 0;
 	while (envp[i])
 	{
-		cur_envp = ft_strdup(envp[i]);
-		if (cur_envp == NULL)
+		if (format_envp(envp[i], &(g_shell.env_list)))
 			return (MALLOC_ERROR);
-		new = ft_lstnew(cur_envp);
-		if (new == NULL)
+		if (format_envp(envp[i], &(g_shell.export_list)))
 			return (MALLOC_ERROR);
-		ft_lstadd_back(&(g_shell.envp), new);
 		i++;
 	}
 	return (SUCCESS);

@@ -1,32 +1,22 @@
-#include "command.h"
+#include "minishell.h"
 
-int	run_cd(void	*arg)
+t_error	run_cd(t_list *args)
 {
-	int		i;
 	char	*path;
+	int		result;
 
-	i = 1;
-	path = getcwd(NULL, 0);
-	if (!path)
-		return (1);
-	printf("Before:\t%s\n", path);
-	if (chdir((char *)arg) == -1)
+	if (args == NULL)
 	{
-		printf("Invalid path\n");
-		return (1);
+		path = get_env_str("HOME");
+		result = chdir(path);
+		free(path);
 	}
-	path = getcwd(NULL, 0);
-	if (!path)
-		return (PATH_FAIL);
-	printf("After : %s\n", path);
-	free(path);
-	return (0);
+	else
+		result = chdir((char *)args->content);
+	if (result == -1)
+	{
+		printf("bash: cd: %s: No such file or directory\n", args->content);
+		return (PATH_OPEN_ERROR);
+	}
+	return (SUCCESS);
 }
-
-// int	main(void)
-// {
-// 	void	*path = {"../Baekjoon"};
-
-// 	run_cd(path);
-// 	return (0);
-// }

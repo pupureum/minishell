@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/04 16:12:59 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/05 16:38:11 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,18 +51,29 @@ REDIR_SRCS			=	fd_new.c\
 						search_proc_fd.c
 REDIR_OBJS			=	$(addprefix $(REDIR_SRC_DIR), $(REDIR_SRCS:.c=.o))
 
+COMMAND_SRC_DIR		=	./src/command/
+COMMAND_SRCS		=	cd.c\
+						env.c\
+						export.c\
+						pwd.c\
+						unset.c\
+						utils.c
+COMMAND_OBJS		=	$(addprefix $(COMMAND_SRC_DIR), $(COMMAND_SRCS:.c=.o))
+
 SRC_DIR				=	src/
 SRCS				=	error.c\
+						execute_cmd.c\
 						init.c\
 						minishell.c\
 						print_JSON.c\
-						redir_and_exe.c
+						redir_and_exe.c\
+						sorting.c
 OBJS				=	$(addprefix $(SRC_DIR), $(SRCS:.c=.o))
 
 .c.o :
 	$(CC) $(CFLAGS) -I $(INCLUDE_DIR) -I $(READLINE_INC_DIR) -I $(LIBFT_DIR) -c $< -o $(<:.c=.o)
 
-$(NAME) : $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS)
+$(NAME) : $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS) $(COMMAND_OBJS)
 	make -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) -o $(NAME) -L $(LIBFT_DIR) -L $(READLINE_LIB_DIR) $(LIBFT_FLAG) $(READLINE_FLAG) $^
 	install_name_tool -change /Users/bylee/.brew/opt/readline/lib/libreadline.8.dylib ./lib/readline/lib/libreadline.8.dylib minishell
@@ -70,7 +81,7 @@ $(NAME) : $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS)
 all : $(NAME)
 
 clean :
-	$(RM) $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS)
+	$(RM) $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS) $(COMMAND_OBJS)
 	make clean -C $(LIBFT_DIR)
 
 fclean : clean
@@ -79,7 +90,7 @@ fclean : clean
 
 re : fclean all
 
-test : $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS)
+test : $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS) $(COMMAND_OBJS)
 	$(CC) $(CFLAGS) -g3 -fsanitize=address -o $(NAME) -L $(LIBFT_DIR) -L $(READLINE_LIB_DIR) $(LIBFT_FLAG) $(READLINE_FLAG) $^
 	install_name_tool -change /Users/bylee/.brew/opt/readline/lib/libreadline.8.dylib ./lib/readline/lib/libreadline.8.dylib minishell
 

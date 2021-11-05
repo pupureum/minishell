@@ -1,16 +1,14 @@
-#include "command.h"
+#include "minishell.h"
 
-int	get_pwd(void)
+t_error	get_pwd(void)
 {
-	char	**str;
+	char	*path;
 
-	str = (char **)malloc(sizeof(char *) * 2);
-	if (str == NULL)
-		return (MALLOC_ERROR);
-	str[0] = "/bin/pwd";
-	str[1] = NULL;
-	execve(str[0], str, NULL);
-	printf("PWD Error");
-	free(str);
-	return (1);
+	path = getcwd(NULL, 0);
+	if (path == NULL)
+		error(MALLOC_ERROR);
+	printf("%s\n", path);
+	free(path);
+	path = NULL;
+	return (SUCCESS);
 }

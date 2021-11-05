@@ -36,20 +36,3 @@ void	sorting(t_list **export_list)
 		cur = cur->next;
 	}
 }
-
-int main(int ac, char **av, char **envp)
-{
-	t_list	*export_list;
-	(void)ac;
-	(void)av;
-
-	export_list = init_envp(envp);
-	get_env(export_list);
-	sorting(&export_list);
-	printf("-------------------------------------\n");
-	get_env(export_list);
-	// while(1){};
-	return (0);
-}
-
-// ft_strncmp (s1, s2)   -> 올바르게 정렬됨 : 음수, 스위치 해야하면 양수

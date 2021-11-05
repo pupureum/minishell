@@ -1,4 +1,4 @@
-#include "command.h"
+#include "minishell.h"
 
 void	get_env(t_list *envp)
 {

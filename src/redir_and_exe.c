@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 20:12:39 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/04 16:12:20 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/04 20:32:52 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 		printf("shell_fd: %d, proc_fd: %d\n", ((t_fd *)(temp->content))->fd_shell, ((t_fd *)(temp->content))->fd_proc);
 		temp = temp->next;
 	}
-	// execute(curr->content);
+	execute_cmd(curr);
 	//fd table clear;
 	//delete temp file;
 }

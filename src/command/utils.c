@@ -1,4 +1,4 @@
-#include "command.h"
+#include "minishell.h"
 
 void	malloc_error(void)
 {
@@ -42,30 +42,4 @@ int	token_size(char **token)
 	while (token[i++])
 		len++;
 	return (len);
-}
-
-t_list	*init_envp(char *export_list[])
-{
-	int		i;
-	char	*cur_export_list;
-	t_list	*new;
-	t_list	*r;
-
-	i = 0;
-	r = NULL;
-	while (export_list[i])
-	{
-		new = ft_lstnew(export_list[i]);
-		if (new == NULL)
-		{
-			printf("Malloc Error\n");
-			exit(0);
-		}
-		if (r == NULL)
-			r = new;
-		else
-			ft_lstadd_back(&r, new);
-		i++;
-	}
-	return (r);
 }
