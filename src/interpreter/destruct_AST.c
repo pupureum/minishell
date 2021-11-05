@@ -4,10 +4,10 @@ void	free_list(t_list *list)
 {
 	t_list	*temp;
 
-	while (token)
+	while (list)
 	{
-		temp = token;
-		token = token->next;
+		temp = list;
+		list = list->next;
 		if (temp->content)
 			free(((t_token *)(temp->content))->value);
 		free(temp);
