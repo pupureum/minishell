@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:34:44 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 20:57:45 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/05 19:49:32 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,21 @@ int			set_quote_option(char **line, int *cur_option);
 void 		print_series_token(t_list *token);
 void		print_JSON(t_AST_Node	*AST, int indent);
 void		print_indent(int indent);
+
+/*
+translate_env
+*/
+int 		translate_env(t_list *token);
+char    	*get_env_str(char *str);
+
+/*
+translate_home.c
+*/
+int 		translate_home_case(int case_num, t_list *token, char *line);
+
+/*
+translate_dollar.c
+*/
+int			translate_dollar_case(t_list *token, char *line);
 
 #endif

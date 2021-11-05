@@ -50,8 +50,8 @@ void	handler(int signum)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	struct termios	org_term;//canon
-	struct termios	new_term;//noncanon
+	struct termios	org_term;
+	struct termios	new_term;
 
 	(void)argc;
 	(void)argv;

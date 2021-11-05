@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/05 16:38:11 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/05 20:14:22 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ INCLUDE_DIR			=	./include
 
 INTER_SRC_DIR		=	./src/interpreter/
 INTER_SRCS			=	converter.c\
-						destructor.c\
+						destruct_AST.c\
 						interpreter.c\
 						lexer_get_item.c\
 						lexer.c\
@@ -35,8 +35,10 @@ INTER_SRCS			=	converter.c\
 						parse_get_node.c\
 						parse_type_check.c\
 						parser.c\
-						semantic_analyzer.c\
 						util.c
+						# translate_dollar.c
+						# translate_env.c
+						# translate_home.c
 INTER_OBJS			=	$(addprefix $(INTER_SRC_DIR), $(INTER_SRCS:.c=.o))
 
 PIPE_SRC_DIR		=	./src/pipeline/
@@ -63,7 +65,8 @@ COMMAND_OBJS		=	$(addprefix $(COMMAND_SRC_DIR), $(COMMAND_SRCS:.c=.o))
 SRC_DIR				=	src/
 SRCS				=	error.c\
 						execute_cmd.c\
-						init.c\
+						init_envp.c\
+						init_term.c\
 						minishell.c\
 						print_JSON.c\
 						redir_and_exe.c\
@@ -91,6 +94,7 @@ fclean : clean
 re : fclean all
 
 test : $(OBJS) $(INTER_OBJS) $(PIPE_OBJS) $(REDIR_OBJS) $(COMMAND_OBJS)
+	make -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) -g3 -fsanitize=address -o $(NAME) -L $(LIBFT_DIR) -L $(READLINE_LIB_DIR) $(LIBFT_FLAG) $(READLINE_FLAG) $^
 	install_name_tool -change /Users/bylee/.brew/opt/readline/lib/libreadline.8.dylib ./lib/readline/lib/libreadline.8.dylib minishell
 

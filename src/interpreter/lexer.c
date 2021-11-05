@@ -1,12 +1,11 @@
 #include "minishell.h"
 
-static char **remove_not_lexeme(char **line)
+static char **skip_spaces(char **line)
 {
 	if (**line == (char)NULL || *line == NULL)
 		return (NULL);
-    while (**line && *line && ft_strchr(" \n\t", **line))
-        (*line)++;
-	//
+	while (**line && *line && ft_strchr(" \n\t", **line))
+		(*line)++;
 	return line;
 }
 
@@ -47,7 +46,7 @@ static t_token *set_token(char **line, int *cur_option)
 {
 	t_token *token;
 
-	line = remove_not_lexeme(line);
+	line = skip_spaces(line);
 	if (line == NULL)
 		return NULL;
 	token = (t_token *)malloc(sizeof(t_token));
