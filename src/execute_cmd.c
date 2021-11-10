@@ -54,8 +54,7 @@ void	execute_cmd(t_AST_Node *node)
 		result = 0;
 	}
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "export", 7) == 0)
-		result = run_export((((t_cmd *)(node->content))->args),
-				g_shell.export_list, g_shell.env_list);
+		result = run_export(((t_cmd *)(node->content))->args);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "unset", 6) == 0)
 		result = run_unset((((t_cmd *)(node->content))->args),
 				&g_shell.export_list, &g_shell.env_list);
