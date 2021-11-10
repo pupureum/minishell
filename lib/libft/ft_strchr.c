@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 17:51:06 by bylee             #+#    #+#             */
-/*   Updated: 2021/06/30 20:12:57 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/09 20:50:41 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	size_t	index;
+	char	*location;
 
-	index = 0;
-	while (s[index] != c)
+	location = 0;
+	while (*s)
 	{
-		if (s[index] == '\0')
-			return (0);
-		index++;
+		if (*s == c)
+		{
+			location = (char *)s;
+			break ;
+		}
+		s++;
 	}
-	return ((char *)(s + index));
+	return (location);
 }

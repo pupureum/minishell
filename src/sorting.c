@@ -13,7 +13,6 @@ void	sorting(t_list **export_list)
 	t_list	*cur;
 	t_list	*cur2;
 	t_list	*temp;
-	int		list_len;
 	int		i;
 
 	cur = *export_list;

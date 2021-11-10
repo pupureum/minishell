@@ -6,14 +6,14 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:59:31 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 21:00:35 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/09 16:05:49 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPELINE_H
 # define PIPELINE_H
 
-#include "common.h"
+# include "common.h"
 
 /*
 pipeline.c

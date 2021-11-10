@@ -92,7 +92,6 @@ void	append_envp(t_list *export_list, t_list *env_list, void *arg)
 
 t_error	run_export(t_list *args, t_list *export_list, t_list *env_list)
 {
-	char	*temp;
 	int		i;
 	int		len;
 

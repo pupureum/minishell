@@ -6,7 +6,7 @@ static char **skip_spaces(char **line)
 		return (NULL);
 	while (**line && *line && ft_strchr(" \n\t", **line))
 		(*line)++;
-	return line;
+	return (line);
 }
 
 static t_token *get_special_token(t_token *token, char **line, int *cur_option)
@@ -33,7 +33,7 @@ static t_token *get_plain_token(t_token *token, char **line, int *cur_option)
 		*cur_option = CUR_CMD;
 		token->type = CUR_CMD;
 	}
-	token->value = get_plain_item(line, cur_option);
+	token->value = get_plain_item(line, cur_option, &token->type);
 	if (*cur_option & CUR_BEFORE_FD)
 	{
 		token->type = CUR_BEFORE_FD;
@@ -47,10 +47,11 @@ static t_token *set_token(char **line, int *cur_option)
 	t_token *token;
 
 	line = skip_spaces(line);
-	if (line == NULL)
-		return NULL;
+	if (line == NULL || **line == '\0')
+		return (NULL);
 	token = (t_token *)malloc(sizeof(t_token));
-	malloc_error_check(token);
+	if (token == NULL)
+		error(MALLOC_ERROR);
 	if (ft_strchr("|<>", **line))
 		token = get_special_token(token, line, cur_option);
 	else
@@ -60,9 +61,9 @@ static t_token *set_token(char **line, int *cur_option)
 
 static t_list	*scan_line(char **line, int *cur_option)
 {
-	t_list *ret;
-	t_list *head;
-	t_token *token;
+	t_list	*ret;
+	t_list	*head;
+	t_token	*token;
 
 	token = set_token(line, cur_option);
 	if (token == NULL)
@@ -74,6 +75,10 @@ static t_list	*scan_line(char **line, int *cur_option)
 		token = set_token(line, cur_option);
 		if (token == NULL)
 			break;
+		// else if (*(token->value) == '\0')
+		// {
+		// 	if (token->type == CUR_CMD || token->type == CUR_ARG)
+		// }
 		ret->next = ft_lstnew(token);
 		ret = ret->next;
 	}
@@ -82,8 +87,8 @@ static t_list	*scan_line(char **line, int *cur_option)
 
 t_list *lexical_analyzer(char *line)
 {
-	t_list		*tokens;
-	int			cur_option;
+	t_list	*tokens;
+	int		cur_option;
 
 	cur_option = CUR_NONE;
 	tokens = scan_line(&line, &cur_option);

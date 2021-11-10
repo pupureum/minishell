@@ -6,13 +6,13 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/04 15:38:13 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/09 21:53:09 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	create_exe_proc(int idx_cmd, int **fd_pipe, t_AST_Node *node)
+void	create_exe_proc(int idx_cmd, t_AST_Node *node)
 {
 	redir_and_exe(idx_cmd, node);
 	exit(EXIT_SUCCESS);
@@ -30,7 +30,7 @@ void	create_cmd_proc(int idx_cmd, int nums_cmd, int **fd_pipe, t_AST_Node *node)
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
-		create_exe_proc(idx_cmd, fd_pipe, node);
+		create_exe_proc(idx_cmd, node);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		exit(PROCESS_ERROR);

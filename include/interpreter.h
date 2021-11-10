@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:34:44 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/05 19:49:32 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/10 17:11:02 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "common.h"
 
-#define CUR_NONE		0
-#define CUR_PIPE		1
-#define CUR_REDIRECT	2
-#define CUR_BEFORE_FD	4
-#define CUR_AFTER_FD	8
-#define CUR_CMD			16
-#define CUR_ARG			32
-#define CUR_QUOTE		64
-#define CUR_DQUOTE		128
+# define CUR_NONE		0
+# define CUR_PIPE		1
+# define CUR_REDIRECT	2
+# define CUR_BEFORE_FD	4
+# define CUR_AFTER_FD	8
+# define CUR_CMD		16
+# define CUR_ARG		32
+# define CUR_QUOTE		64
+# define CUR_DQUOTE		128
 
 typedef struct s_token
 {
@@ -55,7 +55,7 @@ typedef struct s_cmd
 t_AST_Node	*interpreter(char *line);
 t_list		*lexical_analyzer(char *line);
 char		*get_special_item(char **line, int *cur_option);
-char		*get_plain_item(char **line, int *cur_option);
+char		*get_plain_item(char **line, int *cur_option, int *token_type);
 t_AST_Node	*syntax_analyzer(t_list *token);
 int			type_argument(t_cmd *cmd, t_list **arg, t_token *token);
 int			type_redirect(t_AST_Node **curr, t_list **token);
@@ -64,23 +64,23 @@ t_AST_Node	*parse_get_node(t_list **token);
 
 void		malloc_error_check(void *item);
 int			ft_malloc(void **dst, size_t size);
-int 		check_invalid_fd(char *word);
-int			set_quote_option(char **line, int *cur_option);
+int			check_invalid_fd(char *word);
+int			set_quote_option(char **line, int *temp_option, int *cur_option);
 
-void 		print_series_token(t_list *token);
+void		print_series_token(t_list *token);
 void		print_JSON(t_AST_Node	*AST, int indent);
 void		print_indent(int indent);
 
 /*
 translate_env
 */
-int 		translate_env(t_list *token);
-char    	*get_env_str(char *str);
+int			translate_env(t_list *token);
+char		*get_env_str(char *str);
 
 /*
 translate_home.c
 */
-int 		translate_home_case(int case_num, t_list *token, char *line);
+int			translate_home_case(int case_num, t_list *token, char *line);
 
 /*
 translate_dollar.c

@@ -2,14 +2,14 @@
 
 static int	parse_phrase(t_list **token, t_cmd **cmd, t_list **arg_curr, t_AST_Node **curr)
 {
-	if (((t_token *)(*token)->content)->type == CUR_CMD)
+	if (((t_token *)(*token)->content)->type & CUR_CMD)
 	{
 		if (!ft_malloc((void **)cmd, sizeof(t_cmd)))
 			return (0);
 		(*cmd)->cmd = ((t_token *)(*token)->content)->value;
 		((t_token *)(*token)->content)->value = NULL;
 	}
-	else if (((t_token *)(*token)->content)->type == CUR_ARG)
+	else if (((t_token *)(*token)->content)->type & CUR_ARG)
 	{
 		if (!type_argument(*cmd, arg_curr, (*token)->content))
 			return (0);
@@ -31,7 +31,8 @@ t_AST_Node	*parse_cmd(t_list **token)
 
 	cmd = NULL;
 	node = (t_AST_Node *)malloc(sizeof(t_AST_Node));
-	malloc_error_check(node);
+	if (node == NULL)
+		error(MALLOC_ERROR);
 	series = node;
 
 	while (*token && ((t_token *)(*token)->content)->type & (CUR_CMD | CUR_ARG | CUR_BEFORE_FD | CUR_REDIRECT))

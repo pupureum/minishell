@@ -6,14 +6,14 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/05 20:14:22 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/10 17:10:45 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME				=	minishell
 
 CC					=	gcc
-# CFLAGS				=	-Wall -Wextra -Werror
+CFLAGS				=	-Wall -Wextra -Werror
 RM					=	rm -f
 
 LIBFT_DIR			=	lib/libft/
@@ -35,10 +35,10 @@ INTER_SRCS			=	converter.c\
 						parse_get_node.c\
 						parse_type_check.c\
 						parser.c\
-						util.c
-						# translate_dollar.c
-						# translate_env.c
-						# translate_home.c
+						util.c\
+						translate_dollar.c\
+						translate_env.c\
+						translate_home.c
 INTER_OBJS			=	$(addprefix $(INTER_SRC_DIR), $(INTER_SRCS:.c=.o))
 
 PIPE_SRC_DIR		=	./src/pipeline/

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	free_list(t_list *list)
+void	free_tokens(t_list *list)
 {
 	t_list	*temp;
 
@@ -9,7 +9,10 @@ void	free_list(t_list *list)
 		temp = list;
 		list = list->next;
 		if (temp->content)
+		{
 			free(((t_token *)(temp->content))->value);
+			free(temp->content);
+		}
 		free(temp);
 	}
 }
@@ -27,5 +30,5 @@ void	destruct_AST(t_AST_Node *node)
 		free(((t_redirect *)(node->content))->after_fd);
 	}
 	else
-		free_list(((t_cmd *)(node->content))->args);
+		free_tokens(((t_cmd *)(node->content))->args);
 }

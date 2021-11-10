@@ -5,13 +5,13 @@ t_error	run_cd(t_list *args)
 	char	*path;
 	int		result;
 
-	// if (args == NULL)
-	// {
-	// 	path = get_env_str("HOME");
-	// 	result = chdir(path);
-	// 	free(path);
-	// }
-	// else
+	if (args == NULL)
+	{
+		path = get_env_str("HOME");
+		result = chdir(path);
+		free(path);
+	}
+	else
 		result = chdir((char *)args->content);
 	if (result == -1)
 	{

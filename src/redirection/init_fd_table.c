@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_fd_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 20:00:46 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/02 20:00:53 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/09 21:53:47 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	is_fd_table_valid(t_list *fd_table, int len)
 t_list	*init_fd_table(void)
 {
 	t_list	*fd_table;
-	int		i;
 
 	fd_table = ft_lstnew(fd_new(0, dup(STDIN_FILENO)));
 	ft_lstadd_back(&fd_table, ft_lstnew(fd_new(1, dup(STDOUT_FILENO))));

@@ -62,6 +62,3 @@ t_AST_Node	*parse_get_node(t_list **token)
 		series_node = parse_pipe_case(token, series_node);
 	return (init_node);
 }
-
-
-

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-extern t_minishell g_shell;
+extern t_minishell	g_shell;
 
 void	loop_minishell(struct termios *org, struct termios *new)
 {
@@ -21,15 +21,14 @@ void	loop_minishell(struct termios *org, struct termios *new)
 			error(TERMIOS_ERROR);
 		add_history(g_shell.line);
 		AST = interpreter(g_shell.line);
-		if (AST == NULL)
-		{
-			error(PARSE_ERROR);
-			free(AST);
-		}
-		if (g_shell.cmd_cnt > 1)
-			build_pipeline(AST, g_shell.cmd_cnt);
-		else
-			redir_and_exe(0, AST);
+		// if (AST != NULL)
+		// {
+		// 	if (g_shell.cmd_cnt > 1)
+		// 		build_pipeline(AST, g_shell.cmd_cnt);
+		// 	else
+		// 		redir_and_exe(0, AST);
+		// }
+		//destructor();
 		free(g_shell.line);
 	}
 }
@@ -62,6 +61,6 @@ int	main(int argc, char *argv[], char *envp[])
 	if (init_term(&org_term, &new_term) == TERMIOS_ERROR)
 		error(TERMIOS_ERROR);
 	loop_minishell(&org_term, &new_term);
-	//destructor();
+	//destructor(); + free env
 	return (0);
 }

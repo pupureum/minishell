@@ -49,7 +49,10 @@ void	execute_cmd(t_AST_Node *node)
 	if (ft_strncmp(((t_cmd *)(node->content))->cmd, "cd", 3) == 0)
 		result = run_cd((((t_cmd *)(node->content))->args));
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "env", 4) == 0)
+	{
 		get_env(g_shell.env_list);
+		result = 0;
+	}
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "export", 7) == 0)
 		result = run_export((((t_cmd *)(node->content))->args),
 				g_shell.export_list, g_shell.env_list);

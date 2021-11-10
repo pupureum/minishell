@@ -20,8 +20,6 @@ static t_error	format_envp(char *envp, t_list **list)
 t_error	init_envp(char *envp[])
 {
 	int		i;
-	char	*cur_envp;
-	t_list	*new;
 
 	i = 0;
 	while (envp[i])

@@ -93,7 +93,6 @@ void	del_env(t_list **env_list, char *arg)
 t_error	run_unset(t_list *args, t_list **export_list, t_list **env_list)
 {
 	int		i;
-	char	**env;
 
 	i = 0;
 	while (args)
