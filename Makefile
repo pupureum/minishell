@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/10 17:10:45 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/10 22:12:14 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ SRCS				=	error.c\
 						minishell.c\
 						print_JSON.c\
 						redir_and_exe.c\
-						sorting.c
+						sort_export_list.c
 OBJS				=	$(addprefix $(SRC_DIR), $(SRCS:.c=.o))
 
 .c.o :

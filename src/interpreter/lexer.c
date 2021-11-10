@@ -2,7 +2,7 @@
 
 static char **skip_spaces(char **line)
 {
-	if (**line == (char)NULL || *line == NULL)
+	if (**line == '\0' || *line == NULL)
 		return (NULL);
 	while (**line && *line && ft_strchr(" \n\t", **line))
 		(*line)++;
@@ -75,10 +75,6 @@ static t_list	*scan_line(char **line, int *cur_option)
 		token = set_token(line, cur_option);
 		if (token == NULL)
 			break;
-		// else if (*(token->value) == '\0')
-		// {
-		// 	if (token->type == CUR_CMD || token->type == CUR_ARG)
-		// }
 		ret->next = ft_lstnew(token);
 		ret = ret->next;
 	}

@@ -19,16 +19,27 @@ void	free_tokens(t_list *list)
 
 void	destruct_AST(t_AST_Node *node)
 {
+	if (node == NULL)
+		return ;
 	if (node->type == TYPE_PIPE)
 	{
 		destruct_AST(((t_pipe *)(node->content))->leftchild);
 		destruct_AST(((t_pipe *)(node->content))->rightchild);
+		free(node->content);
+		free(node);
 	}
-	else if (node->type & TYPE_REDIRECT)
+	else if (node->type == TYPE_REDIRECT)
 	{
 		destruct_AST(((t_redirect *)(node->content))->child);
 		free(((t_redirect *)(node->content))->after_fd);
+		free(node->content);
+		free(node);
 	}
 	else
-		free_tokens(((t_cmd *)(node->content))->args);
+	{
+		ft_lstclear(&(((t_cmd *)(node->content))->args), free);
+		free(((t_cmd *)(node->content))->cmd);
+		free(node->content);
+		free(node);
+	}
 }

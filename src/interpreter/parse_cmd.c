@@ -34,7 +34,6 @@ t_AST_Node	*parse_cmd(t_list **token)
 	if (node == NULL)
 		error(MALLOC_ERROR);
 	series = node;
-
 	while (*token && ((t_token *)(*token)->content)->type & (CUR_CMD | CUR_ARG | CUR_BEFORE_FD | CUR_REDIRECT))
 	{
 		parse_phrase(token, &cmd, &arg, &series);

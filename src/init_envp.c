@@ -30,5 +30,6 @@ t_error	init_envp(char *envp[])
 			return (MALLOC_ERROR);
 		i++;
 	}
+	sort_export_list(&(g_shell.export_list));
 	return (SUCCESS);
 }

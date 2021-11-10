@@ -8,7 +8,7 @@ int	get_short_len(char *s1, char *s2)
 		return (ft_strlen(s2));
 }
 
-void	sorting(t_list **export_list)
+void	sort_export_list(t_list **export_list)
 {
 	t_list	*cur;
 	t_list	*cur2;

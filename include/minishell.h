@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:03:21 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/09 20:04:26 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/10 22:11:18 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ execute_cmd.c
 void	execute_cmd(t_AST_Node *node);
 
 /*
+sort_export_list.c
+*/
+void	sort_export_list(t_list **export_list);
+
+/*
 TEMPORARY
 */
 
@@ -65,5 +70,6 @@ TEMPORARY
 # define VALUE_COLOR	"\033[0;32m"
 
 void	free_tokens(t_list *list);
+void	destruct_AST(t_AST_Node *node);
 
 #endif

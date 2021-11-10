@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_minishell	g_shell;
+
 void	convert_env(char *arg, t_list *env_list)
 {
 	char	**value;

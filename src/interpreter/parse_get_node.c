@@ -10,8 +10,7 @@ t_AST_Node *init_AST_Node(int type, void *content)
 	malloc_error_check(ret);
 	ret->type = type;
 	ret->content = content;
-
-	return ret;
+	return (ret);
 }
 
 static t_AST_Node	**get_node_pipe(t_list **token, t_AST_Node **curr)
