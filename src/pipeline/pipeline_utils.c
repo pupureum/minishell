@@ -6,17 +6,11 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 16:54:22 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/03 21:08:12 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/11 20:41:21 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	error_exit(int error_code)
-{
-	printf("error : %d\n", error_code);
-	exit(error_code);
-}
 
 int	hookup_pipes(int idx_cmd, int **fd_pipe, int nums_cmd)
 {

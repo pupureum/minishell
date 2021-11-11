@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/09 21:53:09 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/11 20:43:00 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	create_exe_proc(int idx_cmd, t_AST_Node *node)
 	exit(EXIT_SUCCESS);
 }
 
-void	create_cmd_proc(int idx_cmd, int nums_cmd, int **fd_pipe, t_AST_Node *node)
+void	create_cmd_proc(
+	int idx_cmd, int nums_cmd, int **fd_pipe, t_AST_Node *node)
 {
 	pid_t	pid;
 	int		status;
@@ -69,7 +70,8 @@ int	create_procs(t_AST_Node *node, int **fd_pipe, int nums_cmd)
 		else if (pids[idx_cmd] == 0)
 		{
 			if (idx_cmd != nums_cmd - 1)
-				create_cmd_proc(idx_cmd, nums_cmd, fd_pipe, ((t_pipe *)(node->content))->leftchild);
+				create_cmd_proc(idx_cmd, nums_cmd, fd_pipe, \
+					((t_pipe *)(node->content))->leftchild);
 			else
 				create_cmd_proc(idx_cmd, nums_cmd, fd_pipe, node);
 		}
@@ -87,11 +89,11 @@ int	build_pipeline(t_AST_Node *node, int nums_cmd)
 	result = 0;
 	fd_pipe = malloc_fd_table(nums_cmd);
 	if (fd_pipe == NULL)
-		error_exit(MALLOC_ERROR);
+		error(MALLOC_ERROR);
 	if (fill_fd_table(nums_cmd, fd_pipe))
-		error_exit(PIPE_ERROR);
+		error(PIPE_ERROR);
 	if (create_procs(node, fd_pipe, nums_cmd))
-		error_exit(PROCESS_ERROR);
+		error(PROCESS_ERROR);
 	free_fd_table(fd_pipe);
 	return (result);
 }
