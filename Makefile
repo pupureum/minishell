@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/11 17:14:31 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/11 19:25:05 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,7 @@ READLINE_FLAG		=	-lreadline
 INCLUDE_DIR			=	./include
 
 INTER_SRC_DIR		=	./src/interpreter/
-INTER_SRCS			=	converter.c\
-						destruct_AST.c\
+INTER_SRCS			=	destruct_AST.c\
 						interpreter.c\
 						lexer_get_item.c\
 						lexer.c\

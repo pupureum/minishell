@@ -6,6 +6,8 @@ static char	*get_pipe_token(char **line, int *cur_option)
 
 	*cur_option = CUR_PIPE;
 	ret = ft_strdup("|");
+	if (ret == NULL)
+		error(MALLOC_ERROR);
 	*line += 1;
 	return (ret);
 }
@@ -30,9 +32,9 @@ static char	*get_redirect_token(char **line)
 	return (ret);
 }
 
-char	 *get_special_item(char **line, int *cur_option)
+char	*get_special_item(char **line, int *cur_option)
 {
-	char *token_value;
+	char	*token_value;
 
 	token_value = NULL;
 	if (ft_strchr("|", **line))
@@ -40,26 +42,22 @@ char	 *get_special_item(char **line, int *cur_option)
 	else if (ft_strchr("<>", **line))
 	{
 		if (*cur_option & CUR_REDIRECT)
-		{
-			printf("Parseing Error : Unexpected Cmd Line");
-			return ((char *)PARSE_ERROR);
-		}
+			error(PARSE_ERROR);
 		*cur_option |= CUR_REDIRECT;
 		token_value = get_redirect_token(line);
 	}
 	return (token_value);
 }
 
-static int		check_finite_case(char **line, int *temp_option, int *cur_option)//, int *cur_option)
+static int	check_finite_case(char **line, int *temp_option, int *cur_option)
 {
-
-		while (set_quote_option(line, temp_option, cur_option))
-			*line += 1;
-		if ((*temp_option == CUR_NONE) && ft_strchr(" \n\t<>|", **line))
-			return (1);
-		if (!(**line))
-			return (1);
-		return (0);
+	while (set_quote_option(line, temp_option, cur_option))
+		*line += 1;
+	if ((*temp_option == CUR_NONE) && ft_strchr(" \n\t<>|", **line))
+		return (1);
+	if (!(**line))
+		return (1);
+	return (0);
 }
 
 char	*get_plain_item(char **line, int *cur_option, int *token_type)
@@ -74,12 +72,16 @@ char	*get_plain_item(char **line, int *cur_option, int *token_type)
 	while (**line)
 	{
 		if (check_finite_case(line, &temp_option, token_type))
-			break;
+			break ;
 		null_char[0] = **line;
 		plain = ft_strjoin_free(plain, null_char, 1);
 		if ((*cur_option & (CUR_CMD | CUR_ARG)) && ft_strchr("<>", *(*(line) + 1)) \
 		 && check_invalid_fd(plain))
+		{
+			if (*token_type == CUR_CMD)
+				*cur_option ^= CUR_CMD;
 			*cur_option |= CUR_BEFORE_FD;
+		}
 		if (plain == NULL)
 			error(PARSE_ERROR);
 		*line += 1;

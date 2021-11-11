@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char **skip_spaces(char **line)
+static char	**skip_spaces(char **line)
 {
 	if (**line == '\0' || *line == NULL)
 		return (NULL);
@@ -9,7 +9,7 @@ static char **skip_spaces(char **line)
 	return (line);
 }
 
-static t_token *get_special_token(t_token *token, char **line, int *cur_option)
+static t_token	*get_special_token(t_token *token, char **line, int *cur_option)
 {
 	token->value = get_special_item(line, cur_option);
 	if (*cur_option & CUR_REDIRECT)
@@ -19,7 +19,7 @@ static t_token *get_special_token(t_token *token, char **line, int *cur_option)
 	return (token);
 }
 
-static t_token *get_plain_token(t_token *token, char **line, int *cur_option)
+static t_token	*get_plain_token(t_token *token, char **line, int *cur_option)
 {
 	if (*cur_option & CUR_REDIRECT)
 	{
@@ -42,9 +42,9 @@ static t_token *get_plain_token(t_token *token, char **line, int *cur_option)
 	return (token);
 }
 
-static t_token *set_token(char **line, int *cur_option)
+static t_token	*set_token(char **line, int *cur_option)
 {
-	t_token *token;
+	t_token	*token;
 
 	line = skip_spaces(line);
 	if (line == NULL || **line == '\0')
@@ -59,7 +59,7 @@ static t_token *set_token(char **line, int *cur_option)
 	return (token);
 }
 
-static t_list	*scan_line(char **line, int *cur_option)
+t_list	*scan_line(char **line, int *cur_option)
 {
 	t_list	*ret;
 	t_list	*head;
@@ -74,19 +74,11 @@ static t_list	*scan_line(char **line, int *cur_option)
 	{
 		token = set_token(line, cur_option);
 		if (token == NULL)
-			break;
+			break ;
 		ret->next = ft_lstnew(token);
+		if (ret->next == NULL)
+			error(MALLOC_ERROR);
 		ret = ret->next;
 	}
 	return (head);
-}
-
-t_list *lexical_analyzer(char *line)
-{
-	t_list	*tokens;
-	int		cur_option;
-
-	cur_option = CUR_NONE;
-	tokens = scan_line(&line, &cur_option);
-	return (tokens);
 }

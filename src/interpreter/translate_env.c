@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-extern t_minishell g_shell;
+extern t_minishell	g_shell;
 
 char	*get_env_str(char *str)
 {
@@ -9,7 +9,7 @@ char	*get_env_str(char *str)
 	char	*result;
 
 	list = g_shell.export_list;
-	while(list)
+	while (list)
 	{
 		envp = ft_split((char *)list->content, '=');
 		if (ft_strncmp(envp[0], str, ft_strlen(envp[0]) + 1) == 0)

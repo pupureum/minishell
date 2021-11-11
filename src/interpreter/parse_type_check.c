@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int set_bf_fd(t_list **token, int *flag)
+int	set_bf_fd(t_list **token, int *flag)
 {
-	char *ret;
+	char	*ret;
 
 	ret = NULL;
 	if (((t_token *)(*token)->content)->type == CUR_BEFORE_FD)
@@ -16,19 +16,22 @@ int set_bf_fd(t_list **token, int *flag)
 	return (ft_atoi(ret));
 }
 
-static void check_redirect_mode(t_list **token, t_redirect *redirect, int bf_fd, int default_flag)
+static void	check_redirect_mode(
+	t_list **token, t_redirect *redirect, int bf_fd, int default_flag)
 {
-	if (!ft_strcmp(((t_token *)(*token)->content)->value, "<")) // 0
+	if (!ft_strcmp(((t_token *)(*token)->content)->value, "<"))
 		redirect->type = TYPE_REDIR_STDIN;
-	else if (!ft_strcmp(((t_token *)(*token)->content)->value, ">")) // 1
+	else if (!ft_strcmp(((t_token *)(*token)->content)->value, ">"))
 		redirect->type = TYPE_REDIR_STDOUT;
-	else if (!ft_strcmp(((t_token *)(*token)->content)->value, "<<")) // 0
+	else if (!ft_strcmp(((t_token *)(*token)->content)->value, "<<"))
 		redirect->type = TYPE_REDIR_HEREDOC;
-	else if (!ft_strcmp(((t_token *)(*token)->content)->value, ">>")) // 1
+	else if (!ft_strcmp(((t_token *)(*token)->content)->value, ">>"))
 		redirect->type = TYPE_REDIR_APPEND;
-	if (default_flag == 1 && (redirect->type & (TYPE_REDIR_STDIN | TYPE_REDIR_HEREDOC)))
+	if (default_flag == 1
+		&& (redirect->type & (TYPE_REDIR_STDIN | TYPE_REDIR_HEREDOC)))
 		redirect->before_fd = 0;
-	else if (default_flag == 1 && (redirect->type & (TYPE_REDIR_STDOUT | TYPE_REDIR_APPEND)))
+	else if (default_flag == 1
+		&& (redirect->type & (TYPE_REDIR_STDOUT | TYPE_REDIR_APPEND)))
 		redirect->before_fd = 1;
 	else
 		redirect->before_fd = bf_fd;

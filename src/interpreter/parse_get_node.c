@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-extern t_minishell g_shell;
+extern t_minishell	g_shell;
 
-t_AST_Node *init_AST_Node(int type, void *content)
+t_AST_Node	*init_AST_Node(int type, void *content)
 {
-	t_AST_Node *ret;
+	t_AST_Node	*ret;
 
 	ret = (t_AST_Node *)malloc(sizeof(t_AST_Node));
 	malloc_error_check(ret);
@@ -33,7 +33,7 @@ static t_AST_Node	**get_node_pipe(t_list **token, t_AST_Node **curr)
 
 static t_AST_Node	**parse_pipe_case(t_list **token, t_AST_Node **curr)
 {
-	t_AST_Node *temp;
+	t_AST_Node	*temp;
 
 	temp = NULL;
 	if (((t_token *)(*token)->content)->type == CUR_PIPE)

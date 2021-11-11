@@ -2,11 +2,8 @@
 
 t_AST_Node	*syntax_analyzer(t_list *token)
 {
-	t_AST_Node		*Node;
+	t_AST_Node	*node;
 
-	Node = parse_get_node(&token);
-	return (Node);
+	node = parse_get_node(&token);
+	return (node);
 }
-
-
-

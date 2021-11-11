@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-static int	parse_phrase(t_list **token, t_cmd **cmd, t_list **arg_curr, t_AST_Node **curr)
+static int	parse_phrase(
+	t_list **token, t_cmd **cmd, t_list **arg_curr, t_AST_Node **curr)
 {
 	if (((t_token *)(*token)->content)->type & CUR_CMD)
 	{
@@ -14,7 +15,8 @@ static int	parse_phrase(t_list **token, t_cmd **cmd, t_list **arg_curr, t_AST_No
 		if (!type_argument(*cmd, arg_curr, (*token)->content))
 			return (0);
 	}
-	else if (((t_token *)(*token)->content)->type & (CUR_REDIRECT | CUR_BEFORE_FD))
+	else if (((t_token *)(*token)->content)->type
+		& (CUR_REDIRECT | CUR_BEFORE_FD))
 	{
 		if (!type_redirect(curr, token))
 			return (0);
@@ -34,7 +36,8 @@ t_AST_Node	*parse_cmd(t_list **token)
 	if (node == NULL)
 		error(MALLOC_ERROR);
 	series = node;
-	while (*token && ((t_token *)(*token)->content)->type & (CUR_CMD | CUR_ARG | CUR_BEFORE_FD | CUR_REDIRECT))
+	while (*token && ((t_token *)(*token)->content)->type
+		& (CUR_CMD | CUR_ARG | CUR_BEFORE_FD | CUR_REDIRECT))
 	{
 		parse_phrase(token, &cmd, &arg, &series);
 		*token = (*token)->next;

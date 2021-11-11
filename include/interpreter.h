@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:34:44 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/10 17:11:02 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/11 19:32:23 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct s_cmd
 }	t_cmd;
 
 t_AST_Node	*interpreter(char *line);
-t_list		*lexical_analyzer(char *line);
+// t_list		*lexical_analyzer(char *line);
+t_list		*scan_line(char **line, int *cur_option);
 char		*get_special_item(char **line, int *cur_option);
 char		*get_plain_item(char **line, int *cur_option, int *token_type);
 t_AST_Node	*syntax_analyzer(t_list *token);

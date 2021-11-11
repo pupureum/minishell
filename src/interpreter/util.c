@@ -1,12 +1,9 @@
 #include "minishell.h"
 
-void malloc_error_check(void *item)
+void	malloc_error_check(void *item)
 {
-    if (item == NULL)
-    {
-        printf("%s\n", strerror(12));
-        exit(1);
-    }
+	if (item == NULL)
+		error(MALLOC_ERROR);
 }
 
 int	ft_malloc(void **dst, size_t size)
@@ -17,16 +14,18 @@ int	ft_malloc(void **dst, size_t size)
 	return (1);
 }
 
-void print_series_token(t_list *token)
+void	print_series_token(t_list *token)
 {
-	t_list *temp;
-	int count;
+	t_list	*temp;
+	int		count;
 
 	temp = token;
 	count = 0;
 	while (temp)
 	{
-		printf("token num : %d, token_type: %d, token_value: %s\n", count, ((t_token *)(temp)->content)->type, ((t_token *)(temp)->content)->value);
+		printf("token num : %d, token_type: %d, token_value: %s\n", \
+			count, ((t_token *)(temp)->content)->type, \
+			((t_token *)(temp)->content)->value);
 		temp = temp->next;
 		count++;
 	}
@@ -41,11 +40,13 @@ void	print_indent(int indent)
 	}
 }
 
-int check_invalid_fd(char *word)
+int	check_invalid_fd(char *word)
 {
-	char *ptr;
-	int  num;
+	char	*ptr;
+	int		num;
 
+	if (word == NULL)
+		error(MALLOC_ERROR);
 	ptr = word;
 	while (*ptr)
 	{
@@ -57,7 +58,7 @@ int check_invalid_fd(char *word)
 	}
 	ptr = word;
 	num = ft_atoi(ptr);
-	if (num <= 255 && num >=0)
+	if (num <= 255 && num >= 0)
 		return (1);
 	return (0);
 }
