@@ -13,7 +13,6 @@ int set_bf_fd(t_list **token, int *flag)
 	}
 	if (ret == NULL)
 		return (-1);
-
 	return (ft_atoi(ret));
 }
 
@@ -72,7 +71,6 @@ int	type_redirect(t_AST_Node **curr, t_list **token)
 	redirect->after_fd = ((t_token *)(*token)->content)->value;
 	((t_token *)(*token)->content)->value = NULL;
 	redirect->child = (t_AST_Node *)malloc(sizeof(t_AST_Node));
-	if (redirect->child == NULL)
 	malloc_error_check(redirect->child);
 	*curr = redirect->child;
 	return (1);

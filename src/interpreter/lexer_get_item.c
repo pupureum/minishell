@@ -79,7 +79,7 @@ char	*get_plain_item(char **line, int *cur_option, int *token_type)
 		plain = ft_strjoin_free(plain, null_char, 1);
 		if ((*cur_option & (CUR_CMD | CUR_ARG)) && ft_strchr("<>", *(*(line) + 1)) \
 		 && check_invalid_fd(plain))
-			*cur_option = CUR_BEFORE_FD;
+			*cur_option |= CUR_BEFORE_FD;
 		if (plain == NULL)
 			error(PARSE_ERROR);
 		*line += 1;
