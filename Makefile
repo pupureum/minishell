@@ -6,14 +6,14 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/11 19:25:05 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/13 01:50:22 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME				=	minishell
 
 CC					=	gcc
-CFLAGS				=	-Wall -Wextra -Werror
+# CFLAGS				=	-Wall -Wextra -Werror
 RM					=	rm -f
 
 LIBFT_DIR			=	lib/libft/
@@ -47,8 +47,10 @@ PIPE_OBJS			=	$(addprefix $(PIPE_SRC_DIR), $(PIPE_SRCS:.c=.o))
 
 REDIR_SRC_DIR		=	./src/redirection/
 REDIR_SRCS			=	fd_new.c\
+						format_filename.c\
 						handle_redir.c\
 						init_fd_table.c\
+						redirect.c\
 						search_proc_fd.c
 REDIR_OBJS			=	$(addprefix $(REDIR_SRC_DIR), $(REDIR_SRCS:.c=.o))
 

@@ -95,20 +95,20 @@ void	append_envp(char *arg)
 
 t_error	run_export(t_list *args)
 {
-	int		i;
-	int		len;
+	// int		i;
+	// int		len;
 
-	i = 0;
-	len = ft_lstsize(args);
-	if (len == 0)
-		print_export_list(g_shell.export_list);
-	else
-	{
-		while (args)
-		{
-			append_envp((char *)(args->content));
-			args = args->next;
-		}
-	}
+	// i = 0;
+	// len = ft_lstsize(args);
+	// if (len == 0)
+	// 	print_export_list(g_shell.export_list);
+	// else
+	// {
+	// 	while (args)
+	// 	{
+	// 		append_envp((char *)(args->content));
+	// 		args = args->next;
+	// 	}
+	// }
 	return (SUCCESS);
 }

@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   format_filename.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 15:35:30 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/12 21:12:03 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/12 22:57:37 by jihoolee          #+#    #+#             */
+/*   Updated: 2021/11/12 22:57:52 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "minishell.h"
 
-typedef enum e_rror
+char	*format_filename(int idx)
 {
-	SUCCESS = 0,
-	MALLOC_ERROR,
-	TERMIOS_ERROR,
-	RL_ERROR,
-	PARSE_ERROR,
-	EXEC_ERROR,
-	PIPE_ERROR,
-	PROCESS_ERROR,
-	FORK_ERROR,
-	FD_DUP_ERROR,
-	HEREDOC_ERROR,
-	FILE_OPEN_ERROR,
-	EXECVE_ERROR,
-	PATH_OPEN_ERROR
-}	t_error;
+	char	*num_str;
+	char	*filename;
 
-/*
-error.c
-*/
-void	error(t_error error_code);
-
-#endif
+	num_str = ft_itoa(idx);
+	filename = ft_strjoin(".tempfile", num_str);
+	free(num_str);
+	return (filename);
+}

@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 21:00:47 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/09 16:06:05 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/13 01:49:34 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,15 @@ int		search_proc_fd(t_list *fd_table, int shell_fd);
 t_error	handle_redir(int idx_cmd, t_list **fd_table, t_redirect *redir);
 
 t_list	*init_fd_table(void);
+
+/*
+format_filename.c
+*/
+char	*format_filename(int idx);
+
+/*
+redirect.c
+*/
+t_error	redirect(int redir_to_fd, t_list **fd_table, t_redirect *redir);
+
 #endif

@@ -6,13 +6,35 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 20:12:39 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/10 19:42:42 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/13 02:15:55 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern t_minishell	g_shell;
+
+void	print_fd_table(t_list *fd_table)
+{
+	while (fd_table)
+	{
+		printf("shell_fd: %d. proc_fd: %d\n", \
+			((t_fd *)(fd_table->content))->fd_shell, \
+			((t_fd *)(fd_table->content))->fd_proc);
+		fd_table = fd_table->next;
+	}
+}
+
+static void	delete_tempfile(int idx_cmd)
+{
+	char	*filename;
+
+	filename = format_filename(idx_cmd);
+	if (filename == NULL)
+		error(MALLOC_ERROR);
+	unlink(filename);
+	free(filename);
+}
 
 void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 {
@@ -29,13 +51,9 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 			break ;
 		curr = ((t_redirect *)curr->content)->child;
 	}
-	t_list	*temp = fd_table;
-	while (temp)
-	{
-		printf("shell_fd: %d, proc_fd: %d\n", ((t_fd *)(temp->content))->fd_shell, ((t_fd *)(temp->content))->fd_proc);
-		temp = temp->next;
-	}
-	execute_cmd(curr);
-	//fd table clear;
-	//delete temp file;
+	print_fd_table(fd_table);
+	if (curr->type == TYPE_CMD)
+		execute_cmd(curr);
+	ft_lstclear(&fd_table, free);
+	delete_tempfile(idx_cmd);
 }

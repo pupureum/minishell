@@ -92,29 +92,29 @@ void	del_env(t_list **env_list, char *arg)
 
 t_error	run_unset(t_list *args, t_list **export_list, t_list **env_list)
 {
-	int		i;
+	// int		i;
 
-	i = 0;
-	while (args)
-	{
-		if (ft_strchr((char *)(args->content), '=') != NULL)
-		{
-			printf("bash: unset: `%s': not a valid identifier\n", (char *)(args->content));
-			return (1);
-		}
-		if ((ft_strncmp((char *)(args->content), (*export_list)->content, ft_strlen((char *)(args->content)) + 1)
-				== 0) || (ft_strncmp((char *)(args->content), (*export_list)->content,
-					 ft_strlen((char *)(args->content)) + 1) == 0))
-		{
-			*export_list = (*export_list)->next;
-			*env_list = (*env_list)->next;
-		}
-		else
-		{
-			del_export(export_list, (char *)(args->content));
-			del_env(env_list, (char *)(args->content));
-		}
-		args = args->next;
-	}
+	// i = 0;
+	// while (args)
+	// {
+	// 	if (ft_strchr((char *)(args->content), '=') != NULL)
+	// 	{
+	// 		printf("bash: unset: `%s': not a valid identifier\n", (char *)(args->content));
+	// 		return (1);
+	// 	}
+	// 	if ((ft_strncmp((char *)(args->content), (*export_list)->content, ft_strlen((char *)(args->content)) + 1)
+	// 			== 0) || (ft_strncmp((char *)(args->content), (*export_list)->content,
+	// 				 ft_strlen((char *)(args->content)) + 1) == 0))
+	// 	{
+	// 		*export_list = (*export_list)->next;
+	// 		*env_list = (*env_list)->next;
+	// 	}
+	// 	else
+	// 	{
+	// 		del_export(export_list, (char *)(args->content));
+	// 		del_env(env_list, (char *)(args->content));
+	// 	}
+	// 	args = args->next;
+	// }
 	return (SUCCESS);
 }

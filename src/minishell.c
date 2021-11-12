@@ -2,6 +2,17 @@
 
 extern t_minishell	g_shell;
 
+void	anonymous(t_AST_Node *AST)
+{
+	if (AST != NULL)
+	{
+		if (g_shell.cmd_cnt > 1)
+			build_pipeline(AST, g_shell.cmd_cnt);
+		else
+			redir_and_exe(0, AST);
+	}
+}
+
 void	loop_minishell(struct termios *org, struct termios *new)
 {
 	t_AST_Node	*AST;
@@ -21,13 +32,7 @@ void	loop_minishell(struct termios *org, struct termios *new)
 			error(TERMIOS_ERROR);
 		add_history(g_shell.line);
 		AST = interpreter(g_shell.line);
-		// if (AST != NULL)
-		// {
-		// 	if (g_shell.cmd_cnt > 1)
-		// 		build_pipeline(AST, g_shell.cmd_cnt);
-		// 	else
-		// 		redir_and_exe(0, AST);
-		// }
+		anonymous(AST);
 		destruct_AST(AST);
 		free(g_shell.line);
 	}
