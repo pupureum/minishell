@@ -7,8 +7,8 @@
 
 void	free_str(char **str);
 int		token_size(char **token);
-t_error	run_cd(t_list *args);
-t_error	get_pwd(void);
+int		run_cd(t_list *args, t_list *fd_table);
+int		get_pwd(t_list *fd_table);
 void	print_export_list(t_list *export_list);
 char	*make_str(t_list *export_list);
 void	add_to_list(char *token, int num);

@@ -2,7 +2,7 @@
 
 extern t_minishell	g_shell;
 
-void	run_execve(t_cmd *cmd)
+/* void	run_execve(t_cmd *cmd)
 {
 	char	**str;
 	int		len;
@@ -64,9 +64,9 @@ void	execute_cmd(t_AST_Node *node)
 		result = fork_cmd(((t_cmd *)(node->content)));
 	if (result != SUCCESS)
 		g_shell.exit_status = result;
-}
+} */
 
-/*
+
 // char	*format_
 
 void	run_execve(t_cmd *cmd)
@@ -120,7 +120,7 @@ void	execute_cmd(t_AST_Node *node, t_list *fd_table)
 	int	result;
 
 	if (ft_strncmp(((t_cmd *)(node->content))->cmd, "cd", 3) == 0)
-		result = run_cd((((t_cmd *)(node->content))->args, fd_table));
+		result = run_cd(((t_cmd *)(node->content))->args, fd_table);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "env", 4) == 0)
 	{
 		get_env(g_shell.env_list);
@@ -133,9 +133,10 @@ void	execute_cmd(t_AST_Node *node, t_list *fd_table)
 				&g_shell.export_list, &g_shell.env_list);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "pwd", 4) == 0)
 		result = get_pwd(fd_table);
+	else if (ft_stncmp(((t_cmd * )(node->content))->cmd, "exit", 5) == 0)
+		result = run_exit(fd_table);
 	else
 		result = fork_cmd(((t_cmd *)(node->content)), fd_table);
 	if (result != SUCCESS)
 		g_shell.exit_status = result;
 }
-*/

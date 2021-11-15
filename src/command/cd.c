@@ -1,10 +1,12 @@
 #include "minishell.h"
 
-t_error	run_cd(t_list *args)
+int	run_cd(t_list *args, t_list *fd_table)
 {
-	char	*path;
 	int		result;
+	int		err_fd;
+	char	*path;
 
+	err_fd = search_proc_fd(fd_table, 2);
 	if (args == NULL)
 	{
 		path = get_env_str("HOME");
@@ -15,8 +17,10 @@ t_error	run_cd(t_list *args)
 		result = chdir((char *)args->content);
 	if (result == -1)
 	{
-		printf("bash: cd: %s: No such file or directory\n", args->content);
-		return (PATH_OPEN_ERROR);
+		write(err_fd, "bash: cd: ", 10);
+		write(err_fd, args->content, ft_strlen(args->content));
+		write(err_fd, ": No such file or directory\n", 28);
+		return (1);
 	}
 	return (SUCCESS);
 }
