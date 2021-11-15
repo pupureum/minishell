@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
+#    By: bylee <bylee@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/13 01:50:22 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/15 20:44:00 by bylee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ COMMAND_SRCS		=	cd.c\
 						export.c\
 						pwd.c\
 						unset.c\
+						exit.c\
 						utils.c
 COMMAND_OBJS		=	$(addprefix $(COMMAND_SRC_DIR), $(COMMAND_SRCS:.c=.o))
 

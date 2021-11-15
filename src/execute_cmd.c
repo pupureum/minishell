@@ -134,7 +134,7 @@ void	execute_cmd(t_AST_Node *node, t_list *fd_table)
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "pwd", 4) == 0)
 		result = get_pwd(fd_table);
 	else if (ft_stncmp(((t_cmd * )(node->content))->cmd, "exit", 5) == 0)
-		result = run_exit(fd_table);
+		result = ft_exit((((t_cmd *)(node->content))->args), fd_table);
 	else
 		result = fork_cmd(((t_cmd *)(node->content)), fd_table);
 	if (result != SUCCESS)
