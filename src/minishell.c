@@ -66,6 +66,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (init_term(&org_term, &new_term) == TERMIOS_ERROR)
 		error(TERMIOS_ERROR);
 	loop_minishell(&org_term, &new_term);
-	//destructor(); + free env
+	ft_lstclear(&(g_shell.export_list), free);
+	ft_lstclear(&(g_shell.env_list), free);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_and_exe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
+/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 20:12:39 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/13 02:15:55 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/15 20:59:16 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 	}
 	print_fd_table(fd_table);
 	if (curr->type == TYPE_CMD)
-		execute_cmd(curr);
+		execute_cmd(curr, fd_table);
 	ft_lstclear(&fd_table, free);
 	delete_tempfile(idx_cmd);
 }
