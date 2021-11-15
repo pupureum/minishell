@@ -14,7 +14,7 @@ void	add_to_list(char *token, int num)
 	t_list	*new;
 
 	arg = ft_strdup(token);
-	new = ft_lstnew(token);
+	new = ft_lstnew(arg);
 	if (arg == NULL || new == NULL)
 		error(MALLOC_ERROR);
 	if (num == 2)
