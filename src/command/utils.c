@@ -10,14 +10,13 @@ void	malloc_error(void)
 
 void	add_to_list(char *token, int num)
 {
+	char	*arg;
 	t_list	*new;
 
+	arg = ft_strdup(token);
 	new = ft_lstnew(token);
-	if (new == NULL)
-	{
-		printf("Malloc Error");
-		exit(0);
-	}
+	if (arg == NULL || new == NULL)
+		error(MALLOC_ERROR);
 	if (num == 2)
 	{
 		ft_lstadd_back(&g_shell.export_list, new);

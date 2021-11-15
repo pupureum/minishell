@@ -13,26 +13,28 @@ char	*make_str(t_list *export_list)
 	return (value);
 }
 
-void	print_export_list(t_list *export_list)
+void	print_export_list()
 {
 	char	**name;
 	char	*value;
+	t_list	*envp;
 
-	while (export_list)
+	envp = g_shell.export_list;
+	while (envp)
 	{
-		if (ft_strchr(export_list->content, '=') != NULL)
+		if (ft_strchr(envp->content, '=') != NULL)
 		{
-			value = make_str(export_list);
-			name = ft_split(export_list->content, '=');
+			value = make_str(envp);
+			name = ft_split(envp->content, '=');
 			if (name == NULL)
 				malloc_error();
 			printf("declare -x %s=\"%s\"\n", name[0], value);
 			free_str(name);
 			free(value);
 		}
-		else if (ft_strchr(export_list->content, '=') == NULL)
-			printf("declare -x %s\n", (char *)(export_list->content));
-		export_list = export_list->next;
+		else if (ft_strchr(envp->content, '=') == NULL)
+			printf("declare -x %s\n", (char *)(envp->content));
+		envp = envp->next;
 	}
 }
 
@@ -90,7 +92,7 @@ void	del_env(t_list **env_list, char *arg)
 	}
 }
 
-t_error	run_unset(t_list *args, t_list **export_list, t_list **env_list)
+int	run_unset(t_list *args, t_list **export_list, t_list **env_list)
 {
 	// int		i;
 
