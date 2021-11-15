@@ -16,7 +16,7 @@ int	is_numeric(char *str)
 	return (0);
 }
 
-void	run_exit(t_list *args, int err_fd, int arg_count)
+static void	run_exit(t_list *args, int err_fd, int arg_count)
 {
 	write(err_fd, "exit\n", 5);
 	if (arg_count == 0)
@@ -28,8 +28,9 @@ void	run_exit(t_list *args, int err_fd, int arg_count)
 	else
 	{
 		write(err_fd, "bash: exit: ", 13);
-		write(err_fd, ((char *)args->content), ft_strlen(((char *)args->content)));
-		write(err_fd, ": numeric argument required\n" , 29);
+		write(err_fd, ((char *)args->content), \
+			ft_strlen(((char *)args->content)));
+		write(err_fd, ": numeric argument required\n", 29);
 		exit(255);
 	}
 }
