@@ -2,29 +2,16 @@
 
 extern t_minishell	g_shell;
 
-void	malloc_error(void)
+void	add_to_list(char *token, t_list **list)
 {
-	printf("Malloc Error\n");
-	exit(0);
-}
-
-void	add_to_list(char *token, int num)
-{
+	char	*arg;
 	t_list	*new;
 
-	new = ft_lstnew(token);
-	if (new == NULL)
-	{
-		printf("Malloc Error");
-		exit(0);
-	}
-	if (num == 2)
-	{
-		ft_lstadd_back(&g_shell.export_list, new);
-		ft_lstadd_back(&g_shell.env_list, new);
-	}
-	else
-		ft_lstadd_back(&g_shell.export_list, new);
+	arg = ft_strdup(token);
+	new = ft_lstnew(arg);
+	if (arg == NULL || new == NULL)
+		error(MALLOC_ERROR);
+	ft_lstadd_back(list, new);
 }
 
 void	free_str(char **str)

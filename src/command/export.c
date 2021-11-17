@@ -2,113 +2,98 @@
 
 extern t_minishell	g_shell;
 
-void	convert_env(char *arg)
+void	update_env_val(t_list *env_list, char *arg)
 {
-	char	**value;
-	char	**envp;
-	t_list	*cur;
-
-	cur = g_shell.env_list;
-	value = ft_split(arg, '=');
-	if (value == NULL)
-		malloc_error();
-	while (cur)
-	{
-		envp = ft_split((char *)(g_shell.env_list->content), '=');
-		if (envp == NULL)
-			malloc_error();
-		if (ft_strncmp(envp[0], value[0], ft_strlen(value[0]) + 1) == 0
-			&& (ft_strchr(arg, '=') != NULL))
-		{
-			g_shell.env_list->content = arg;
-			free_str(envp);
-			free_str(value);
-			return ;
-		}
-		cur = cur->next;
-		free_str(envp);
-	}
-	free_str(value);
-}
-
-int	update_envp(char **envp, char *arg)
-{
-	char	**value;
-
-	value = ft_split(arg, '=');
-	if (value == NULL)
-		malloc_error();
-	if (ft_strncmp(envp[0], value[0], ft_strlen(value[0]) + 1) == 0
-		&& (ft_strchr(arg, '=') != NULL))
-	{
-		g_shell.export_list->content = arg;
-		convert_env(arg);
-		g_shell.export_list = g_shell.export_list->next;
-		free_str(value);
-		free_str(envp);
-		return (END);
-	}
-	else if (ft_strncmp(envp[0], value[0], ft_strlen(value[0]) + 1) == 0
-		&& (ft_strchr(arg, '=') == NULL))
-	{
-		g_shell.export_list = g_shell.export_list->next;
-		free_str(value);
-		free_str(envp);
-		return (END);
-	}
-	free_str(value);
-	return (0);
-}
-
-int	check_dup(char *arg)
-{
-	char	**envp;
+	char	**env_key_val;
+	char	**arg_key_val;
 	int		result;
-	t_list	*cur;
 
-	cur = g_shell.export_list;
-	while (cur)
+	result = 0;
+	arg_key_val = ft_split(arg, '=');
+	if (arg_key_val == NULL)
+		error(MALLOC_ERROR);
+	while (env_list && result == 0)
 	{
-		envp = ft_split(g_shell.export_list->content, '=');
-		result = update_envp(envp, arg);
-		if (result == END)
-			return (END);
-		cur = cur->next;
-		free_str(envp);
+		env_key_val = ft_split(env_list->content, '=');
+		if (ft_strncmp(arg_key_val[0], env_key_val[0],
+				ft_strlen(arg_key_val[0]) + 1) == 0)
+		{
+			free(env_list->content);
+			env_list->content = ft_strdup(arg);
+			if (env_list->content == NULL)
+				error(MALLOC_ERROR);
+			result = 1;
+		}
+		free_str(env_key_val);
+		env_list = env_list->next;
 	}
-	return (0);
+	free_str(arg_key_val);
 }
 
-void	append_envp(char *arg)
+int	check_dup(t_list *list, char *arg)
 {
+	char	**env_key_val;
+	char	**arg_key_val;
+	int		result;	
+
+	arg_key_val = ft_split(arg, '=');
+	result = 0;
+	if (arg_key_val == NULL)
+		error(MALLOC_ERROR);
+	while (list && result == 0)
+	{
+		env_key_val = ft_split(list->content, '=');
+		if (ft_strncmp(arg_key_val[0], env_key_val[0],
+				ft_strlen(arg_key_val[0]) + 1) == 0)
+			result = 1;
+		free_str(env_key_val);
+		list = list->next;
+	}
+	free_str(arg_key_val);
+	return (result);
+}
+
+int	append_envp(char *arg)
+{
+	if (arg[0] == '=')
+	{
+		printf("bash: export: '%s': not a valid identifier\n", arg);
+		return (1);
+	}
 	if (ft_strchr(arg, '=') != NULL)
 	{
-		if (check_dup(arg) == 0)
-			add_to_list(arg, 2);
+		if (check_dup(g_shell.export_list, arg))
+			update_env_val(g_shell.export_list, arg);
+		else
+			add_to_list(arg, &g_shell.export_list);
+		if (check_dup(g_shell.env_list, arg))
+			update_env_val(g_shell.env_list, arg);
+		else
+			add_to_list(arg, &g_shell.env_list);
 	}
 	else
-	{
-		if (check_dup(arg) == 0)
-			add_to_list(arg, 1);
-	}
+		if (check_dup(g_shell.export_list, arg) == 0)
+			add_to_list(arg, &g_shell.export_list);
+	return (SUCCESS);
 }
 
-t_error	run_export(t_list *args)
+int	run_export(t_list *args)
 {
-	// int		i;
-	// int		len;
+	int		i;
+	int		len;
 
-	// i = 0;
-	// len = ft_lstsize(args);
-	// if (len == 0)
-	// 	print_export_list(g_shell.export_list);
-	// else
-	// {
-	// 	while (args)
-	// 	{
-	// 		append_envp((char *)(args->content));
-	// 		args = args->next;
-	// 	}
-	// }
+	i = 0;
+	len = ft_lstsize(args);
+	if (len == 0)
+		print_export_list();
+	else
+	{
+		while (args)
+		{
+			if (append_envp((char *)(args->content)) != SUCCESS)
+				return (1);
+			args = args->next;
+		}
+	}
 	return (SUCCESS);
 }

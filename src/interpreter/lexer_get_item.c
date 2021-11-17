@@ -75,8 +75,8 @@ char	*get_plain_item(char **line, int *cur_option, int *token_type)
 			break ;
 		null_char[0] = **line;
 		plain = ft_strjoin_free(plain, null_char, 1);
-		if ((*cur_option & (CUR_CMD | CUR_ARG)) && ft_strchr("<>", *(*(line) + 1)) \
-		 && check_invalid_fd(plain))
+		if ((*cur_option & (CUR_CMD | CUR_ARG)) \
+		&& ft_strchr("<>", *(*(line) + 1)) && check_invalid_fd(plain))
 		{
 			if (*token_type == CUR_CMD)
 				*cur_option ^= CUR_CMD;

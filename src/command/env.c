@@ -1,10 +1,16 @@
 #include "minishell.h"
 
-void	get_env(t_list *envp)
+extern t_minishell	g_shell;
+
+int	get_env(void)
 {
-	// while (envp)
-	// {
-	// 	printf ("%s\n", (char *)(envp->content));
-	// 	envp = envp->next;
-	// }
+	t_list	*envp;
+
+	envp = g_shell.env_list;
+	while (envp)
+	{
+		printf ("%s\n", (char *)(envp->content));
+		envp = envp->next;
+	}
+	return (SUCCESS);
 }

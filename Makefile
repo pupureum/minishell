@@ -6,14 +6,14 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/17 21:11:49 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/17 21:42:27 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME				=	minishell
 
 CC					=	gcc
-# CFLAGS				=	-Wall -Wextra -Werror
+CFLAGS				=	-Wall -Wextra -Werror
 RM					=	rm -f
 
 LIBFT_DIR			=	lib/libft/
@@ -60,6 +60,7 @@ COMMAND_SRCS		=	cd.c\
 						execve.c\
 						exit.c\
 						export.c\
+						print_export_list.c\
 						pwd.c\
 						unset.c\
 						utils.c

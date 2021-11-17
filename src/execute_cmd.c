@@ -30,15 +30,11 @@ void	execute_cmd(t_AST_Node *node, t_list *fd_table)
 	if (ft_strncmp(((t_cmd *)(node->content))->cmd, "cd", 3) == 0)
 		result = run_cd(((t_cmd *)(node->content))->args, fd_table);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "env", 4) == 0)
-	{
-		get_env(g_shell.env_list);
-		result = 0;
-	}
+		result = get_env();
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "export", 7) == 0)
 		result = run_export(((t_cmd *)(node->content))->args);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "unset", 6) == 0)
-		result = run_unset((((t_cmd *)(node->content))->args),
-				&g_shell.export_list, &g_shell.env_list);
+		result = run_unset(((t_cmd *)(node->content))->args);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "pwd", 4) == 0)
 		result = get_pwd(fd_table);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "exit", 5) == 0)

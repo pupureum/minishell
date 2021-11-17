@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:34 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/17 20:18:42 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/17 21:40:11 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	open_heredoc(int idx_cmd, char *EOF_str)
 	while (1)
 	{
 		line = readline("> ");
-		if (line == NULL|| ft_strncmp(line, EOF_str, ft_strlen(EOF_str) + 1) == 0)
+		if (line == NULL \
+			|| ft_strncmp(line, EOF_str, ft_strlen(EOF_str) + 1) == 0)
 			break ;
 		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);
@@ -116,4 +117,3 @@ t_error	handle_redir(int idx_cmd, t_list **fd_table, t_redirect *redir)
 		return (FILE_OPEN_ERROR);
 	return (redirect(redir_to_fd, fd_table, redir));
 }
-

@@ -1,120 +1,83 @@
 #include "minishell.h"
 
-char	*make_str(t_list *export_list)
-{
-	char	*temp;
-	char	*value;
+extern t_minishell	g_shell;
 
-	temp = ft_strchr(export_list->content, '=');
-	temp++;
-	value = ft_strdup(temp);
-	if (value == 0)
-		malloc_error();
-	return (value);
-}
-
-void	print_export_list(t_list *export_list)
-{
-	char	**name;
-	char	*value;
-
-	while (export_list)
-	{
-		if (ft_strchr(export_list->content, '=') != NULL)
-		{
-			value = make_str(export_list);
-			name = ft_split(export_list->content, '=');
-			if (name == NULL)
-				malloc_error();
-			printf("declare -x %s=\"%s\"\n", name[0], value);
-			free_str(name);
-			free(value);
-		}
-		else if (ft_strchr(export_list->content, '=') == NULL)
-			printf("declare -x %s\n", (char *)(export_list->content));
-		export_list = export_list->next;
-	}
-}
-
-void	del_export(t_list **export_list, char *arg)
-{
-	char	**export;
-	t_list	*cur;
-	t_list	*former;
-
-	cur = *export_list;
-	former = cur;
-	while (cur)
-	{
-		export = ft_split(cur->content, '=');
-		if (ft_strncmp(arg, export[0], ft_strlen(arg) + 1) == 0)
-		{
-			former->next = cur->next;
-			cur->next = NULL;
-			free(cur);
-			cur = former->next;
-		}
-		else
-		{
-			former = cur;
-			cur = cur->next;
-		}
-		free_str(export);
-	}
-}
-
-void	del_env(t_list **env_list, char *arg)
+int	del_first_node(t_list **list, char *arg)
 {
 	char	**env;
-	t_list	*cur;
+	t_list	*temp;
+	int		result;
+
+	env = ft_split((*list)->content, '=');
+	result = 0;
+	if (ft_strncmp(arg, env[0], ft_strlen(arg) + 1) == 0)
+	{
+		temp = (*list);
+		*list = (*list)->next;
+		free(temp->content);
+		free(temp);
+		free_str(env);
+		return (SUCCESS);
+	}
+	free_str(env);
+	return (1);
+}
+
+void	del_middle_node(t_list **list, char *arg)
+{
+	char	**env;
+	t_list	*curr;
 	t_list	*former;
 
-	cur = *env_list;
-	former = cur;
-	while (cur)
+	curr = *list;
+	while (curr)
 	{
-		env = ft_split(cur->content, '=');
-		if (ft_strncmp(arg, env[0], ft_strlen(arg)) == 0)
+		env = ft_split(curr->content, '=');
+		if (ft_strncmp(arg, env[0], ft_strlen(arg) + 1) == 0)
 		{
-			former->next = cur->next;
-			cur->next = NULL;
-			free(cur);
-			cur = former->next;
+			former->next = curr->next;
+			curr->next = NULL;
+			free(curr->content);
+			free(curr);
+			curr = former->next;
 		}
 		else
 		{
-			former = cur;
-			cur = cur->next;
+			former = curr;
+			curr = curr->next;
 		}
 		free_str(env);
 	}
 }
 
-t_error	run_unset(t_list *args, t_list **export_list, t_list **env_list)
+void	del_node(t_list	**env_list, char *arg)
 {
-	// int		i;
+	t_list	*curr;
+	t_list	*former;
 
-	// i = 0;
-	// while (args)
-	// {
-	// 	if (ft_strchr((char *)(args->content), '=') != NULL)
-	// 	{
-	// 		printf("bash: unset: `%s': not a valid identifier\n", (char *)(args->content));
-	// 		return (1);
-	// 	}
-	// 	if ((ft_strncmp((char *)(args->content), (*export_list)->content, ft_strlen((char *)(args->content)) + 1)
-	// 			== 0) || (ft_strncmp((char *)(args->content), (*export_list)->content,
-	// 				 ft_strlen((char *)(args->content)) + 1) == 0))
-	// 	{
-	// 		*export_list = (*export_list)->next;
-	// 		*env_list = (*env_list)->next;
-	// 	}
-	// 	else
-	// 	{
-	// 		del_export(export_list, (char *)(args->content));
-	// 		del_env(env_list, (char *)(args->content));
-	// 	}
-	// 	args = args->next;
-	// }
+	curr = *env_list;
+	former = curr;
+	if (!del_first_node(env_list, arg))
+		return ;
+	else
+		del_middle_node(env_list, arg);
+}
+
+int	run_unset(t_list *args)
+{
+	int	result;
+
+	result = 0;
+	while (args)
+	{
+		result = check_dup(g_shell.export_list, (char *)args->content);
+		if (result == 1)
+			del_node(&g_shell.export_list, (char *)args->content);
+		result = 0;
+		result = check_dup(g_shell.env_list, (char *)args->content);
+		if (result == 1)
+			del_node(&g_shell.env_list, (char *)args->content);
+		args = args->next;
+	}
 	return (SUCCESS);
 }
