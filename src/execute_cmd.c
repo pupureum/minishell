@@ -2,76 +2,52 @@
 
 extern t_minishell	g_shell;
 
-/* void	run_execve(t_cmd *cmd)
+char	*find_file(char *path, char *cmd)
 {
-	char	**str;
-	int		len;
-	int		i;
-	t_list	*curr;
+	struct dirent	*file;
+	DIR				*dir_ptr;
+	char			*result;
 
-	len = ft_lstsize(cmd->args);
-	str = (char **)malloc(sizeof(char *) * (len + 2));
-	if (str == NULL)
-		error(MALLOC_ERROR);
-	str[0] = ft_strjoin("/bin/", cmd->cmd);
-	i = 1;
-	curr = cmd->args;
-	while (i <= len)
+	dir_ptr = opendir(path);
+	if (dir_ptr == NULL)
+		return (NULL);
+	file = readdir(dir_ptr);
+	while (file)
 	{
-		str[i] = curr->content;
-		i++;
-		curr = curr->next;
+		if (ft_strcmp(file->d_name, cmd) == 0)
+		{
+			result = ft_strjoin_free(path, "/", 1);
+			return (ft_strjoin(result, cmd));
+		}
+		file = readdir(dir_ptr);
 	}
-	str[i] = NULL;
-	execve(str[0], str, NULL);
-	printf("bash: %s: command not found\n", cmd->cmd);
-	exit(1);
+	closedir(dir_ptr);
+	return (NULL);
 }
 
-int	fork_cmd(t_cmd *cmd)
+char	*find_path(char *cmd)
 {
-	int	pid;
-	int	status;
+	char	**path_list;
+	char	*result;
 
-	pid = fork();
-	if (pid == 0)
-		run_execve(cmd);
-	else if (pid < 0)
-		error(FORK_ERROR);
-	waitpid(pid, &status, 0);
-	return (status);
-}
-
-void	execute_cmd(t_AST_Node *node)
-{
-	int	result;
-
-	if (ft_strncmp(((t_cmd *)(node->content))->cmd, "cd", 3) == 0)
-		result = run_cd((((t_cmd *)(node->content))->args));
-	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "env", 4) == 0)
+	result = NULL;
+	path_list = ft_split(get_env_str("PATH"), ':');
+	while (*path_list)
 	{
-		get_env(g_shell.env_list);
-		result = 0;
+		result = find_file(*path_list, cmd);
+		if (result != NULL)
+			break ;
+		path_list++;
 	}
-	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "export", 7) == 0)
-		result = run_export(((t_cmd *)(node->content))->args);
-	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "unset", 6) == 0)
-		result = run_unset((((t_cmd *)(node->content))->args),
-				&g_shell.export_list, &g_shell.env_list);
-	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "pwd", 4) == 0)
-		result = get_pwd();
-	else
-		result = fork_cmd(((t_cmd *)(node->content)));
-	if (result != SUCCESS)
-		g_shell.exit_status = result;
-} */
-
-
-// char	*format_
+	if (result == NULL)
+		return (cmd);
+	return (result);
+}
 
 void	run_execve(t_cmd *cmd)
 {
 	char	**str;
+	char	**env;
 	int		len;
 	int		i;
 	t_list	*curr;
@@ -80,7 +56,7 @@ void	run_execve(t_cmd *cmd)
 	str = (char **)malloc(sizeof(char *) * (len + 2));
 	if (str == NULL)
 		error(MALLOC_ERROR);
-	str[0] = ft_strjoin("/bin/", cmd->cmd);
+	str[0] = find_path(cmd->cmd);
 	i = 1;
 	curr = cmd->args;
 	while (i <= len)
@@ -90,7 +66,9 @@ void	run_execve(t_cmd *cmd)
 		curr = curr->next;
 	}
 	str[i] = NULL;
-	execve(str[0], str, NULL);
+	env = convert_list_to_arr(g_shell.export_list);
+	execve(str[0], str, env);
+	free_str(env);
 	printf("bash: %s: command not found\n", cmd->cmd);
 	exit(1);
 }
@@ -134,8 +112,8 @@ void	execute_cmd(t_AST_Node *node, t_list *fd_table)
 				&g_shell.export_list, &g_shell.env_list);
 	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "pwd", 4) == 0)
 		result = get_pwd(fd_table);
-	// else if (ft_stncmp(((t_cmd * )(node->content))->cmd, "exit", 5) == 0)
-	// 	result = run_exit(fd_table);
+	else if (ft_strncmp(((t_cmd *)(node->content))->cmd, "exit", 5) == 0)
+		result = ft_exit((((t_cmd *)(node->content))->args), fd_table);
 	else
 		result = fork_cmd(((t_cmd *)(node->content)), fd_table);
 	g_shell.exit_status = result;

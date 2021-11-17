@@ -15,7 +15,7 @@ void	add_to_list(char *token, int num);
 t_error	run_export(t_list *args);
 t_error	run_unset(t_list *args, t_list **export_list, t_list **env_list);
 void	get_env(t_list *envp);
-
+int		ft_exit(t_list *args, t_list *fd_table);
 void	malloc_error(void);
 
 #endif

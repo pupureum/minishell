@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
+#    By: bylee <bylee@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/13 01:50:22 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/17 19:26:36 by bylee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ REDIR_OBJS			=	$(addprefix $(REDIR_SRC_DIR), $(REDIR_SRCS:.c=.o))
 COMMAND_SRC_DIR		=	./src/command/
 COMMAND_SRCS		=	cd.c\
 						env.c\
+						exit.c\
 						export.c\
 						pwd.c\
 						unset.c\
@@ -71,7 +72,8 @@ SRCS				=	error.c\
 						minishell.c\
 						print_JSON.c\
 						redir_and_exe.c\
-						sort_export_list.c
+						sort_export_list.c\
+						convert_list_to_arr.c
 OBJS				=	$(addprefix $(SRC_DIR), $(SRCS:.c=.o))
 
 .c.o :
