@@ -2,7 +2,7 @@
 
 extern t_minishell	g_shell;
 
-void	anonymous(t_AST_Node *AST)
+void	execute_line(t_AST_Node *AST)
 {
 	if (AST != NULL)
 	{
@@ -32,7 +32,7 @@ void	loop_minishell(struct termios *org, struct termios *new)
 			error(TERMIOS_ERROR);
 		add_history(g_shell.line);
 		AST = interpreter(g_shell.line);
-		anonymous(AST);
+		execute_line(AST);
 		destruct_AST(AST);
 		free(g_shell.line);
 	}
@@ -49,6 +49,7 @@ void	handler(int signum)
 			error(RL_ERROR);
 		rl_replace_line("", 1);
 		rl_redisplay();
+		close(0);
 	}
 }
 

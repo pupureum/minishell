@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bylee <bylee@student.42.fr>                +#+  +:+       +#+         #
+#    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/17 19:26:36 by bylee            ###   ########.fr        #
+#    Updated: 2021/11/17 21:11:49 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ REDIR_OBJS			=	$(addprefix $(REDIR_SRC_DIR), $(REDIR_SRCS:.c=.o))
 COMMAND_SRC_DIR		=	./src/command/
 COMMAND_SRCS		=	cd.c\
 						env.c\
+						execve.c\
 						exit.c\
 						export.c\
 						pwd.c\
