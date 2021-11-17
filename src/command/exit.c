@@ -21,9 +21,9 @@ static void	run_exit(t_list *args, int err_fd, int arg_count)
 	write(err_fd, "exit\n", 5);
 	if (arg_count == 0)
 		exit(0);
-	else if (arg_count == 1 && !is_numeric(((char *)args[1].content)))
-		exit(ft_atoi(((char *)args[1].content)));
-	else if (arg_count > 1 && !is_numeric(((char *)args[1].content)))
+	else if (arg_count == 1 && !is_numeric(((char *)args[0].content)))
+		exit(ft_atoi(((char *)args[0].content)));
+	else if (arg_count > 1 && !is_numeric(((char *)args[0].content)))
 		write(err_fd, "bash: exit: too many arguments\n", 32);
 	else
 	{
