@@ -6,7 +6,7 @@
 /*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:03:21 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/15 20:58:23 by bylee            ###   ########.fr       */
+/*   Updated: 2021/11/17 19:27:42 by bylee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ execute_cmd.c
 */
 void	execute_cmd(t_AST_Node *node, t_list *fd_table);
 
+/*
+convert_list_to_arr.c
+*/
+char	**convert_list_to_arr(t_list *list);
 /*
 sort_export_list.c
 */

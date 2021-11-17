@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redir_and_exe.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bylee <bylee@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 20:12:39 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/15 20:59:16 by bylee            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 extern t_minishell	g_shell;
@@ -51,7 +39,7 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 			break ;
 		curr = ((t_redirect *)curr->content)->child;
 	}
-	print_fd_table(fd_table);
+	//print_fd_table(fd_table);
 	if (curr->type == TYPE_CMD)
 		execute_cmd(curr, fd_table);
 	ft_lstclear(&fd_table, free);
