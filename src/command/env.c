@@ -2,7 +2,7 @@
 
 extern t_minishell	g_shell;
 
-int	get_env()
+int	get_env(void)
 {
 	t_list	*envp;
 

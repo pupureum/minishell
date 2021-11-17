@@ -58,6 +58,7 @@ COMMAND_SRC_DIR		=	./src/command/
 COMMAND_SRCS		=	cd.c\
 						env.c\
 						export.c\
+						print_export_list.c\
 						pwd.c\
 						unset.c\
 						utils.c

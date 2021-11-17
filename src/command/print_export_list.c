@@ -1,0 +1,41 @@
+#include "minishell.h"
+
+extern t_minishell	g_shell;
+
+char	*make_str(t_list *export_list)
+{
+	char	*temp;
+	char	*value;
+
+	temp = ft_strchr(export_list->content, '=');
+	temp++;
+	value = ft_strdup(temp);
+	if (value == 0)
+		malloc_error();
+	return (value);
+}
+
+void	print_export_list(void)
+{
+	char	**name;
+	char	*value;
+	t_list	*envp;
+
+	envp = g_shell.export_list;
+	while (envp)
+	{
+		if (ft_strchr(envp->content, '=') != NULL)
+		{
+			value = make_str(envp);
+			name = ft_split(envp->content, '=');
+			if (name == NULL)
+				malloc_error();
+			printf("declare -x %s=\"%s\"\n", name[0], value);
+			free_str(name);
+			free(value);
+		}
+		else if (ft_strchr(envp->content, '=') == NULL)
+			printf("declare -x %s\n", (char *)(envp->content));
+		envp = envp->next;
+	}
+}

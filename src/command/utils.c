@@ -8,7 +8,7 @@ void	malloc_error(void)
 	exit(0);
 }
 
-void	add_to_list(char *token, int num)
+void	add_to_list(char *token, t_list **list)
 {
 	char	*arg;
 	t_list	*new;
@@ -17,13 +17,7 @@ void	add_to_list(char *token, int num)
 	new = ft_lstnew(arg);
 	if (arg == NULL || new == NULL)
 		error(MALLOC_ERROR);
-	if (num == 2)
-	{
-		ft_lstadd_back(&g_shell.export_list, new);
-		ft_lstadd_back(&g_shell.env_list, new);
-	}
-	else
-		ft_lstadd_back(&g_shell.export_list, new);
+	ft_lstadd_back(list, new);
 }
 
 void	free_str(char **str)
