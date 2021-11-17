@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 20:12:39 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/13 02:15:55 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/17 20:05:56 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@ static void	delete_tempfile(int idx_cmd)
 	free(filename);
 }
 
+static void	clear_redir_fd(t_list **fd_table)
+{
+	t_list	*curr;
+
+	curr = *fd_table;
+	while (curr)
+	{
+		close(((t_fd *)(curr->content))->fd_proc);
+		curr = curr->next;
+	}
+	ft_lstclear(fd_table, free);
+}
+
 void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 {
 	t_list		*fd_table;
@@ -53,7 +66,7 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 	}
 	print_fd_table(fd_table);
 	if (curr->type == TYPE_CMD)
-		execute_cmd(curr);
-	ft_lstclear(&fd_table, free);
+		execute_cmd(curr, fd_table);
+	clear_redir_fd(&fd_table);
 	delete_tempfile(idx_cmd);
 }
