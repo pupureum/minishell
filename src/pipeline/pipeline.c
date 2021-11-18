@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/11 20:43:00 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/18 19:13:32 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	wait_procs(int nums_cmd, pid_t *pids)
 		if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 			return (PROCESS_ERROR);
 	}
+	free(pids);
 	return (SUCCESS);
 }
 

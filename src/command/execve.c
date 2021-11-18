@@ -79,10 +79,13 @@ void	run_execve(t_cmd *cmd)
 	if (str == NULL || env == NULL)
 		error(MALLOC_ERROR);
 	result = execve(str[0], str, env);
-	free_str(str);
-	free_str(env);
 	write(2, "bash: ", 6);
 	write(2, cmd->cmd, ft_strlen(cmd->cmd));
-	write(2, ": command not found\n", 20);
-	exit(result);
+	if (check_dup(g_shell.export_list, "PATH") == 0)
+		write(2, ": No such file or directory\n", 28);
+	else
+		write(2, ": command not found\n", 20);
+	free_str(str);
+	free_str(env);
+	exit(127);
 }

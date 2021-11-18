@@ -19,7 +19,7 @@ int	fork_cmd(t_cmd *cmd, t_list *fd_table)
 	else if (pid < 0)
 		error(FORK_ERROR);
 	waitpid(pid, &status, 0);
-	return (status);
+	return (WEXITSTATUS(status));
 }
 
 void	execute_cmd(t_AST_Node *node, t_list *fd_table)

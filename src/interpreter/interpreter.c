@@ -13,7 +13,8 @@ t_AST_Node	*interpreter(char *line)
 	//print_series_token(tokens);
 	translate_env(tokens);
 	head = syntax_analyzer(tokens);
+	// handle_heredoc(head);
 	free_tokens(tokens);
-	//print_JSON(head, 0);
+	// print_JSON(head, 0);
 	return (head);
 }
