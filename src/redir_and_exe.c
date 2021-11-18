@@ -48,7 +48,7 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 	curr = node;
 	while (curr->type == TYPE_REDIRECT)
 	{
-		if (handle_redir(idx_cmd, &fd_table, curr->content) != SUCCESS)
+		if (handle_redir(&fd_table, curr->content) != SUCCESS)
 			break ;
 		curr = ((t_redirect *)curr->content)->child;
 	}

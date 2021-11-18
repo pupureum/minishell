@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 21:00:47 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/13 01:49:34 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/18 20:14:30 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_fd
 
 t_fd	*fd_new(int fd_shell, int fd_proc);
 int		search_proc_fd(t_list *fd_table, int shell_fd);
-t_error	handle_redir(int idx_cmd, t_list **fd_table, t_redirect *redir);
+t_error	handle_redir(t_list **fd_table, t_redirect *redir);
 
 t_list	*init_fd_table(void);
 
@@ -39,5 +39,10 @@ char	*format_filename(int idx);
 redirect.c
 */
 t_error	redirect(int redir_to_fd, t_list **fd_table, t_redirect *redir);
+
+/*
+handle_heredoc.c
+*/
+void		handle_heredoc(t_AST_Node *node, int idx_cmd);
 
 #endif

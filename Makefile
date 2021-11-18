@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/18 15:46:26 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/18 20:13:07 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ PIPE_OBJS			=	$(addprefix $(PIPE_SRC_DIR), $(PIPE_SRCS:.c=.o))
 REDIR_SRC_DIR		=	./src/redirection/
 REDIR_SRCS			=	fd_new.c\
 						format_filename.c\
+						handle_heredoc.c\
 						handle_redir.c\
 						init_fd_table.c\
 						redirect.c\
