@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_minishell	g_shell;
+
 t_AST_Node	*interpreter(char *line)
 {
 	t_list		*tokens;
@@ -13,8 +15,12 @@ t_AST_Node	*interpreter(char *line)
 	//print_series_token(tokens);
 	translate_env(tokens);
 	head = syntax_analyzer(tokens);
-	handle_heredoc(head, 0);
 	free_tokens(tokens);
 	// print_JSON(head, 0);
+	if (check_tree(head, 0) != SUCCESS)
+	{
+		destruct_AST(head);
+		return (NULL);
+	}
 	return (head);
 }

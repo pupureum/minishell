@@ -34,8 +34,8 @@ init_term.c
 */
 t_error	set_term_mode(struct termios *term);
 t_error	get_term_mode(struct termios *term);
-t_error	init_nonc_mode(struct termios *new);
-t_error	init_term(struct termios *org, struct termios *new);
+t_error	set_nonc_mode(struct termios *term);
+t_error	set_can_mode(struct termios *term);
 
 void	redir_and_exe(int idx_cmd, t_AST_Node *node);
 

@@ -13,13 +13,13 @@ void	execute_line(t_AST_Node *AST)
 	}
 }
 
-void	loop_minishell(struct termios *org, struct termios *new)
+void	loop_minishell(struct termios *term)
 {
 	t_AST_Node	*AST;
 
 	while (1)
 	{
-		if (set_term_mode(new) == TERMIOS_ERROR)
+		if (set_nonc_mode(term) == TERMIOS_ERROR)
 			error(TERMIOS_ERROR);
 		g_shell.getting_cmd = 1;
 		g_shell.line = readline("minishell> ");
@@ -30,7 +30,7 @@ void	loop_minishell(struct termios *org, struct termios *new)
 			break ;
 		}
 		g_shell.getting_cmd = 0;
-		if (set_term_mode(org) == TERMIOS_ERROR)
+		if (set_can_mode(term) == TERMIOS_ERROR)
 			error(TERMIOS_ERROR);
 		add_history(g_shell.line);
 		AST = interpreter(g_shell.line);
@@ -42,7 +42,7 @@ void	loop_minishell(struct termios *org, struct termios *new)
 
 void	handler(int signum)
 {
-	if (signum == SIGQUIT)
+	if (signum == SIGQUIT && g_shell.getting_cmd == 1)
 		return ;
 	else if (signum == SIGINT && g_shell.getting_cmd == 1)
 	{
@@ -52,14 +52,14 @@ void	handler(int signum)
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-	else if (signum == SIGINT && g_shell.getting_cmd == 2)
-		return ;
+	else if ((signum == SIGINT && g_shell.getting_cmd == 0) || \
+		(signum == SIGQUIT && g_shell.getting_cmd == 0))
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	struct termios	org_term;
-	struct termios	new_term;
+	struct termios	term;
 
 	(void)argc;
 	(void)argv;
@@ -67,9 +67,9 @@ int	main(int argc, char *argv[], char *envp[])
 	signal(SIGQUIT, handler);
 	if (init_envp(envp) == MALLOC_ERROR)
 		error(MALLOC_ERROR);
-	if (init_term(&org_term, &new_term) == TERMIOS_ERROR)
+	if (get_term_mode(&term) == TERMIOS_ERROR)
 		error(TERMIOS_ERROR);
-	loop_minishell(&org_term, &new_term);
+	loop_minishell(&term);
 	ft_lstclear(&(g_shell.export_list), free);
 	ft_lstclear(&(g_shell.env_list), free);
 	return (0);

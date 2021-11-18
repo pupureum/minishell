@@ -16,23 +16,18 @@ t_error	get_term_mode(struct termios *term)
 	return (SUCCESS);
 }
 
-t_error	init_nonc_mode(struct termios *new)
+t_error	set_nonc_mode(struct termios *term)
 {
-	if (get_term_mode(new) == TERMIOS_ERROR)
-		return (TERMIOS_ERROR);
 	rl_catch_signals = 0;
 	rl_terminal_name = "dumb";
-	new->c_lflag &= ~(ICANON | ECHOCTL);
-	new->c_cc[VMIN] = 1;
-	new->c_cc[VTIME] = 0;
-	return (0);
+	term->c_lflag &= ~(ICANON | ECHOCTL);
+	term->c_cc[VMIN] = 1;
+	term->c_cc[VTIME] = 0;
+	return (set_term_mode(term));
 }
 
-t_error	init_term(struct termios *org, struct termios *new)
+t_error	set_can_mode(struct termios *term)
 {
-	if (get_term_mode(org) == TERMIOS_ERROR)
-		return (TERMIOS_ERROR);
-	if (init_nonc_mode(new) == TERMIOS_ERROR)
-		return (TERMIOS_ERROR);
-	return (SUCCESS);
+	term->c_lflag |= (ICANON | ECHOCTL);
+	return (set_term_mode(term));
 }

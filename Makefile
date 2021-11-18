@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/18 20:13:07 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/18 20:56:23 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ READLINE_FLAG		=	-lreadline
 INCLUDE_DIR			=	./include
 
 INTER_SRC_DIR		=	./src/interpreter/
-INTER_SRCS			=	destruct_AST.c\
+INTER_SRCS			=	check_tree.c\
+						destruct_AST.c\
 						interpreter.c\
 						lexer_get_item.c\
 						lexer.c\
@@ -48,7 +49,6 @@ PIPE_OBJS			=	$(addprefix $(PIPE_SRC_DIR), $(PIPE_SRCS:.c=.o))
 REDIR_SRC_DIR		=	./src/redirection/
 REDIR_SRCS			=	fd_new.c\
 						format_filename.c\
-						handle_heredoc.c\
 						handle_redir.c\
 						init_fd_table.c\
 						redirect.c\

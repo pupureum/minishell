@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:34:44 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/18 20:12:20 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/18 20:55:42 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,10 @@ int			translate_home_case(int case_num, t_list *token, char *line);
 translate_dollar.c
 */
 int			translate_dollar_case(t_list *token, char *line);
+
+/*
+check_tree.c
+*/
+int			check_tree(t_AST_Node *node, int idx_cmd);
 
 #endif
