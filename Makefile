@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 20:30:41 by bylee             #+#    #+#              #
-#    Updated: 2021/11/18 20:56:23 by jihoolee         ###   ########.fr        #
+#    Updated: 2021/11/19 16:29:42 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,6 @@ SRCS				=	error.c\
 						init_envp.c\
 						init_term.c\
 						minishell.c\
-						print_JSON.c\
 						redir_and_exe.c\
 						sort_export_list.c\
 						convert_list_to_arr.c

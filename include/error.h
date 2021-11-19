@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 15:35:30 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/12 21:12:03 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/19 16:39:18 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ typedef enum e_rror
 	TERMIOS_ERROR,
 	RL_ERROR,
 	PARSE_ERROR,
-	EXEC_ERROR,
 	PIPE_ERROR,
-	PROCESS_ERROR,
+	PROCCESS_ERROR,
 	FORK_ERROR,
 	FD_DUP_ERROR,
-	HEREDOC_ERROR,
-	FILE_OPEN_ERROR,
-	EXECVE_ERROR,
-	PATH_OPEN_ERROR
+	FILE_OPEN_ERROR
 }	t_error;
 
 /*

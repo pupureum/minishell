@@ -2,17 +2,6 @@
 
 extern t_minishell	g_shell;
 
-void	print_fd_table(t_list *fd_table)
-{
-	while (fd_table)
-	{
-		printf("shell_fd: %d. proc_fd: %d\n", \
-			((t_fd *)(fd_table->content))->fd_shell, \
-			((t_fd *)(fd_table->content))->fd_proc);
-		fd_table = fd_table->next;
-	}
-}
-
 static void	delete_tempfile(int idx_cmd)
 {
 	char	*filename;
@@ -52,7 +41,6 @@ void	redir_and_exe(int idx_cmd, t_AST_Node *node)
 			break ;
 		curr = ((t_redirect *)curr->content)->child;
 	}
-	//print_fd_table(fd_table);
 	if (curr->type == TYPE_CMD)
 		execute_cmd(curr, fd_table);
 	clear_redir_fd(&fd_table);

@@ -21,7 +21,7 @@ void	loop_minishell(struct termios *term)
 	{
 		if (set_nonc_mode(term) == TERMIOS_ERROR)
 			error(TERMIOS_ERROR);
-		g_shell.getting_cmd = 1;
+		g_shell.input_mode |= INPUT_CMD;
 		g_shell.line = readline("minishell> ");
 		if (g_shell.line == NULL)
 		{
@@ -29,7 +29,7 @@ void	loop_minishell(struct termios *term)
 			write(STDOUT_FILENO, "\nminishell> exit\n", 17);
 			break ;
 		}
-		g_shell.getting_cmd = 0;
+		g_shell.input_mode ^= INPUT_CMD;
 		if (set_can_mode(term) == TERMIOS_ERROR)
 			error(TERMIOS_ERROR);
 		add_history(g_shell.line);
@@ -42,9 +42,9 @@ void	loop_minishell(struct termios *term)
 
 void	handler(int signum)
 {
-	if (signum == SIGQUIT && g_shell.getting_cmd == 1)
+	if (signum == SIGQUIT && g_shell.input_mode & INPUT_CMD)
 		return ;
-	else if (signum == SIGINT && g_shell.getting_cmd == 1)
+	else if (signum == SIGINT && g_shell.input_mode & INPUT_CMD)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		if (rl_on_new_line() == -1)
@@ -52,9 +52,14 @@ void	handler(int signum)
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-	else if ((signum == SIGINT && g_shell.getting_cmd == 0) || \
-		(signum == SIGQUIT && g_shell.getting_cmd == 0))
+	else if ((signum == SIGINT && g_shell.input_mode == INPUT_STDIN) || \
+		(signum == SIGQUIT && g_shell.input_mode == INPUT_STDIN))
 		write(STDOUT_FILENO, "\n", 1);
+	else if ((signum == SIGINT) && g_shell.input_mode & INPUT_HEREDOC)
+	{
+		ioctl(STDIN_FILENO, TIOCSTI, "\x04");
+		write(STDOUT_FILENO, "\n", 1);
+	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -63,6 +68,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
+	ft_memset(&g_shell, 0, sizeof(g_shell));
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	if (init_envp(envp) == MALLOC_ERROR)

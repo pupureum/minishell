@@ -14,32 +14,6 @@ int	ft_malloc(void **dst, size_t size)
 	return (1);
 }
 
-void	print_series_token(t_list *token)
-{
-	t_list	*temp;
-	int		count;
-
-	temp = token;
-	count = 0;
-	while (temp)
-	{
-		printf("token num : %d, token_type: %d, token_value: %s\n", \
-			count, ((t_token *)(temp)->content)->type, \
-			((t_token *)(temp)->content)->value);
-		temp = temp->next;
-		count++;
-	}
-}
-
-void	print_indent(int indent)
-{
-	while (indent)
-	{
-		printf("\t");
-		indent--;
-	}
-}
-
 int	check_invalid_fd(char *word)
 {
 	char	*ptr;

@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:34:44 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/18 20:55:42 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/19 16:30:48 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,6 @@ void		malloc_error_check(void *item);
 int			ft_malloc(void **dst, size_t size);
 int			check_invalid_fd(char *word);
 int			set_quote_option(char **line, int *temp_option, int *cur_option);
-
-void		print_series_token(t_list *token);
-void		print_JSON(t_AST_Node	*AST, int indent);
-void		print_indent(int indent);
 
 /*
 translate_env

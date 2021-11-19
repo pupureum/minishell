@@ -53,14 +53,6 @@ sort_export_list.c
 */
 void	sort_export_list(t_list **export_list);
 
-/*
-TEMPORARY
-*/
-
-# define END_COLOR		"\033[0m"
-# define KEY_COLOR		"\033[1;35m"
-# define VALUE_COLOR	"\033[0;32m"
-
 void	free_tokens(t_list *list);
 void	destruct_AST(t_AST_Node *node);
 

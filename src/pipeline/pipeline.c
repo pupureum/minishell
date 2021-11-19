@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:59:10 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/18 20:46:48 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/19 16:37:20 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	create_cmd_proc(
 		create_exe_proc(idx_cmd, node);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
-		exit(PROCESS_ERROR);
+		exit(PROCCESS_ERROR);
 	exit(EXIT_SUCCESS);
 }
 
@@ -48,7 +48,7 @@ int	wait_procs(int nums_cmd, pid_t *pids)
 	{
 		waitpid(pids[idx_cmd], &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
-			return (PROCESS_ERROR);
+			return (PROCCESS_ERROR);
 	}
 	free(pids);
 	return (SUCCESS);
@@ -94,7 +94,7 @@ int	build_pipeline(t_AST_Node *node, int nums_cmd)
 	if (fill_fd_table(nums_cmd, fd_pipe))
 		error(PIPE_ERROR);
 	if (create_procs(node, fd_pipe, nums_cmd))
-		error(PROCESS_ERROR);
+		error(PROCCESS_ERROR);
 	free_fd_table(fd_pipe);
 	return (result);
 }

@@ -12,6 +12,7 @@ void	open_heredoc(int idx_cmd, char *EOF_str)
 	temp_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (temp_fd == INVALID_FD)
 		error(FILE_OPEN_ERROR);
+	g_shell.input_mode |= INPUT_HEREDOC;
 	while (1)
 	{
 		line = readline("> ");
@@ -22,6 +23,7 @@ void	open_heredoc(int idx_cmd, char *EOF_str)
 		write(temp_fd, "\n", 1);
 		free(line);
 	}
+	g_shell.input_mode ^= INPUT_HEREDOC;
 	if (line)
 		free(line);
 	close(temp_fd);

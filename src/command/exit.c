@@ -18,7 +18,8 @@ int	is_numeric(char *str)
 
 static void	run_exit(t_list *args, int err_fd, int arg_count)
 {
-	write(err_fd, "exit\n", 5);
+	if (g_shell.cmd_cnt == 1)
+		write(err_fd, "exit\n", 5);
 	if (arg_count == 0)
 		exit(0);
 	else if (arg_count == 1 && !is_numeric(((char *)args[0].content)))

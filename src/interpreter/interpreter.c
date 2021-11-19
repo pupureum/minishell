@@ -12,11 +12,9 @@ t_AST_Node	*interpreter(char *line)
 	tokens = scan_line(&line, &cur_option);
 	if (tokens == NULL)
 		return (NULL);
-	// print_series_token(tokens);
 	translate_env(tokens);
 	head = syntax_analyzer(tokens);
 	free_tokens(tokens);
-	print_JSON(head, 0);
 	if (check_tree(head, 0) != SUCCESS)
 	{
 		destruct_AST(head);
