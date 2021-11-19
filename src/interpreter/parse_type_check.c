@@ -70,9 +70,12 @@ int	type_redirect(t_AST_Node **curr, t_list **token)
 	redirect = (*curr)->content;
 	(*curr)->type = TYPE_REDIRECT;
 	check_redirect_mode(token, redirect, bf_fd, default_flag);
-	*token = (*token)->next;
-	redirect->after_fd = ((t_token *)(*token)->content)->value;
-	((t_token *)(*token)->content)->value = NULL;
+	if ((*token)->next)
+	{
+		*token = (*token)->next;
+		redirect->after_fd = ((t_token *)(*token)->content)->value;
+		((t_token *)(*token)->content)->value = NULL;
+	}
 	redirect->child = (t_AST_Node *)malloc(sizeof(t_AST_Node));
 	malloc_error_check(redirect->child);
 	*curr = redirect->child;

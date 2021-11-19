@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:07:34 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/18 20:13:53 by jihoolee         ###   ########.fr       */
+/*   Updated: 2021/11/19 15:23:18 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ t_error	handle_redir(t_list **fd_table, t_redirect *redir)
 {
 	int	redir_to_fd;
 
+	if (redir == NULL || redir->after_fd == NULL)
+	{
+		write(STDERR_FILENO, \
+			"bash: syntax error near unexpected token 'newline'\n", 52);
+		return (PARSE_ERROR);
+	}
 	if (redir->after_fd[0] == '&')
 		redir_to_fd = get_proc_fd(*fd_table, redir->after_fd + 1);
 	else
