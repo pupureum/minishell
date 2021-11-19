@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plee <plee@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/19 16:51:44 by plee              #+#    #+#             */
+/*   Updated: 2021/11/19 18:25:38 by plee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 extern t_minishell	g_shell;
@@ -52,9 +64,10 @@ void	handler(int signum)
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-	else if ((signum == SIGINT && g_shell.input_mode == INPUT_STDIN) || \
-		(signum == SIGQUIT && g_shell.input_mode == INPUT_STDIN))
+	else if (signum == SIGINT && g_shell.input_mode == INPUT_STDIN)
 		write(STDOUT_FILENO, "\n", 1);
+	else if (signum == SIGQUIT && g_shell.input_mode == INPUT_STDIN)
+		write(STDOUT_FILENO, "Quit: 3\n", 8);
 	else if ((signum == SIGINT) && g_shell.input_mode & INPUT_HEREDOC)
 	{
 		ioctl(STDIN_FILENO, TIOCSTI, "\x04");

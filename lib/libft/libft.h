@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
+/*   By: plee <plee@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/29 14:40:01 by bylee             #+#    #+#             */
-/*   Updated: 2021/11/03 21:51:31 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/19 17:06:49 by plee              #+#    #+#             */
+/*   Updated: 2021/11/19 17:15:08 by plee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *),
 				void (*del)(void *));
 
-int 		ft_strcmp(const char *s1, const char *s2);
+int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin_free(char const *s1, char const *s2, int check);
-
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
+/*   By: plee <plee@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 21:50:30 by jihoolee          #+#    #+#             */
-/*   Updated: 2021/11/03 21:50:54 by jihoolee         ###   ########.fr       */
+/*   Created: 2021/11/19 17:05:31 by plee              #+#    #+#             */
+/*   Updated: 2021/11/19 17:14:33 by plee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*ft_strjoin_free(char const *s1, char const *s2, int check)
 {
 	char	*result;
+
 	result = ft_strjoin(s1, s2);
 	if (check & 1)
 		free((char *)s1);
